@@ -11,9 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * 当你有一个activity，想让这个activity根据事件响应可以对应不同的界面时，就可以创建几个fragment，将fragment绑定到该activity
+ */
 public class BaseFragment extends Fragment {
 
-    protected String BASETAG = BaseFragment.class.getSimpleName();
+    protected  String BASETAG = BaseFragment.class.getSimpleName();
     private View baseRootView;
     private int layoutId = -1;
 
@@ -37,22 +40,18 @@ public class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        showLog("onCreateView");
         if (layoutId != -1) {
             if (baseRootView == null) {
                 baseRootView = inflater.inflate(layoutId, null);
 //                 rootView = inflater.inflate(layoutId, container, false);
                 initRootViews(baseRootView);
             }
-            // 缓存的rootView需要判断是否已经被加过parent， 如果有parent需要从parent删除，要不然会发生这个rootview已经有parent的错误。
+            // 缓存的rootView需要判断是否已经被加过parent，如果有parent需要从parent删除，要不然会发生这个rootview已经有parent的错误。
             ViewGroup parent = (ViewGroup) baseRootView.getParent();
             if (parent != null) {
                 parent.removeView(baseRootView);
             }
-
-            showLog("onCreateView");
-
-            Log.d(BASETAG, "rootView : " + baseRootView);
-            Log.d(BASETAG, "parent : " + parent);
             return baseRootView;
         } else
             return super.onCreateView(inflater, container, savedInstanceState);
@@ -62,6 +61,7 @@ public class BaseFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         showLog("onActivityCreated");
+        afterCreateView(savedInstanceState);
     }
 
     @Override
@@ -74,7 +74,6 @@ public class BaseFragment extends Fragment {
     public void onResume() {
         super.onResume();
         showLog("onResume");
-        getFragmentSize();
     }
 
     @Override
@@ -111,13 +110,19 @@ public class BaseFragment extends Fragment {
         Log.d(BASETAG, methodName);
     }
 
-    protected void initRootViews(View baseRootView) {
-
-    }
 
     public void setLayoutId(int layoutId) {
         this.layoutId = layoutId;
     }
+
+    protected void initRootViews(View baseRootView) {
+
+    }
+
+    protected void afterCreateView(@Nullable Bundle savedInstanceState) {
+
+    }
+
 
     private void getFragmentSize() {
         int number = getActivity().getSupportFragmentManager().getBackStackEntryCount();

@@ -7,7 +7,7 @@ import com.android.demo.R;
 
 public class WorkFragment extends BaseFragment {
 
-    private String TAG = WorkFragment.class.getSimpleName();
+    private static final String TAG = WorkFragment.class.getSimpleName();
 
     public WorkFragment() {
         super();
