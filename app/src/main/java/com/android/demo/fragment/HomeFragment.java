@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.demo.R;
+import com.android.demo.base.BaseFragment;
 
 public class HomeFragment extends BaseFragment {
 

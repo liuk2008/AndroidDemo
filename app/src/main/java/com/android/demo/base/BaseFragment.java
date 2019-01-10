@@ -1,11 +1,9 @@
-package com.android.demo.fragment;
+package com.android.demo.base;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,14 +12,13 @@ import android.view.ViewGroup;
 /**
  * 当你有一个activity，想让这个activity根据事件响应可以对应不同的界面时，就可以创建几个fragment，将fragment绑定到该activity
  */
-public class BaseFragment extends Fragment {
+public class BaseFragment extends CoreFragment {
 
-    protected  String BASETAG = BaseFragment.class.getSimpleName();
+    protected String BASETAG = BaseFragment.class.getSimpleName();
     private View baseRootView;
     private int layoutId = -1;
 
     public BaseFragment() {
-        super();
         showLog("BaseFragment");
     }
 
@@ -121,16 +118,6 @@ public class BaseFragment extends Fragment {
 
     protected void afterCreateView(@Nullable Bundle savedInstanceState) {
 
-    }
-
-
-    private void getFragmentSize() {
-        int number = getActivity().getSupportFragmentManager().getBackStackEntryCount();
-        Log.d(BASETAG, "number : " + number);
-        for (int i = 0; i < number; i++) {
-            FragmentManager.BackStackEntry backStack = getActivity().getSupportFragmentManager().getBackStackEntryAt(i);
-            Log.d(BASETAG, "name : " + backStack.getName());
-        }
     }
 
 }

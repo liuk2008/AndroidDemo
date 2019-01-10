@@ -6,6 +6,13 @@
     tools:context="com.android.demo.fragment.MineFragment">
 
 
+    <Button
+        android:text="修改密码"
+        android:id="@+id/btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
     <TextView
         android:id="@+id/textview"
         android:textSize="18sp"
