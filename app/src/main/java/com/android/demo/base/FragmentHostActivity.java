@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import com.android.demo.base.activity.BaseActivity;
+
 public class FragmentHostActivity extends BaseActivity {
 
     private static final String TAG = FragmentHostActivity.class.getSimpleName();

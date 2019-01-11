@@ -1,11 +1,15 @@
-package com.android.demo.base;
+package com.android.demo.base.activity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Window;
 
-public class CoreFragment extends Fragment {
+public class CoreActivity extends AppCompatActivity {
+
+    private static final String TAG = CoreActivity.class.getSimpleName();
 
     /**
      * 使用add添加fragment，需要进栈
@@ -13,7 +17,7 @@ public class CoreFragment extends Fragment {
     public void addFragmentToStack(Fragment frg) {
         try {
             String tag = frg.getClass().getName();
-            getFragmentManager().beginTransaction().add(Window.ID_ANDROID_CONTENT, frg, tag).addToBackStack(tag).commit();
+            getSupportFragmentManager().beginTransaction().add(Window.ID_ANDROID_CONTENT, frg, tag).addToBackStack(tag).commit();
         } catch (Throwable e) {
             printStackTrace(e);
         }
@@ -26,7 +30,7 @@ public class CoreFragment extends Fragment {
     public void replaceFragmentToStack(Fragment fragment) {
         try {
             String tag = fragment.getClass().getName();
-            FragmentManager fragmentManager = getFragmentManager();
+            FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(Window.ID_ANDROID_CONTENT, fragment, tag);
             fragmentTransaction.addToBackStack(tag);
@@ -41,7 +45,7 @@ public class CoreFragment extends Fragment {
      */
     public void addFragment(Fragment frg) {
         try {
-            getFragmentManager().beginTransaction().add(Window.ID_ANDROID_CONTENT, frg, frg.getClass().getName()).commit();
+            getSupportFragmentManager().beginTransaction().add(Window.ID_ANDROID_CONTENT, frg, frg.getClass().getName()).commit();
         } catch (Throwable e) {
             printStackTrace(e);
         }
@@ -53,7 +57,7 @@ public class CoreFragment extends Fragment {
      */
     public void replaceFragment(Fragment frg) {
         try {
-            getFragmentManager().beginTransaction().replace(Window.ID_ANDROID_CONTENT, frg, frg.getClass().getName()).commit();
+            getSupportFragmentManager().beginTransaction().replace(Window.ID_ANDROID_CONTENT, frg, frg.getClass().getName()).commit();
         } catch (Throwable e) {
             printStackTrace(e);
         }
@@ -64,7 +68,7 @@ public class CoreFragment extends Fragment {
      */
     public void popFragment() {
         try {
-            getFragmentManager().popBackStack();
+            getSupportFragmentManager().popBackStack();
         } catch (Throwable e) {
             printStackTrace(e);
         }
@@ -75,7 +79,7 @@ public class CoreFragment extends Fragment {
      */
     public void popFragment(Class fragmentClazz, int type) {
         try {
-            getFragmentManager().popBackStack(fragmentClazz.getName(), type);
+            getSupportFragmentManager().popBackStack(fragmentClazz.getName(), type);
         } catch (Throwable e) {
             printStackTrace(e);
         }
@@ -84,5 +88,24 @@ public class CoreFragment extends Fragment {
     private void printStackTrace(Throwable e) {
         e.printStackTrace();
     }
+
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+            super.onBackPressed();
+        } else {
+            finish();
+        }
+    }
+
+    public void getFragmentSize() {
+        int number = getSupportFragmentManager().getBackStackEntryCount();
+        Log.d(TAG, "number : " + number);
+        for (int i = 0; i < number; i++) {
+            FragmentManager.BackStackEntry backStack = getSupportFragmentManager().getBackStackEntryAt(i);
+            Log.d(TAG, "name : " + backStack.getName());
+        }
+    }
+
 
 }

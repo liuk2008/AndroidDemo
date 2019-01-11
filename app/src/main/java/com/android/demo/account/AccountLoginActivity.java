@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 
-import com.android.demo.base.BaseActivity;
+import com.android.demo.base.activity.BaseActivity;
 
 public class AccountLoginActivity extends BaseActivity {
 
@@ -21,14 +21,5 @@ public class AccountLoginActivity extends BaseActivity {
         super.onResume();
         getFragmentSize();
         Log.d(TAG, "hashcode : " + this.hashCode());
-    }
-
-    private void getFragmentSize() {
-        int number = getSupportFragmentManager().getBackStackEntryCount();
-        Log.d(TAG, "number : " + number);
-        for (int i = 0; i < number; i++) {
-            FragmentManager.BackStackEntry backStack = getSupportFragmentManager().getBackStackEntryAt(i);
-            Log.d(TAG, "name : " + backStack.getName());
-        }
     }
 }

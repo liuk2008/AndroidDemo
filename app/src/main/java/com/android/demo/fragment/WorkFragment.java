@@ -2,12 +2,10 @@ package com.android.demo.fragment;
 
 import android.content.Intent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.android.demo.R;
 import com.android.demo.account.AccountLoginActivity;
-import com.android.demo.base.BaseFragment;
+import com.android.demo.base.fragment.BaseFragment;
 
 public class WorkFragment extends BaseFragment {
 
@@ -20,16 +18,21 @@ public class WorkFragment extends BaseFragment {
     }
 
     @Override
-    protected void initRootViews(View baseRootView) {
+    public void initRootViews(View baseRootView) {
         super.initRootViews(baseRootView);
-        Toast.makeText(getContext(), "业务", Toast.LENGTH_SHORT).show();
-        Button btn = baseRootView.findViewById(R.id.btn);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        setOnClickLister(R.id.btn);
+    }
+
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.btn:
                 Intent intent = new Intent(getActivity(), AccountLoginActivity.class);
                 startActivity(intent);
-            }
-        });
+                break;
+            default:
+                break;
+        }
     }
 }

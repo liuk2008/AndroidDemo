@@ -3,7 +3,7 @@ package com.android.demo.account;
 import android.util.Log;
 
 import com.android.demo.R;
-import com.android.demo.base.BaseFragment;
+import com.android.demo.base.fragment.BaseFragment;
 
 
 public class AccountRegisterFragment extends BaseFragment {

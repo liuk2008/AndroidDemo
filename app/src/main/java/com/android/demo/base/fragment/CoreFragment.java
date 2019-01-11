@@ -1,15 +1,19 @@
-package com.android.demo.base;
+package com.android.demo.base.fragment;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 
-public class BaseActivity extends AppCompatActivity {
+/**
+ * CoreFragment：
+ * 声明跟系统相关的方法
+ */
+public class CoreFragment extends Fragment {
 
-    private static final String TAG = BaseActivity.class.getSimpleName();
 
     /**
      * 使用add添加fragment，需要进栈
@@ -17,7 +21,7 @@ public class BaseActivity extends AppCompatActivity {
     public void addFragmentToStack(Fragment frg) {
         try {
             String tag = frg.getClass().getName();
-            getSupportFragmentManager().beginTransaction().add(Window.ID_ANDROID_CONTENT, frg, tag).addToBackStack(tag).commit();
+            getFragmentManager().beginTransaction().add(Window.ID_ANDROID_CONTENT, frg, tag).addToBackStack(tag).commit();
         } catch (Throwable e) {
             printStackTrace(e);
         }
@@ -30,7 +34,7 @@ public class BaseActivity extends AppCompatActivity {
     public void replaceFragmentToStack(Fragment fragment) {
         try {
             String tag = fragment.getClass().getName();
-            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(Window.ID_ANDROID_CONTENT, fragment, tag);
             fragmentTransaction.addToBackStack(tag);
@@ -45,7 +49,7 @@ public class BaseActivity extends AppCompatActivity {
      */
     public void addFragment(Fragment frg) {
         try {
-            getSupportFragmentManager().beginTransaction().add(Window.ID_ANDROID_CONTENT, frg, frg.getClass().getName()).commit();
+            getFragmentManager().beginTransaction().add(Window.ID_ANDROID_CONTENT, frg, frg.getClass().getName()).commit();
         } catch (Throwable e) {
             printStackTrace(e);
         }
@@ -57,7 +61,7 @@ public class BaseActivity extends AppCompatActivity {
      */
     public void replaceFragment(Fragment frg) {
         try {
-            getSupportFragmentManager().beginTransaction().replace(Window.ID_ANDROID_CONTENT, frg, frg.getClass().getName()).commit();
+            getFragmentManager().beginTransaction().replace(Window.ID_ANDROID_CONTENT, frg, frg.getClass().getName()).commit();
         } catch (Throwable e) {
             printStackTrace(e);
         }
@@ -68,7 +72,7 @@ public class BaseActivity extends AppCompatActivity {
      */
     public void popFragment() {
         try {
-            getSupportFragmentManager().popBackStack();
+            getFragmentManager().popBackStack();
         } catch (Throwable e) {
             printStackTrace(e);
         }
@@ -79,33 +83,37 @@ public class BaseActivity extends AppCompatActivity {
      */
     public void popFragment(Class fragmentClazz, int type) {
         try {
-            getSupportFragmentManager().popBackStack(fragmentClazz.getName(), type);
+            getFragmentManager().popBackStack(fragmentClazz.getName(), type);
         } catch (Throwable e) {
             printStackTrace(e);
         }
     }
 
-    private void printStackTrace(Throwable e) {
+    public void printStackTrace(Throwable e) {
         e.printStackTrace();
     }
 
-    @Override
-    public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
-            super.onBackPressed();
-        } else {
-            finish();
-        }
+
+    public void showLog(String TAG, String methodName) {
+        Log.d(TAG, methodName);
     }
 
-    private void getFragmentSize() {
-        int number = getSupportFragmentManager().getBackStackEntryCount();
-        Log.d(TAG, "number : " + number);
-        for (int i = 0; i < number; i++) {
-            FragmentManager.BackStackEntry backStack = getSupportFragmentManager().getBackStackEntryAt(i);
-            Log.d(TAG, "name : " + backStack.getName());
+    /**
+     * hide Input 隐藏键盘
+     */
+    public void hideInput() {
+        try {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (getActivity() != null
+                    && getActivity().getCurrentFocus() != null
+                    && getActivity().getCurrentFocus().getWindowToken() != null
+                    && null != imm) {
+                imm.hideSoftInputFromWindow(getActivity().getCurrentFocus()
+                        .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        } catch (Throwable e) {
+            printStackTrace(e);
         }
     }
-
 
 }

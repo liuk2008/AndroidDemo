@@ -1,11 +1,10 @@
 package com.android.demo.account;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.android.demo.R;
-import com.android.demo.base.BaseFragment;
+import com.android.demo.base.fragment.BaseFragment;
 import com.android.demo.base.FragmentHostActivity;
 
 
