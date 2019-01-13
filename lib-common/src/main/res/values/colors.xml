@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="tab_text_color_normal">#7C7C7C</color>
+    <color name="tab_text_color_selected">#4682B4</color>
+
+    <color name="bgColor">#4682B4</color>
+
+    <color name="textColor">#8b919c</color>
+    <color name="textDeepColor">#322827</color>
+    <color name="textTipColor">#cccccc</color>
+
+</resources>

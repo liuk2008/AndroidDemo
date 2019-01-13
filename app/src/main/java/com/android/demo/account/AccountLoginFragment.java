@@ -2,11 +2,11 @@ package com.android.demo.account;
 
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import com.android.demo.R;
-import com.android.demo.base.fragment.BaseFragment;
 import com.android.demo.base.FragmentHostActivity;
+import com.android.demo.base.fragment.BaseFragment;
+import com.android.demo.utils.ToolbarUtil;
 
 
 public class AccountLoginFragment extends BaseFragment {
@@ -23,22 +23,14 @@ public class AccountLoginFragment extends BaseFragment {
     }
 
     @Override
-    protected void initRootViews(View baseRootView) {
+    public void initRootViews(View baseRootView) {
         super.initRootViews(baseRootView);
-        TextView tv_register = baseRootView.findViewById(R.id.tv_register);
-        TextView tv_setpwd = baseRootView.findViewById(R.id.tv_setpwd);
-        tv_register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                replaceFragmentToStack(AccountRegisterFragment.newInstance());
-            }
-        });
-        tv_setpwd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentHostActivity.openFragment(getActivity(), AccountSetPwdFragment.newInstance());
-            }
-        });
+
+        ToolbarUtil.configTitlebar(baseRootView, "登录", View.VISIBLE);
+        ToolbarUtil.setTitlebarClose(baseRootView.findViewById(R.id.iv_arrow));
+
+        setOnClickLister(R.id.tv_register, R.id.tv_setpwd);
+
     }
 
     @Override
@@ -47,5 +39,20 @@ public class AccountLoginFragment extends BaseFragment {
         int number = getActivity().getSupportFragmentManager().getBackStackEntryCount();
         Log.d(TAG, "number : " + number);
         Log.d(TAG, "fragmentManager : " + getActivity().getSupportFragmentManager());
+    }
+
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.tv_register:
+                replaceFragmentToStack(AccountRegisterFragment.newInstance());
+                break;
+            case R.id.tv_setpwd:
+                FragmentHostActivity.openFragment(getActivity(), AccountSetPwdFragment.newInstance());
+                break;
+            default:
+                break;
+        }
     }
 }

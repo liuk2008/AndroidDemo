@@ -6,6 +6,7 @@ import android.widget.TextView;
 import com.android.demo.R;
 import com.android.demo.base.fragment.BaseFragment;
 import com.android.demo.base.FragmentHostActivity;
+import com.android.demo.utils.ToolbarUtil;
 
 
 public class AccountModPwdFragment extends BaseFragment {
@@ -22,8 +23,9 @@ public class AccountModPwdFragment extends BaseFragment {
     }
 
     @Override
-    protected void initRootViews(View baseRootView) {
+    public void initRootViews(View baseRootView) {
         super.initRootViews(baseRootView);
+        ToolbarUtil.configTitlebar(baseRootView,"修改密码",View.GONE);
         TextView textView = baseRootView.findViewById(R.id.tv_setpwd);
         textView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -212,5 +212,9 @@ public class BaseFragment extends CoreFragment implements View.OnClickListener {
         }
     }
 
+    public View getRootView() {
+        return baseRootView;
+    }
+
 
 }

@@ -1,7 +1,6 @@
 package com.android.demo.account;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 
 import com.android.demo.base.activity.BaseActivity;

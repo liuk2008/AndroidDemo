@@ -1,11 +1,12 @@
 package com.android.demo.fragment;
 
-import android.content.Intent;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.android.demo.R;
-import com.android.demo.account.AccountLoginActivity;
+import com.android.demo.base.activity.CoreActivity;
 import com.android.demo.base.fragment.BaseFragment;
+import com.android.demo.utils.ToolbarUtil;
 
 public class WorkFragment extends BaseFragment {
 
@@ -20,19 +21,12 @@ public class WorkFragment extends BaseFragment {
     @Override
     public void initRootViews(View baseRootView) {
         super.initRootViews(baseRootView);
-        setOnClickLister(R.id.btn);
+        View statusBar = baseRootView.findViewById(R.id.status_bar_fix);
+        statusBar.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                ((CoreActivity) getActivity()).getStatusBarHeight()));
+        statusBar.setBackgroundResource(R.drawable.shape_titlebar);
+        ToolbarUtil.configTitlebar(baseRootView, "业务", View.GONE);
     }
 
-    @Override
-    public void onClick(View v) {
-        super.onClick(v);
-        switch (v.getId()) {
-            case R.id.btn:
-                Intent intent = new Intent(getActivity(), AccountLoginActivity.class);
-                startActivity(intent);
-                break;
-            default:
-                break;
-        }
-    }
 }

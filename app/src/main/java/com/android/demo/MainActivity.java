@@ -1,23 +1,21 @@
 package com.android.demo;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTabHost;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.android.demo.base.activity.CoreActivity;
 import com.android.demo.fragment.HomeFragment;
 import com.android.demo.fragment.MineFragment;
 import com.android.demo.fragment.WorkFragment;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends CoreActivity {
 
     private Class<?>[] fragmentArray = {HomeFragment.class, WorkFragment.class, MineFragment.class};
     private String tabs[] = {"首页", "工作", "我的"};
@@ -32,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        configStatusBar();
         initView();
     }
 
@@ -76,4 +75,5 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
     }
+
 }

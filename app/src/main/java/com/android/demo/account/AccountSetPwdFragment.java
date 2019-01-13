@@ -4,6 +4,7 @@ import android.view.View;
 
 import com.android.demo.R;
 import com.android.demo.base.fragment.BaseFragment;
+import com.android.demo.utils.ToolbarUtil;
 
 
 public class AccountSetPwdFragment extends BaseFragment {
@@ -20,7 +21,9 @@ public class AccountSetPwdFragment extends BaseFragment {
     }
 
     @Override
-    protected void initRootViews(View baseRootView) {
+    public void initRootViews(View baseRootView) {
         super.initRootViews(baseRootView);
+        ToolbarUtil.configTitlebar(baseRootView,"重置密码",View.VISIBLE);
+        ToolbarUtil.setTitlebarBack(baseRootView.findViewById(R.id.iv_arrow));
     }
 }

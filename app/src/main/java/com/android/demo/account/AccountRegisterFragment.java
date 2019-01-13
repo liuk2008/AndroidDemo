@@ -1,9 +1,11 @@
 package com.android.demo.account;
 
 import android.util.Log;
+import android.view.View;
 
 import com.android.demo.R;
 import com.android.demo.base.fragment.BaseFragment;
+import com.android.demo.utils.ToolbarUtil;
 
 
 public class AccountRegisterFragment extends BaseFragment {
@@ -25,5 +27,12 @@ public class AccountRegisterFragment extends BaseFragment {
         int number = getActivity().getSupportFragmentManager().getBackStackEntryCount();
         Log.d(TAG, "number : " + number);
         Log.d(TAG, "fragmentManager : " + getActivity().getSupportFragmentManager());
+    }
+
+    @Override
+    public void initRootViews(View baseRootView) {
+        super.initRootViews(baseRootView);
+        ToolbarUtil.configTitlebar(baseRootView,"注册",View.VISIBLE);
+        ToolbarUtil.setTitlebarBack(baseRootView.findViewById(R.id.iv_arrow));
     }
 }
