@@ -81,7 +81,6 @@ public class BaseActivity extends CoreActivity implements View.OnClickListener {
         }
     }
 
-
     @Override
     public void onClick(View view) {
         if (null == view)

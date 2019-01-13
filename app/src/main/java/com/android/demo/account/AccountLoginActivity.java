@@ -18,7 +18,5 @@ public class AccountLoginActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        getFragmentSize();
-        Log.d(TAG, "hashcode : " + this.hashCode());
     }
 }

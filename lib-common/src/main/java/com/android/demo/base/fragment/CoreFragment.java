@@ -17,6 +17,8 @@ import android.view.inputmethod.InputMethodManager;
  */
 public class CoreFragment extends Fragment {
 
+    private static final String TAG = CoreFragment.class.getSimpleName();
+    private boolean mHandledPress = false;
 
     /**
      * 使用add添加fragment，需要进栈
@@ -61,6 +63,7 @@ public class CoreFragment extends Fragment {
 
     /**
      * 使用replace添加fragment，不需进栈
+     * Window.ID_ANDROID_CONTENT：
      */
     public void replaceFragment(Fragment frg) {
         try {
@@ -72,6 +75,9 @@ public class CoreFragment extends Fragment {
 
     /**
      * fragment回退栈
+     * popBackStack()是弹出默认的最上层的栈顶内容
+     * 1、回滚是以提交的事务为单位进行的
+     * 2、调用该方法后会将事物操作插入到FragmentManager的操作队列，只有当轮询到该事物时才能执行。
      */
     public void popFragment() {
         try {
@@ -83,10 +89,36 @@ public class CoreFragment extends Fragment {
 
     /**
      * fragment回退栈
+     * int flags有两个取值：0或FragmentManager.POP_BACK_STACK_INCLUSIVE；
+     * 当取值0时，表示除了参数一指定这一层之上的所有层都退出栈，指定的这一层为栈顶层； 
+     * 当取值POP_BACK_STACK_INCLUSIVE时，表示连着参数一指定的这一层一起退出栈
      */
     public void popFragment(Class fragmentClazz, int type) {
         try {
             getFragmentManager().popBackStack(fragmentClazz.getName(), type);
+        } catch (Throwable e) {
+            printStackTrace(e);
+        }
+    }
+
+    /**
+     * fragment回退栈
+     * 调用该方法后会将事物操作插入到FragmentManager的操作队列，立即执行事物
+     */
+    public void popBackStackImmediate() {
+        try {
+            getFragmentManager().popBackStackImmediate();
+        } catch (Throwable e) {
+            printStackTrace(e);
+        }
+    }
+
+    /**
+     * fragment回退栈
+     */
+    public void popBackStackImmediate(Class fragmentClazz, int type) {
+        try {
+            getFragmentManager().popBackStackImmediate(fragmentClazz.getName(), type);
         } catch (Throwable e) {
             printStackTrace(e);
         }
@@ -119,4 +151,16 @@ public class CoreFragment extends Fragment {
         }
     }
 
+    /**
+     * 如果对返回事件进行了处理就返回TRUE,如果不做处理就返回FALSE,让上层进行处理。
+     * @return
+     */
+    public boolean onBackPressed(){
+        if (!mHandledPress){
+            Log.d(TAG, "onBackPressed:捕捉到了回退事件哦！");
+            mHandledPress = true;
+            return true;
+        }
+        return false;
+    }
 }
