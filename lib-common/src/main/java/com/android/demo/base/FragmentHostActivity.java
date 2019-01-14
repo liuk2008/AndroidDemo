@@ -47,7 +47,7 @@ public class FragmentHostActivity extends BaseActivity {
         }
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
-        replaceFragmentToStack(fragment);
+        replaceFragmentToStack(fragment, null);
     }
 
     @Override

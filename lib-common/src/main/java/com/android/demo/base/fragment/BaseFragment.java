@@ -64,6 +64,19 @@ public class BaseFragment extends CoreFragment implements View.OnClickListener {
         afterCreateView(savedInstanceState);
     }
 
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        showLog(BASETAG, "onViewStateRestored");
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        showLog(BASETAG, "onViewStateRestored");
+    }
+
     @Override
     public void onStart() {
         super.onStart();

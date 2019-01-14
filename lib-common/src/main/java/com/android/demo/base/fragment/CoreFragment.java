@@ -1,13 +1,11 @@
 package com.android.demo.base.fragment;
 
+import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
-import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 
@@ -23,8 +21,10 @@ public class CoreFragment extends Fragment {
     /**
      * 使用add添加fragment，需要进栈
      */
-    public void addFragmentToStack(Fragment frg) {
+    public void addFragmentToStack(Fragment frg, Fragment tagFragment) {
         try {
+            if (tagFragment != null)
+                frg.setTargetFragment(tagFragment, FragmentAction.FRAGMENT_REQUEST);
             String tag = frg.getClass().getName();
             getFragmentManager().beginTransaction().add(Window.ID_ANDROID_CONTENT, frg, tag).addToBackStack(tag).commit();
         } catch (Throwable e) {
@@ -36,8 +36,10 @@ public class CoreFragment extends Fragment {
     /**
      * 使用replace添加fragment，需要进栈
      */
-    public void replaceFragmentToStack(Fragment fragment) {
+    public void replaceFragmentToStack(Fragment fragment, Fragment tagFragment) {
         try {
+            if (tagFragment != null)
+                fragment.setTargetFragment(tagFragment, FragmentAction.FRAGMENT_REQUEST);
             String tag = fragment.getClass().getName();
             FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -52,8 +54,10 @@ public class CoreFragment extends Fragment {
     /**
      * 使用add添加fragment，不需进栈
      */
-    public void addFragment(Fragment frg) {
+    public void addFragment(Fragment frg, Fragment tagFragment) {
         try {
+            if (tagFragment != null)
+                frg.setTargetFragment(tagFragment, FragmentAction.FRAGMENT_REQUEST);
             getFragmentManager().beginTransaction().add(Window.ID_ANDROID_CONTENT, frg, frg.getClass().getName()).commit();
         } catch (Throwable e) {
             printStackTrace(e);
@@ -65,8 +69,10 @@ public class CoreFragment extends Fragment {
      * 使用replace添加fragment，不需进栈
      * Window.ID_ANDROID_CONTENT：
      */
-    public void replaceFragment(Fragment frg) {
+    public void replaceFragment(Fragment frg, Fragment tagFragment) {
         try {
+            if (tagFragment != null)
+                frg.setTargetFragment(tagFragment, FragmentAction.FRAGMENT_REQUEST);
             getFragmentManager().beginTransaction().replace(Window.ID_ANDROID_CONTENT, frg, frg.getClass().getName()).commit();
         } catch (Throwable e) {
             printStackTrace(e);
@@ -153,10 +159,11 @@ public class CoreFragment extends Fragment {
 
     /**
      * 如果对返回事件进行了处理就返回TRUE,如果不做处理就返回FALSE,让上层进行处理。
+     *
      * @return
      */
-    public boolean onBackPressed(){
-        if (!mHandledPress){
+    public boolean onBackPressed() {
+        if (!mHandledPress) {
             Log.d(TAG, "onBackPressed:捕捉到了回退事件哦！");
             mHandledPress = true;
             return true;

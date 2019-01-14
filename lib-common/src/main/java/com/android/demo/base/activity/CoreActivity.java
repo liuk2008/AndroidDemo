@@ -1,5 +1,6 @@
 package com.android.demo.base.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -14,6 +15,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 
+import com.android.demo.base.fragment.FragmentAction;
+
 public class CoreActivity extends AppCompatActivity {
 
     private static final String TAG = CoreActivity.class.getSimpleName();
@@ -21,8 +24,10 @@ public class CoreActivity extends AppCompatActivity {
     /**
      * 使用add添加fragment，需要进栈
      */
-    public void addFragmentToStack(Fragment frg) {
+    public void addFragmentToStack(Fragment frg, Fragment tagFragment) {
         try {
+            if (tagFragment != null)
+                frg.setTargetFragment(tagFragment, FragmentAction.FRAGMENT_REQUEST);
             String tag = frg.getClass().getName();
             getSupportFragmentManager().beginTransaction().add(Window.ID_ANDROID_CONTENT, frg, tag).addToBackStack(tag).commit();
         } catch (Throwable e) {
@@ -34,8 +39,10 @@ public class CoreActivity extends AppCompatActivity {
     /**
      * 使用replace添加fragment，需要进栈
      */
-    public void replaceFragmentToStack(Fragment fragment) {
+    public void replaceFragmentToStack(Fragment fragment, Fragment tagFragment) {
         try {
+            if (tagFragment != null)
+                fragment.setTargetFragment(tagFragment, FragmentAction.FRAGMENT_REQUEST);
             String tag = fragment.getClass().getName();
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -50,8 +57,10 @@ public class CoreActivity extends AppCompatActivity {
     /**
      * 使用add添加fragment，不需进栈
      */
-    public void addFragment(Fragment frg) {
+    public void addFragment(Fragment frg, Fragment tagFragment) {
         try {
+            if (tagFragment != null)
+                frg.setTargetFragment(tagFragment, FragmentAction.FRAGMENT_REQUEST);
             getSupportFragmentManager().beginTransaction().add(Window.ID_ANDROID_CONTENT, frg, frg.getClass().getName()).commit();
         } catch (Throwable e) {
             printStackTrace(e);
@@ -62,8 +71,10 @@ public class CoreActivity extends AppCompatActivity {
     /**
      * 使用replace添加fragment，不需进栈
      */
-    public void replaceFragment(Fragment frg) {
+    public void replaceFragment(Fragment frg, Fragment tagFragment) {
         try {
+            if (tagFragment != null)
+                frg.setTargetFragment(tagFragment, FragmentAction.FRAGMENT_REQUEST);
             getSupportFragmentManager().beginTransaction().replace(Window.ID_ANDROID_CONTENT, frg, frg.getClass().getName()).commit();
         } catch (Throwable e) {
             printStackTrace(e);
