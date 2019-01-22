@@ -58,19 +58,23 @@ public class BaseFragment extends CoreFragment implements View.OnClickListener {
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        showLog(BASETAG, "onViewCreated");
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         showLog(BASETAG, "onActivityCreated");
         afterCreateView(savedInstanceState);
     }
 
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        showLog(BASETAG, "onViewStateRestored");
-    }
-
+    /**
+     * Fragment中EditText文字的记忆性
+     * 当fragment已存在时，重新加载会执行onViewStateRestored把原有的控件数据重新赋值回来。
+     * onViewStateRestored在onActivityCreated(Bundle)后面执行，所以onViewCreated里面的mobileEt被覆盖掉了。
+     */
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
@@ -228,6 +232,5 @@ public class BaseFragment extends CoreFragment implements View.OnClickListener {
     public View getRootView() {
         return baseRootView;
     }
-
 
 }

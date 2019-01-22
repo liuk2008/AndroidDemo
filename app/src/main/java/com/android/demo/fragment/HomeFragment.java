@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import com.android.demo.R;
 import com.android.demo.base.fragment.BaseFragment;
 
+/**
+ * 状态栏透明
+ */
 public class HomeFragment extends BaseFragment {
 
     private static final String TAG = HomeFragment.class.getSimpleName();

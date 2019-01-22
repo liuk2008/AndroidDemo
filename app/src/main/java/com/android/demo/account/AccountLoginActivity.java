@@ -11,7 +11,7 @@ public class AccountLoginActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        replaceFragmentToStack(AccountLoginFragment.newInstance(),null);
+        replaceFragmentToStack(AccountLoginFragment.newInstance());
     }
 
     @Override

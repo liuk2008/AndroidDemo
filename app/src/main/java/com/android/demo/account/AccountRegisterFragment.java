@@ -1,9 +1,6 @@
 package com.android.demo.account;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -23,36 +20,20 @@ public class AccountRegisterFragment extends BaseFragment {
         setLayoutId(R.layout.account_frg_register);
     }
 
-    public static AccountRegisterFragment newInstance(String username) {
-        AccountRegisterFragment fragment = new AccountRegisterFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("username", username);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        int number = getActivity().getSupportFragmentManager().getBackStackEntryCount();
-        Log.d(TAG, "number : " + number);
-        Log.d(TAG, "fragmentManager : " + getActivity().getSupportFragmentManager());
+    public static AccountRegisterFragment newInstance() {
+        return new AccountRegisterFragment();
     }
 
     @Override
     public void initRootViews(View baseRootView) {
         super.initRootViews(baseRootView);
 
-        Bundle arguments = getArguments();
-        String username = arguments.getString("username");
-
         ToolbarUtil.configTitlebar(baseRootView, "注册", View.VISIBLE);
         ToolbarUtil.setTitlebarBack(baseRootView.findViewById(R.id.iv_arrow));
 
+        et_username = baseRootView.findViewById(R.id.et_username);
         setOnClickLister(R.id.btn_register, R.id.tv_term);
 
-        et_username = baseRootView.findViewById(R.id.et_username);
-        et_username.setText(username);
     }
 
     @Override
@@ -71,6 +52,11 @@ public class AccountRegisterFragment extends BaseFragment {
         }
     }
 
+    /**
+     * fragment 传递返回值
+     *
+     * @param resultOk
+     */
     private void sendResult(int resultOk) {
         if (getTargetFragment() == null) {
             return;

@@ -3,7 +3,6 @@ package com.android.demo.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,7 +34,6 @@ public class ToolbarUtil {
             @Override
             public void onClick(View v) {
                 Context context = v.getRootView().getContext();
-                Log.d(TAG, "onClick: "+context.getClass().getName());
                 if (context instanceof Activity) ((Activity) context).onBackPressed();
                 else {
                     context = v.getContext();
@@ -55,7 +53,6 @@ public class ToolbarUtil {
             @Override
             public void onClick(View v) {
                 Context context = v.getRootView().getContext();
-                Log.d(TAG, "onClick: "+context.getClass().getName());
                 if (context instanceof Activity) ((Activity) context).finish();
                 else {
                     context = v.getContext();

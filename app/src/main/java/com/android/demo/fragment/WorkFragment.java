@@ -8,6 +8,12 @@ import com.android.demo.base.activity.CoreActivity;
 import com.android.demo.base.fragment.BaseFragment;
 import com.android.demo.utils.ToolbarUtil;
 
+/**
+ * 通过代码动态设置状态栏与主题色一致
+ * 1、设置布局View，高度为0dp
+ * 2、获取状态栏高度，设置布局View高度=状态栏高度
+ * 3、设置布局View背景色与主题色一致
+ */
 public class WorkFragment extends BaseFragment {
 
     private static final String TAG = WorkFragment.class.getSimpleName();
