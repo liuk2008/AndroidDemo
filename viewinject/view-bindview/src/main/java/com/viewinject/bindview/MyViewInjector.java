@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
+import com.viewinject.bindview.finder.ViewFinder;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,16 +13,18 @@ public class MyViewInjector {
 
     private static final Map<String, ViewInjector> injectorMap = new HashMap<>();
 
+    private static ViewFinder viewFinder = new ViewFinder();
+
     public static void bind(Activity activity) {
-        bind(activity);
+        bind(activity, activity);
     }
 
     public static void bind(Fragment fragment, View view) {
         bind(fragment, view);
     }
 
-    private static void bind(Object object, View view) {
-        String className = object.getClass().getName();
+    private static void bind(Object target, Object source) {
+        String className = target.getClass().getName();
         try {
             ViewInjector injector = injectorMap.get(className);
             if (injector == null) {
@@ -29,11 +33,7 @@ public class MyViewInjector {
                 injector = (ViewInjector) clazz.newInstance();
                 injectorMap.put(className, injector);
             }
-            if (view != null) {
-                injector.inject(object, view);
-            } else {
-                injector.inject(object);
-            }
+            injector.inject(target, source, viewFinder);
         } catch (Exception e) {
             e.printStackTrace();
         }

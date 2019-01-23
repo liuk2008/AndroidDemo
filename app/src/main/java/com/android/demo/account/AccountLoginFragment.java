@@ -36,9 +36,8 @@ public class AccountLoginFragment extends BaseFragment {
         super.initRootViews(baseRootView);
         ToolbarUtil.configTitlebar(baseRootView, "登录", View.VISIBLE);
         ToolbarUtil.setTitlebarClose(baseRootView.findViewById(R.id.iv_arrow));
-        setOnClickLister(R.id.tv_register, R.id.tv_setpwd);
         MyViewInjector.bind(this, baseRootView);
-//        et_username = baseRootView.findViewById(R.id.et_username);
+        setOnClickLister(R.id.tv_register, R.id.tv_setpwd);
     }
 
     @Override
