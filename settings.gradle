@@ -1,1 +1,7 @@
-include ':app', ':lib-common'
+include ':app'
+include ':lib:lib-common'
+include ':lib:lib-scan'
+include ':viewinject:view-annotation'
+include ':viewinject:view-processor'
+include ':viewinject:view-bindview'
+

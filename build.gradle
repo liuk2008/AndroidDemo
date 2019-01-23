@@ -34,6 +34,8 @@ ext {
     VERSIONCODE = 1
     VERSIONNAME = "1.0.1"
     date = getDate()
+    SUPPORT_APPCOMPAT_V7 = 'com.android.support:appcompat-v7:28.0.0'
+
 }
 //定义打包时间
 def getDate() {

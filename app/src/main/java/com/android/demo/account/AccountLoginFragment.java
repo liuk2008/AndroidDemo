@@ -3,7 +3,6 @@ package com.android.demo.account;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -12,13 +11,16 @@ import com.android.demo.base.FragmentHostActivity;
 import com.android.demo.base.fragment.BaseFragment;
 import com.android.demo.base.fragment.FragmentAction;
 import com.android.demo.utils.ToolbarUtil;
+import com.viewinject.annotation.MyBindView;
+import com.viewinject.bindview.MyViewInjector;
 
 
 public class AccountLoginFragment extends BaseFragment {
 
     private static final String TAG = AccountLoginFragment.class.getSimpleName();
-    private EditText et_username;
     private String username;
+    @MyBindView(R.id.et_username)
+    public EditText et_username;
 
     public AccountLoginFragment() {
         BASETAG = TAG;
@@ -35,7 +37,8 @@ public class AccountLoginFragment extends BaseFragment {
         ToolbarUtil.configTitlebar(baseRootView, "登录", View.VISIBLE);
         ToolbarUtil.setTitlebarClose(baseRootView.findViewById(R.id.iv_arrow));
         setOnClickLister(R.id.tv_register, R.id.tv_setpwd);
-        et_username = baseRootView.findViewById(R.id.et_username);
+        MyViewInjector.bind(this, baseRootView);
+//        et_username = baseRootView.findViewById(R.id.et_username);
     }
 
     @Override
