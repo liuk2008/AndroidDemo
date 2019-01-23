@@ -12,7 +12,6 @@ import com.android.demo.base.activity.CoreActivity;
 public class CoreFragment extends Fragment {
 
     private static final String TAG = CoreFragment.class.getSimpleName();
-    private boolean mHandledPress = false;
 
     private CoreActivity getBaseActivity() {
         if (getActivity() instanceof CoreActivity)
@@ -79,11 +78,6 @@ public class CoreFragment extends Fragment {
      * 如果对返回事件进行了处理就返回TRUE,如果不做处理就返回FALSE,让上层进行处理。
      */
     public boolean onBackPressed() {
-        if (!mHandledPress) {
-            Log.d(TAG, "onBackPressed:捕捉到了回退事件哦！");
-            mHandledPress = true;
-            return true;
-        }
         return false;
     }
 

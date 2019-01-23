@@ -163,21 +163,20 @@ public class CoreActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        // 处理Fragment中的返回键
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
         if (fragments != null && fragments.size() > 0) {
             for (Fragment fragment : fragments) {
                 if (fragment.isResumed() && fragment.getUserVisibleHint() && fragment instanceof CoreFragment) {
                     if (fragment instanceof CoreFragment) {
                         CoreFragment f = (CoreFragment) fragment;
-//                        if (f.onBackpressed()) {
-//                            return;
-//                        }
+                        if (f.onBackPressed()) {
+                            return;
+                        }
                     }
                 }
             }
         }
-
-
         if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
             super.onBackPressed();
         } else {

@@ -1,5 +1,7 @@
 package com.android.demo.account;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
 import android.widget.EditText;
@@ -67,4 +69,24 @@ public class AccountRegisterFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public boolean onBackPressed() {
+        AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                .setTitle("测试")
+                .setCancelable(false)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        popBackStackImmediate();
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create();
+        dialog.show();
+        return true;
+    }
 }
