@@ -32,14 +32,10 @@ public class AccountRegisterFragment extends BaseFragment {
     @Override
     public void initRootViews(View baseRootView) {
         super.initRootViews(baseRootView);
-
+        MyViewInjector.bind(this, baseRootView);
         ToolbarUtil.configTitlebar(baseRootView, "注册", View.VISIBLE);
         ToolbarUtil.setTitlebarBack(baseRootView.findViewById(R.id.iv_arrow));
-
-        MyViewInjector.bind(this,baseRootView);
-//        et_username = baseRootView.findViewById(R.id.et_username);
         setOnClickLister(R.id.btn_register, R.id.tv_term);
-
     }
 
     @Override

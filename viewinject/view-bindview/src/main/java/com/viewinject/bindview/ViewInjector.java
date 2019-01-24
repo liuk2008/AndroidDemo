@@ -1,8 +1,7 @@
 package com.viewinject.bindview;
 
-import android.view.View;
+import com.viewinject.bindview.finder.Finder;
 
 public interface ViewInjector<T> {
-    void inject(T t);
-    void inject(T t, View view);
+    void inject(T t, Object source, Finder finder);
 }

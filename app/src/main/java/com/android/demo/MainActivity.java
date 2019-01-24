@@ -12,8 +12,6 @@ import com.android.demo.base.activity.CoreActivity;
 import com.android.demo.fragment.HomeFragment;
 import com.android.demo.fragment.MineFragment;
 import com.android.demo.fragment.WorkFragment;
-import com.viewinject.annotation.MyBindView;
-import com.viewinject.bindview.MyViewInjector;
 
 import java.util.ArrayList;
 
@@ -28,14 +26,10 @@ public class MainActivity extends CoreActivity {
     private FragmentTabHost mTabHost;
     private LayoutInflater layoutInflater;
 
-    @MyBindView(R.id.textView)
-    public TextView textView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        MyViewInjector.bind(this);
         configStatusBar();
         initView();
     }

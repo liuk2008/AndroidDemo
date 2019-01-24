@@ -60,7 +60,6 @@ public class AnnotatedClass {
     public JavaFile generateFinder() {
         String packageName = getPackageName();
         String className = getClassName();
-        ClassName interfaceName = ClassName.get("com.viewinject.bindview", "ViewInjector");
         TypeName classTypeName = TypeName.get(typeElement.asType()); // 类类型
 
         // 1、构建方法  public void inject(Object object)
@@ -68,7 +67,9 @@ public class AnnotatedClass {
                 .addModifiers(Modifier.PUBLIC)
                 .addAnnotation(Override.class)
                 .returns(TypeName.VOID)
-                .addParameter(classTypeName, "object");// 入参为Activity
+                .addParameter(classTypeName, "object")// 入参为Activity
+                .addParameter(Object.class, "source")
+                .addParameter(TypeUtil.FINDER, "finder");
 
 
         // 2、为类成员变量赋值  host.textview = (TextView) host.findViewById(R.id.textview)
@@ -76,19 +77,12 @@ public class AnnotatedClass {
             String fieldName = field.getFieldName();
             TypeMirror fieldType = field.getFieldType();
             int resId = field.getResId();
-//            methodSpec.addStatement(" if (source !=null && source instanceof View) \n");
-            methodSpec.addStatement("if (view !=null && view instanceof View) \n " +
-                    "object.$N = view.findViewById($L); \n" +
-                    "else \n" +
-                    "object.$N = object.findViewById($L)", fieldName, resId, fieldName, resId);
-//            methodSpec.addStatement("} else { ", fieldName, ClassName.get(fieldType),  resId);
-//            methodSpec.addStatement("object.$N = ($T)object.findViewById($L)", fieldName, ClassName.get(fieldType),  resId);
-//            methodSpec.addStatement("}");
+            methodSpec.addStatement("object.$N = ($T)finder.findView(source,$L)", fieldName, ClassName.get(fieldType), resId);
         }
         // 3、构建类信息，统一管理注解信息  xxxxViewInjector implements ViewInjector<T>
         TypeSpec typeSpec = TypeSpec.classBuilder(ClassName.get(packageName, className).simpleName() + "ViewInjector")
                 .addModifiers(Modifier.PUBLIC)
-                .addSuperinterface(ParameterizedTypeName.get(interfaceName, classTypeName))
+                .addSuperinterface(ParameterizedTypeName.get(TypeUtil.VIEWINJECTOR, classTypeName))
                 .addMethod(methodSpec.build())
                 .build();
         return JavaFile.builder(packageName, typeSpec).build();

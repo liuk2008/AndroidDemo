@@ -79,5 +79,5 @@ dependencies {
     implementation project(":lib:lib-common")
     // 使用自定义View注解
     implementation project(":viewinject:view-bindview")
-    annotationProcessor project(':viewinject:view-processor')
+    annotationProcessor project(':viewinject:view-compiler')
 }

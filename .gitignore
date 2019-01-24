@@ -29,5 +29,10 @@ hs_err_pid*
 /.idea
 /app/app.iml
 /app/build
-/lib-common/lib-common.iml
-/lib/lib-scan/lib-scan.iml
+/viewinject/*.iml
+/viewinject/view-compiler/*.iml
+/viewinject/view-bindview/*.iml
+/viewinject/view-annotation/*.iml
+/lib/*.iml
+/lib/lib-scan/*.iml
+
