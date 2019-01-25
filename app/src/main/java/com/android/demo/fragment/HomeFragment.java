@@ -26,7 +26,6 @@ public class HomeFragment extends BaseFragment {
         super.onCreateView(inflater, container, savedInstanceState);
         if (rootView == null) {
             rootView = inflater.inflate(R.layout.fragment_home, null);
-            initRootViews(rootView);
         }
         ViewGroup parent = (ViewGroup) rootView.getParent();
         if (parent != null) {
@@ -34,4 +33,5 @@ public class HomeFragment extends BaseFragment {
         }
         return rootView;
     }
+
 }

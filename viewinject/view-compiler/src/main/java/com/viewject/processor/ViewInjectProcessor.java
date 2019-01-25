@@ -4,6 +4,7 @@ package com.viewject.processor;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.JavaFile;
 import com.viewinject.annotation.MyBindView;
+import com.viewinject.annotation.MyOnClick;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +36,8 @@ import javax.tools.Diagnostic;
  * JavaPoet 这个库的主要作用就是帮助我们通过类调用的形式来生成代码。
  */
 @AutoService(Processor.class)
-@SupportedAnnotationTypes("com.viewinject.annotation.MyBindView")   // 处理的注解全称
+@SupportedAnnotationTypes({"com.viewinject.annotation.MyBindView", "com.viewinject.annotation.MyOnClick"})
+// 处理的注解全称
 @SupportedSourceVersion(SourceVersion.RELEASE_8)    // 处理的JDK版本
 public class ViewInjectProcessor extends AbstractProcessor {
 
@@ -75,7 +77,7 @@ public class ViewInjectProcessor extends AbstractProcessor {
         info("---------process--------");
         // 1、扫描指定的注解元素
         try {
-            processBindView(roundEnv);
+            processView(roundEnv);
         } catch (Exception e) {
             error(e.getMessage());
             return true;
@@ -100,16 +102,23 @@ public class ViewInjectProcessor extends AbstractProcessor {
     }
 
     // 处理扫描到的注解元素
-    private void processBindView(RoundEnvironment roundEnv) {
-        // 1、扫描使用指定注解的元素
-        Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(MyBindView.class);
-        for (Element element : elements) {
+    private void processView(RoundEnvironment roundEnv) {
+        // 1、扫描使用指定注解的元素--MyBindView
+        Set<? extends Element> bindViewElements = roundEnv.getElementsAnnotatedWith(MyBindView.class);
+        for (Element element : bindViewElements) {
             // 2、根据注解元素所对应的类名生成AnnotatedClass对象，统一管理一个类下所有的注解元素值
             AnnotatedClass annotatedClass = getAnnotatedClass(element);
             // 3、根据注解元素创建对应的变量值
             MyBindViewField myBindViewField = new MyBindViewField(element);
             // 4、添加到AnnotatedClass对象中统一管理
             annotatedClass.addField(myBindViewField);
+        }
+        // 2、扫描使用指定注解的元素--MyOnClick
+        Set<? extends Element> onClickElements = roundEnv.getElementsAnnotatedWith(MyOnClick.class);
+        for (Element element : onClickElements) {
+            AnnotatedClass annotatedClass = getAnnotatedClass(element);
+            MyOnclickMethod myOnclickMethod = new MyOnclickMethod(element);
+            annotatedClass.addMethod(myOnclickMethod);
         }
     }
 
@@ -124,7 +133,7 @@ public class ViewInjectProcessor extends AbstractProcessor {
         String className = typeElement.getSimpleName().toString(); // 获取使用注解的类名
         AnnotatedClass annotatedClass = mAnnotatedClassMap.get(className);
         if (annotatedClass == null) {
-            annotatedClass = new AnnotatedClass(typeElement, mElementUtils); // 一个类对应生成一个AnnotatedClass对象
+            annotatedClass = new AnnotatedClass(typeElement, mElementUtils,mMessager); // 一个类对应生成一个AnnotatedClass对象
             mAnnotatedClassMap.put(className, annotatedClass);
         }
         return annotatedClass;

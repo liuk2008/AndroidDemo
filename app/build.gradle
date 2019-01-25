@@ -5,7 +5,7 @@ android {
     buildToolsVersion rootProject.BUILD_TOOL_SVERSION
 
     defaultConfig {
-        applicationId "ccom.android.demo"
+        applicationId "com.android.demo"
         minSdkVersion rootProject.MIN_SDK_VERSION
         targetSdkVersion rootProject.TARGET_SDK_VERSION
         versionCode rootProject.VERSIONCODE
@@ -80,4 +80,5 @@ dependencies {
     // 使用自定义View注解
     implementation project(":viewinject:view-bindview")
     annotationProcessor project(':viewinject:view-compiler')
+
 }

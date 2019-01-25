@@ -14,8 +14,4 @@ public class AccountLoginActivity extends BaseActivity {
         replaceFragmentToStack(AccountLoginFragment.newInstance());
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
 }

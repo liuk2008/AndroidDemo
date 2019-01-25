@@ -10,14 +10,11 @@ import com.android.demo.R;
 import com.android.demo.base.fragment.BaseFragment;
 import com.android.demo.base.fragment.FragmentAction;
 import com.android.demo.utils.ToolbarUtil;
-import com.viewinject.annotation.MyBindView;
-import com.viewinject.bindview.MyViewInjector;
 
 
 public class AccountRegisterFragment extends BaseFragment {
 
     private static final String TAG = AccountRegisterFragment.class.getSimpleName();
-    @MyBindView(R.id.et_username)
     public EditText et_username;
 
     public AccountRegisterFragment() {
@@ -32,9 +29,9 @@ public class AccountRegisterFragment extends BaseFragment {
     @Override
     public void initRootViews(View baseRootView) {
         super.initRootViews(baseRootView);
-        MyViewInjector.bind(this, baseRootView);
         ToolbarUtil.configTitlebar(baseRootView, "注册", View.VISIBLE);
         ToolbarUtil.setTitlebarBack(baseRootView.findViewById(R.id.iv_arrow));
+        et_username = baseRootView.findViewById(R.id.et_username);
         setOnClickLister(R.id.btn_register, R.id.tv_term);
     }
 
@@ -89,4 +86,5 @@ public class AccountRegisterFragment extends BaseFragment {
         dialog.show();
         return true;
     }
+
 }

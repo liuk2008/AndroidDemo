@@ -15,12 +15,20 @@ public class MyViewInjector {
 
     private static ViewFinder viewFinder = new ViewFinder();
 
-    public static void bind(Activity activity) {
+    public static void bindView(Activity activity) {
         bind(activity, activity);
     }
 
-    public static void bind(Fragment fragment, View view) {
+    public static void bindView(Fragment fragment, View view) {
         bind(fragment, view);
+    }
+
+    public static void unbindView(Activity activity) {
+        unbind(activity);
+    }
+
+    public static void unbindView(Fragment fragment) {
+        unbind(fragment);
     }
 
     private static void bind(Object target, Object source) {
@@ -39,4 +47,17 @@ public class MyViewInjector {
         }
     }
 
+    private static void unbind(Object target) {
+        String className = target.getClass().getName();
+        try {
+            ViewInjector injector = injectorMap.get(className);
+            if (injector != null) {
+                injector.unbind();
+                injector = null;
+            }
+            injectorMap.remove(target);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

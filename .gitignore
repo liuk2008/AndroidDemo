@@ -36,3 +36,4 @@ hs_err_pid*
 /lib/*.iml
 /lib/lib-scan/*.iml
 
+/lib/lib-common/*.iml
