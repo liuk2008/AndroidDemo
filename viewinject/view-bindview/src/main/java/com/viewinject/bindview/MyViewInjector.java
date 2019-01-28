@@ -2,6 +2,7 @@ package com.viewinject.bindview;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
 
 import com.viewinject.bindview.finder.ViewFinder;
@@ -10,6 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MyViewInjector {
+
+    private static final String TAG = MyViewInjector.class.getSimpleName();
 
     private static final Map<String, ViewInjector> injectorMap = new HashMap<>();
 
@@ -53,9 +56,7 @@ public class MyViewInjector {
             ViewInjector injector = injectorMap.get(className);
             if (injector != null) {
                 injector.unbind();
-                injector = null;
             }
-            injectorMap.remove(target);
         } catch (Exception e) {
             e.printStackTrace();
         }

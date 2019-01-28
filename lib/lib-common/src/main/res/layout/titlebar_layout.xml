@@ -3,14 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/view_title"
     android:layout_width="match_parent"
-    android:layout_height="45dp"
+    android:layout_height="wrap_content"
     android:background="@drawable/shape_titlebar">
 
     <ImageView
         android:id="@+id/iv_arrow"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:layout_centerVertical="true"
         android:gravity="center"
         android:scaleType="centerInside"
         android:src="@drawable/icon_arrow"
@@ -20,10 +19,24 @@
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_height="45dp"
+        android:layout_centerHorizontal="true"
         android:gravity="center"
         android:textColor="#fff"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        tools:text="标题" />
+
+
+    <TextView
+        android:id="@+id/tv_net_tips"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@id/tv_title"
+        android:background="#e5e5e5"
+        android:gravity="center"
+        android:text="网络连接不可用，请检查网络设置！"
+        android:textColor="#ffc0cb"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
 </RelativeLayout>

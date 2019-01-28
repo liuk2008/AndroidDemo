@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 
 android {
-
     compileSdkVersion rootProject.COMPILE_SDK_VERSION
     buildToolsVersion rootProject.BUILD_TOOL_SVERSION
 
@@ -31,5 +30,5 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation rootProject.SUPPORT_APPCOMPAT_V7
-    api project(":lib:lib-utils")
+    api 'com.google.code.gson:gson:2.8.4'
 }
