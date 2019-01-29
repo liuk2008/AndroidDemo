@@ -16,13 +16,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class ThrowableConfiger {
-    private static final String TAG = ThrowableConfiger.class.getSimpleName();
+public class ThrowableConfigure {
+    private static final String TAG = ThrowableConfigure.class.getSimpleName();
 
     public static void init() {
         initExceptionManager();
     }
 
+    // 初始化异常配置
     private static void initExceptionManager() {
         ExceptionManager.init(new ThrowableHandler() {
             @Override
@@ -40,7 +41,7 @@ public class ThrowableConfiger {
                     }
                 }
                 LogUtils.loge(TAG, sb.toString());
-//                saveCrashInfo2File(t);
+                saveCrashInfo2File(t);
             }
         });
     }

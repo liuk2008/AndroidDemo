@@ -40,7 +40,7 @@
             android:background="@null"
             android:drawableLeft="@drawable/icon_pwd"
             android:drawablePadding="20dp"
-            android:hint="请输入信密码"
+            android:hint="请输入新密码"
             android:inputType="textPassword"
             android:singleLine="true"
             android:textColor="@color/textDeepColor"

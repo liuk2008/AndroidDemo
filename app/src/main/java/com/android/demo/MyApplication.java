@@ -3,6 +3,7 @@ package com.android.demo;
 import android.app.Application;
 
 import com.android.utils.common.LogUtils;
+import com.android.utils.exception.ThrowableConfigure;
 import com.android.utils.safety.ShakeInfoUtil;
 import com.android.utils.safety.SignCheckUtil;
 
@@ -13,6 +14,6 @@ public class MyApplication extends Application {
         super.onCreate();
         LogUtils.init(this, "AndroidDemo");
         ShakeInfoUtil.init(this);
-        SignCheckUtil.isLegal(this);
+        ThrowableConfigure.init();
     }
 }

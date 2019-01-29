@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.view.View;
 
 import com.android.common.R;
-import com.android.demo.account.AccountLoginActivity;
 import com.android.common.base.fragment.BaseFragment;
+import com.android.demo.account.AccountLoginActivity;
 
 /**
  * 状态栏透明

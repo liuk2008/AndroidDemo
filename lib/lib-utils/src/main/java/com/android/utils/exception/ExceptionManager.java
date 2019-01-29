@@ -3,9 +3,12 @@ package com.android.utils.exception;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * crash的发生是由于 主线程有未捕获的异常
+ */
 public class ExceptionManager {
 
-    private static ExecutorService singleThreadExecutorService = Executors.newSingleThreadExecutor();
+    private static ExecutorService cacheThreadExecutorService = Executors.newCachedThreadPool();
     private static ThrowableHandler mThrowableHandler;
 
     public static void init(ThrowableHandler throwableHandler) {
@@ -19,7 +22,7 @@ public class ExceptionManager {
     public static void handle(final Throwable throwable) {
         if (null == mThrowableHandler)
             throw new RuntimeException("未初始化 ExceptionManager");
-        singleThreadExecutorService.submit(new Runnable() {
+        cacheThreadExecutorService.submit(new Runnable() {
             @Override
             public void run() {
                 try {
