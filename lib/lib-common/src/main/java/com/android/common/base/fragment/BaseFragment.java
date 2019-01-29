@@ -14,8 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android.common.base.R;
-import com.android.utils.utils.common.LogUtils;
-import com.android.utils.utils.system.NetUtils;
+import com.android.utils.system.NetUtils;
 
 /**
  * 当你有一个activity，想让这个activity根据事件响应可以对应不同的界面时，就可以创建几个fragment，将fragment绑定到该activity

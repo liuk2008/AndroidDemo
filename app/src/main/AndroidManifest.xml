@@ -3,12 +3,14 @@
     package="com.android.common">
 
     <application
+        android:name="com.android.demo.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.android.common.MainActivity"
+        <activity
+            android:name="com.android.demo.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,7 +19,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.android.common.account.AccountLoginActivity"/>
+        <activity android:name="com.android.demo.account.AccountLoginActivity" />
 
     </application>
 

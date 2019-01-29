@@ -2,7 +2,6 @@ package com.viewinject.bindview;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.View;
 
 import com.viewinject.bindview.finder.ViewFinder;

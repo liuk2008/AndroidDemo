@@ -12,8 +12,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.android.common.base.R;
-import com.android.utils.utils.common.LogUtils;
-import com.android.utils.utils.system.NetUtils;
+import com.android.utils.system.NetUtils;
 
 
 public class BaseActivity extends CoreActivity implements View.OnClickListener {
