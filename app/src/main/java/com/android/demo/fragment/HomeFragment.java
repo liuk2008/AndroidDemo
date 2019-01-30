@@ -5,8 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.common.R;
+
 import com.android.common.base.fragment.BaseFragment;
+import com.android.demo.R;
 
 /**
  * 状态栏透明

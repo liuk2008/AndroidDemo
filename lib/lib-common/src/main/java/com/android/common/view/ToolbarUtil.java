@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.common.base.R;
+import com.android.common.R;
 
 
 public class ToolbarUtil {

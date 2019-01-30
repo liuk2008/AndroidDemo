@@ -3,8 +3,10 @@ package com.android.demo.fragment;
 import android.content.Intent;
 import android.view.View;
 
-import com.android.common.R;
+
+import com.android.common.base.PermissionActivity;
 import com.android.common.base.fragment.BaseFragment;
+import com.android.demo.R;
 import com.android.demo.account.AccountLoginActivity;
 
 /**
@@ -31,7 +33,7 @@ public class MineFragment extends BaseFragment {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.view_login:
-                Intent intent = new Intent(getActivity(), AccountLoginActivity.class);
+                Intent intent = new Intent(getActivity(), PermissionActivity.class);
                 startActivity(intent);
                 break;
             default:

@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.android.common.base.R;
+import com.android.common.R;
 import com.android.utils.system.NetUtils;
 
 /**

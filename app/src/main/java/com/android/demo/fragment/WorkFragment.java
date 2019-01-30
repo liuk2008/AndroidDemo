@@ -3,10 +3,10 @@ package com.android.demo.fragment;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.android.common.R;
 import com.android.common.base.activity.CoreActivity;
 import com.android.common.base.fragment.BaseFragment;
 import com.android.common.view.ToolbarUtil;
+import com.android.demo.R;
 
 /**
  * 通过代码动态设置状态栏与主题色一致

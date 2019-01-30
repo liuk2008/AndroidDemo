@@ -6,10 +6,10 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.EditText;
 
-import com.android.common.R;
 import com.android.common.base.fragment.BaseFragment;
 import com.android.common.base.fragment.FragmentAction;
 import com.android.common.view.ToolbarUtil;
+import com.android.demo.R;
 
 
 public class AccountRegisterFragment extends BaseFragment {

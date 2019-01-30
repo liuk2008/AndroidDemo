@@ -3,10 +3,10 @@ package com.android.demo.account;
 import android.view.View;
 import android.widget.TextView;
 
-import com.android.common.R;
 import com.android.common.base.FragmentHostActivity;
 import com.android.common.base.fragment.BaseFragment;
 import com.android.common.view.ToolbarUtil;
+import com.android.demo.R;
 
 
 public class AccountModPwdFragment extends BaseFragment {

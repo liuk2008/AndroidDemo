@@ -5,7 +5,6 @@ import android.app.Application;
 import com.android.utils.common.LogUtils;
 import com.android.utils.exception.ThrowableConfigure;
 import com.android.utils.safety.ShakeInfoUtil;
-import com.android.utils.safety.SignCheckUtil;
 
 public class MyApplication extends Application {
 
