@@ -66,6 +66,9 @@ public class AccountRegisterFragment extends BaseFragment {
         }
     }
 
+    /**
+     * 捕捉返回键
+     */
     @Override
     public boolean onBackPressed() {
         AlertDialog dialog = new AlertDialog.Builder(getActivity())

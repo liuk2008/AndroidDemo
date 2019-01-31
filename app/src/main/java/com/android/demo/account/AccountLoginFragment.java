@@ -1,4 +1,4 @@
-package com.android.common.account;
+package com.android.demo.account;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,11 +7,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.android.common.R;
 import com.android.common.base.FragmentHostActivity;
 import com.android.common.base.fragment.BaseFragment;
 import com.android.common.base.fragment.FragmentAction;
-import com.android.common.base.view.ToolbarUtil;
+import com.android.common.view.ToolbarUtil;
+import com.android.demo.R;
 import com.viewinject.annotation.MyBindView;
 import com.viewinject.annotation.MyOnClick;
 import com.viewinject.bindview.MyViewInjector;

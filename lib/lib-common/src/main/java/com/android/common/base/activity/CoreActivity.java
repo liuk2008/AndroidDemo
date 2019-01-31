@@ -42,11 +42,11 @@ public class CoreActivity extends AppCompatActivity {
     /**
      * 使用add添加fragment，不需进栈
      */
-    public void addFragment(Fragment frg, Fragment tagFragment) {
+    public void addFragment(Fragment frg, Fragment sourceFragment) {
         try {
-            if (tagFragment != null)
-                frg.setTargetFragment(tagFragment, FragmentAction.FRAGMENT_REQUEST);
-            getSupportFragmentManager().beginTransaction().add(Window.ID_ANDROID_CONTENT, frg, frg.getClass().getName()).commit();
+            if (sourceFragment != null)
+                frg.setTargetFragment(sourceFragment, FragmentAction.FRAGMENT_REQUEST);
+            getSupportFragmentManager().beginTransaction().add(Window.ID_ANDROID_CONTENT, frg, frg.getClass().getName()).commitAllowingStateLoss();
         } catch (Throwable e) {
             printStackTrace(e);
         }
@@ -55,12 +55,12 @@ public class CoreActivity extends AppCompatActivity {
     /**
      * 使用add添加fragment，需要进栈
      */
-    public void addFragmentToStack(Fragment frg, Fragment tagFragment) {
+    public void addFragmentToStack(Fragment frg, Fragment sourceFragment) {
         try {
-            if (tagFragment != null)
-                frg.setTargetFragment(tagFragment, FragmentAction.FRAGMENT_REQUEST);
+            if (sourceFragment != null)
+                frg.setTargetFragment(sourceFragment, FragmentAction.FRAGMENT_REQUEST);
             String tag = frg.getClass().getName();
-            getSupportFragmentManager().beginTransaction().add(Window.ID_ANDROID_CONTENT, frg, tag).addToBackStack(tag).commit();
+            getSupportFragmentManager().beginTransaction().add(Window.ID_ANDROID_CONTENT, frg, tag).addToBackStack(tag).commitAllowingStateLoss();
         } catch (Throwable e) {
             printStackTrace(e);
         }
@@ -69,11 +69,11 @@ public class CoreActivity extends AppCompatActivity {
     /**
      * 使用replace添加fragment，不需进栈
      */
-    public void replaceFragment(Fragment frg, Fragment tagFragment) {
+    public void replaceFragment(Fragment frg, Fragment sourceFragment) {
         try {
-            if (tagFragment != null)
-                frg.setTargetFragment(tagFragment, FragmentAction.FRAGMENT_REQUEST);
-            getSupportFragmentManager().beginTransaction().replace(Window.ID_ANDROID_CONTENT, frg, frg.getClass().getName()).commit();
+            if (sourceFragment != null)
+                frg.setTargetFragment(sourceFragment, FragmentAction.FRAGMENT_REQUEST);
+            getSupportFragmentManager().beginTransaction().replace(Window.ID_ANDROID_CONTENT, frg, frg.getClass().getName()).commitAllowingStateLoss();
         } catch (Throwable e) {
             printStackTrace(e);
         }
@@ -82,16 +82,16 @@ public class CoreActivity extends AppCompatActivity {
     /**
      * 使用replace添加fragment，需要进栈
      */
-    public void replaceFragmentToStack(Fragment fragment, Fragment tagFragment) {
+    public void replaceFragmentToStack(Fragment fragment, Fragment sourceFragment) {
         try {
-            if (tagFragment != null)
-                fragment.setTargetFragment(tagFragment, FragmentAction.FRAGMENT_REQUEST);
+            if (sourceFragment != null)
+                fragment.setTargetFragment(sourceFragment, FragmentAction.FRAGMENT_REQUEST);
             String tag = fragment.getClass().getName();
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(Window.ID_ANDROID_CONTENT, fragment, tag);
             fragmentTransaction.addToBackStack(tag);
-            fragmentTransaction.commit();
+            fragmentTransaction.commitAllowingStateLoss();
         } catch (Exception e) {
             printStackTrace(e);
         }

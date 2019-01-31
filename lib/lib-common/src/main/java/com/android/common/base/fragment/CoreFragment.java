@@ -36,22 +36,22 @@ public class CoreFragment extends Fragment {
         getBaseActivity().replaceFragmentToStack(fragment, null);
     }
 
-    public void addFragment(Fragment frg, Fragment tagFragment) {
-        getBaseActivity().addFragment(frg, tagFragment);
+    public void addFragment(Fragment frg, Fragment sourceFragment) {
+        getBaseActivity().addFragment(frg, sourceFragment);
     }
 
-    public void addFragmentToStack(Fragment frg, Fragment tagFragment) {
-        getBaseActivity().addFragmentToStack(frg, tagFragment);
-
-    }
-
-    public void replaceFragment(Fragment frg, Fragment tagFragment) {
-        getBaseActivity().replaceFragment(frg, tagFragment);
+    public void addFragmentToStack(Fragment frg, Fragment sourceFragment) {
+        getBaseActivity().addFragmentToStack(frg, sourceFragment);
 
     }
 
-    public void replaceFragmentToStack(Fragment frg, Fragment tagFragment) {
-        getBaseActivity().replaceFragmentToStack(frg, tagFragment);
+    public void replaceFragment(Fragment frg, Fragment sourceFragment) {
+        getBaseActivity().replaceFragment(frg, sourceFragment);
+
+    }
+
+    public void replaceFragmentToStack(Fragment frg, Fragment sourceFragment) {
+        getBaseActivity().replaceFragmentToStack(frg, sourceFragment);
     }
 
     public void popFragment() {

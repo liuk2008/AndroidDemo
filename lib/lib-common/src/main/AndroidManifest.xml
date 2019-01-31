@@ -1,9 +1,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.android.common.base">
+    package="com.android.common">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+
     <application>
-        <activity android:name="com.android.common.base.FragmentHostActivity" />
+        <activity android:name=".base.FragmentHostActivity" />
+        <activity
+            android:name=".base.PermissionActivity"
+            android:theme="@style/DialogTheme"/>
     </application>
 
 </manifest>

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
 import com.android.common.base.activity.BaseActivity;
 
@@ -50,9 +49,4 @@ public class FragmentHostActivity extends BaseActivity {
         replaceFragmentToStack(fragment, null);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(TAG, "onResume: " + hashCode());
-    }
 }

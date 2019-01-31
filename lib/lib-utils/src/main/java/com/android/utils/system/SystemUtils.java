@@ -1,6 +1,8 @@
 package com.android.utils.system;
 
 import android.Manifest;
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
@@ -8,6 +10,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.PermissionChecker;
 import android.telephony.TelephonyManager;
 
@@ -56,25 +60,6 @@ public class SystemUtils {
             }
         }
         return apps;
-    }
-
-    /*
-     * Android6.0之后，权限分为install时的权限跟运行时权限，如果我们的targetSdkVersion>=23，install权限同runtime权限是分开的
-     * targetSdkVersion < 23 时 即便运行在android6及以上设备 ContextWrapper.checkSelfPermission和Context.checkSelfPermission失效
-     * 返回值始终为PERMISSION_GRANTED，此时必须使用PermissionChecker.checkSelfPermission
-     */
-    public static boolean checkPermission(Context context, String permission) {
-        boolean result = true;
-        // android 6.0 以下会在安装时自动获取权限
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
-            return result;
-        int targetSdkVersion = getTargetSdkVersion(context);
-        if (targetSdkVersion >= Build.VERSION_CODES.M) {
-            result = context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
-        } else {
-            result = PermissionChecker.checkSelfPermission(context, permission) == PermissionChecker.PERMISSION_GRANTED;
-        }
-        return result;
     }
 
     /*
@@ -149,6 +134,59 @@ public class SystemUtils {
         String androidId = Settings.Secure.getString(
                 context.getContentResolver(), Settings.Secure.ANDROID_ID);
         return androidId;
+    }
+
+    /*
+     * Android6.0之后，权限分为install时的权限跟运行时权限，如果我们的targetSdkVersion>=23，install权限同runtime权限是分开的
+     * targetSdkVersion < 23 时 即便运行在android6及以上设备 ContextWrapper.checkSelfPermission和Context.checkSelfPermission失效
+     * 返回值始终为PERMISSION_GRANTED，此时必须使用PermissionChecker.checkSelfPermission
+     */
+    public static boolean checkPermission(Context context, String permission) {
+        boolean result = true;
+        // android 6.0 以下会在安装时自动获取权限
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+            return result;
+        int targetSdkVersion = getTargetSdkVersion(context);
+        if (targetSdkVersion >= Build.VERSION_CODES.M) {
+            result = context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
+        } else {
+            result = PermissionChecker.checkSelfPermission(context, permission) == PermissionChecker.PERMISSION_GRANTED;
+        }
+        return result;
+    }
+
+    public static List<String> checkDeniedPermission(Activity activity, List<String> list) {
+        List<String> deniedList = new ArrayList<>();
+        for (String permission : list) {
+            /*
+             * 当第一次申请权限时 shouldShowRequestPermissionRationale返回false，
+             * 第一次用户拒绝，再次申请的时候返回true，在此判断中提示用户为什么要申请这个权限。
+             */
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
+                deniedList.add(permission);
+            }
+        }
+        return deniedList;
+    }
+
+
+    @TargetApi(Build.VERSION_CODES.M)
+    public static void requestPermission(Activity activity, @NonNull String[] permissions) {
+        // 检测权限是否授权
+        final List<String> permissionList = new ArrayList<>();
+        for (String permission : permissions) {
+            if (!SystemUtils.checkPermission(activity, permission)) {
+                permissionList.add(permission);
+            }
+        }
+        // 申请权限
+        if (permissionList.size() <= 0) return;
+        final List<String> deniedList = checkDeniedPermission(activity, permissionList);
+        if (deniedList.size() > 0) {
+            ActivityCompat.requestPermissions(activity, deniedList.toArray(new String[deniedList.size()]), 0);
+        } else {
+            ActivityCompat.requestPermissions(activity, permissionList.toArray(new String[permissionList.size()]), 0);
+        }
     }
 
 }
