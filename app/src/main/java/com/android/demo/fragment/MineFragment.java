@@ -34,4 +34,11 @@ public class MineFragment extends BaseFragment {
         startActivity(intent);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        MyViewInjector.unbindView(this);
+    }
+
+
 }

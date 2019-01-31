@@ -61,4 +61,9 @@ public class WorkFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        MyViewInjector.unbindView(this);
+    }
 }
