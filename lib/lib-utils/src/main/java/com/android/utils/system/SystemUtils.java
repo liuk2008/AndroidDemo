@@ -136,6 +136,28 @@ public class SystemUtils {
         return androidId;
     }
 
+    public static List<String> getDeniedPermission(Context context) {
+        List<String> list = new ArrayList<>();
+        String packageName = context.getPackageName();
+        PackageManager pm = context.getPackageManager();
+        PackageInfo pi;
+        try {
+            pi = pm.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS);
+            String[] permissions = pi.requestedPermissions;
+            if (permissions != null) {
+                for (String str : permissions) {
+                    boolean permission = (PackageManager.PERMISSION_GRANTED ==
+                            pm.checkPermission(str, packageName));
+                    if (!permission)
+                        list.add(str);
+                }
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     /*
      * Android6.0之后，权限分为install时的权限跟运行时权限，如果我们的targetSdkVersion>=23，install权限同runtime权限是分开的
      * targetSdkVersion < 23 时 即便运行在android6及以上设备 ContextWrapper.checkSelfPermission和Context.checkSelfPermission失效
@@ -155,25 +177,11 @@ public class SystemUtils {
         return result;
     }
 
-    public static List<String> checkDeniedPermission(Activity activity, List<String> list) {
-        List<String> deniedList = new ArrayList<>();
-        for (String permission : list) {
-            /*
-             * 当第一次申请权限时 shouldShowRequestPermissionRationale返回false，
-             * 第一次用户拒绝，再次申请的时候返回true，在此判断中提示用户为什么要申请这个权限。
-             */
-            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
-                deniedList.add(permission);
-            }
-        }
-        return deniedList;
-    }
-
 
     @TargetApi(Build.VERSION_CODES.M)
     public static void requestPermission(Activity activity, @NonNull String[] permissions) {
         // 检测权限是否授权
-        final List<String> permissionList = new ArrayList<>();
+        List<String> permissionList = new ArrayList<>();
         for (String permission : permissions) {
             if (!SystemUtils.checkPermission(activity, permission)) {
                 permissionList.add(permission);
@@ -181,12 +189,7 @@ public class SystemUtils {
         }
         // 申请权限
         if (permissionList.size() <= 0) return;
-        final List<String> deniedList = checkDeniedPermission(activity, permissionList);
-        if (deniedList.size() > 0) {
-            ActivityCompat.requestPermissions(activity, deniedList.toArray(new String[deniedList.size()]), 0);
-        } else {
-            ActivityCompat.requestPermissions(activity, permissionList.toArray(new String[permissionList.size()]), 0);
-        }
+        ActivityCompat.requestPermissions(activity, permissionList.toArray(new String[permissionList.size()]), 0);
     }
 
 }

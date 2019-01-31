@@ -128,19 +128,21 @@ public class BaseActivity extends CoreActivity implements View.OnClickListener {
     }
 
     public void checkNet() {
-        netReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                boolean isConnected = NetUtils.isNetConnected(context);
-                View net_tips = findViewById(R.id.tv_net_tips);
-                if (null != net_tips) {
-                    net_tips.setVisibility(isConnected ? View.GONE : View.VISIBLE);
+        if (netReceiver == null) {
+            netReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    boolean isConnected = NetUtils.isNetConnected(context);
+                    View net_tips = findViewById(R.id.tv_net_tips);
+                    if (null != net_tips) {
+                        net_tips.setVisibility(isConnected ? View.GONE : View.VISIBLE);
+                    }
                 }
-            }
-        };
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-        registerReceiver(netReceiver, filter);
+            };
+            IntentFilter filter = new IntentFilter();
+            filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+            registerReceiver(netReceiver, filter);
+        }
     }
 
 }

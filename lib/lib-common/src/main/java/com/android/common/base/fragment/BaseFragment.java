@@ -219,7 +219,6 @@ public class BaseFragment extends CoreFragment implements View.OnClickListener {
         }
     }
 
-
     @Override
     public void onClick(View view) {
         if (null == view)

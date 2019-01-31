@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-
 import com.android.common.base.activity.CoreActivity;
 import com.android.demo.fragment.HomeFragment;
 import com.android.demo.fragment.MineFragment;
@@ -70,11 +69,6 @@ public class MainActivity extends CoreActivity {
         tabNames.add(textView);
         textView.setText(tabs[index]);
         return view;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
 }

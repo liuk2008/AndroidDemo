@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,8 +12,8 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 
-import com.android.utils.common.ToastUtils;
 import com.android.utils.system.SystemUtils;
 
 import java.util.ArrayList;
@@ -33,44 +32,74 @@ import java.util.List;
 public class PermissionActivity extends AppCompatActivity {
 
     private static final String TAG = PermissionActivity.class.getSimpleName();
+    private static final int REQUEST_PERMISSION = 1;
+    private static final int REQUEST_PERMISSIONS = 2;
     private static final int PERMISSION_REQUEST_CODE = 1001;
-    private static OnPermissionCallback mCallback;
+    private String permission;
+    private String tip;
+    private int request;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (mCallback == null) mCallback = new MyOnPermissionCallback();
-        String[] permissions = getIntent().getStringArrayExtra("permissions");
-        // 检测权限是否授权
-        List<String> permissionList = new ArrayList<>();
-        for (String permission : permissions) {
-            if (!SystemUtils.checkPermission(this, permission)) {
-                permissionList.add(permission);
+        Intent intent = getIntent();
+        request = intent.getIntExtra("request", 0);
+        tip = intent.getStringExtra("tip");
+        if (request == REQUEST_PERMISSION) {
+            permission = intent.getStringExtra("permission");
+        } else if (request == REQUEST_PERMISSIONS) {
+            String[] permissions = intent.getStringArrayExtra("permissions");
+            List<String> deniedList = new ArrayList<>();
+            // 检测权限是否授权
+            for (String permission : permissions) {
+                if (!SystemUtils.checkPermission(this, permission)) {
+                    deniedList.add(permission);
+                }
             }
-        }
-        // 申请权限
-        if (permissionList.size() <= 0) return;
-        List<String> deniedList = SystemUtils.checkDeniedPermission(this, permissionList);
-        if (deniedList.size() > 0) {
-            ActivityCompat.requestPermissions(this, deniedList.toArray(new String[deniedList.size()]), PERMISSION_REQUEST_CODE);
+            // 申请权限
+            if (deniedList.size() > 0)
+                ActivityCompat.requestPermissions(this, deniedList.toArray(new String[deniedList.size()]), PERMISSION_REQUEST_CODE);
+            else
+                finish();
         } else {
-            ActivityCompat.requestPermissions(this, permissionList.toArray(new String[permissionList.size()]), PERMISSION_REQUEST_CODE);
+            finish();
         }
     }
 
-    public static void requestPermission(Activity activity, @NonNull String permission, OnPermissionCallback callback) {
-        requestPermission(activity, new String[]{permission}, callback);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (request == REQUEST_PERMISSION) {
+            if (!SystemUtils.checkPermission(this, permission))
+                showDialog(tip, REQUEST_PERMISSION);
+            else
+                finish();
+        }
     }
 
-    public static void requestPermissions(Activity activity, @NonNull String[] permissions, OnPermissionCallback callback) {
-        requestPermission(activity, permissions, callback);
+    public static void requestPermission(Activity activity, @NonNull String permission, String tip) {
+        startPermission(activity, permission, tip);
+    }
+
+    public static void requestPermissions(Activity activity, @NonNull String[] permissions, String tips) {
+        startPermissions(activity, permissions, tips);
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    private static void requestPermission(Activity activity, @NonNull String[] permissions, OnPermissionCallback callback) {
-        mCallback = callback;
+    private static void startPermission(Activity activity, @NonNull String permission, @NonNull String tip) {
+        Intent intent = new Intent(activity, PermissionActivity.class);
+        intent.putExtra("permission", permission);
+        intent.putExtra("tip", tip);
+        intent.putExtra("request", REQUEST_PERMISSION);
+        activity.startActivity(intent);
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private static void startPermissions(Activity activity, @NonNull String[] permissions, @NonNull String tips) {
         Intent intent = new Intent(activity, PermissionActivity.class);
         intent.putExtra("permissions", permissions);
+        intent.putExtra("tip", tips);
+        intent.putExtra("request", REQUEST_PERMISSIONS);
         activity.startActivity(intent);
     }
 
@@ -82,17 +111,23 @@ public class PermissionActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case PERMISSION_REQUEST_CODE:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) { // 申请多个权限时，只要有一个申请成功，此方法就会被回调
-                    mCallback.onGranted(permissions);
-                } else {
-                    mCallback.onDenied(permissions);
+                boolean result = true;
+                for (String permission : permissions) {
+                    if (!SystemUtils.checkPermission(this, permission)) {
+                        result = false;
+                        break;
+                    }
                 }
+                if (!result)
+                    showDialog(tip, REQUEST_PERMISSIONS);
+                else
+                    finish();
+//                grantResults[0] == PackageManager.PERMISSION_GRANTED // 申请多个权限时，只要有一个申请成功，此方法就会被回调
                 break;
             default:
                 break;
         }
     }
-
 
     public interface OnPermissionCallback {
         void onGranted(String[] permissions);
@@ -100,48 +135,27 @@ public class PermissionActivity extends AppCompatActivity {
         void onDenied(String[] permissions);
     }
 
-    class MyOnPermissionCallback implements OnPermissionCallback {
-        @Override
-        public void onGranted(String[] permissions) {
-            finish();
-        }
-
-        @Override
-        public void onDenied(String[] permissions) {
-            boolean result = true;
-            for (String permission : permissions) {
-                /*
-                 * 当多次（两次或两次以上）请求操作时，会有不再提示的选择框，如果用户选择了不再提示，
-                 * shouldShowRequestPermissionRationale为false，在此判断中提示用户权限已被禁止，需要在应用管理中自行打开。
-                 */
-                result = ActivityCompat.shouldShowRequestPermissionRationale(PermissionActivity.this, permission);
-                if (!result) break;
-            }
-            if (!result) {
-                ToastUtils.showToast(getApplicationContext(), "权限已被禁止");
-                new AlertDialog.Builder(PermissionActivity.this)
-                        .setTitle("申请权限")
-                        .setMessage("请在系统设置中开启APP相关权限")
-                        .setCancelable(false)
-                        .setPositiveButton("去设置", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent();
-                                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                Uri uri = Uri.fromParts("package", getPackageName(), null);
-                                intent.setData(uri);
-                                if (intent.resolveActivity(getPackageManager()) != null) {
-                                    startActivity(intent);
-                                } else {
-                                    startActivity(new Intent(Settings.ACTION_APPLICATION_SETTINGS));
-                                }
-                                finish();
-                            }
-                        }).show();
-            } else {
-                finish();
-            }
-        }
+    private void showDialog(String tip, final int code) {
+        new AlertDialog.Builder(this)
+                .setTitle("申请权限")
+                .setMessage(!TextUtils.isEmpty(tip) ? tip : "请在系统设置中开启APP相关权限")
+                .setCancelable(false)
+                .setPositiveButton("去设置", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent();
+                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        Uri uri = Uri.fromParts("package", getPackageName(), null);
+                        intent.setData(uri);
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            startActivity(intent);
+                        } else {
+                            startActivity(new Intent(Settings.ACTION_APPLICATION_SETTINGS));
+                        }
+                        if (code == REQUEST_PERMISSIONS)
+                            finish();
+                    }
+                }).show();
     }
 
 }
