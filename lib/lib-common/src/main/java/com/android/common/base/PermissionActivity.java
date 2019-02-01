@@ -36,40 +36,46 @@ public class PermissionActivity extends AppCompatActivity {
     private static final int REQUEST_PERMISSION = 1;
     private static final int REQUEST_PERMISSIONS = 2;
     private static final int PERMISSION_REQUEST_CODE = 1001;
-    private String tip;
+    private String tip, permission;
+    private String[] permissions;
     private int request;
-    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        intent = getIntent();
+        Intent intent = getIntent();
         request = intent.getIntExtra("request", 0);
         tip = intent.getStringExtra("tip");
+        permission = intent.getStringExtra("permission");
+        permissions = intent.getStringArrayExtra("permissions");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if (request == REQUEST_PERMISSION) {
-            String permission = intent.getStringExtra("permission");
-            ActivityCompat.requestPermissions(this, new String[]{permission}, PERMISSION_REQUEST_CODE);
-        } else if (request == REQUEST_PERMISSIONS) {
-            String[] permissions = intent.getStringArrayExtra("permissions");
-            List<String> deniedList = new ArrayList<>();
-            // 检测权限是否授权
-            for (String permission : permissions) {
-                if (!SystemUtils.checkPermission(this, permission)) {
-                    deniedList.add(permission);
+        switch (request) {
+            case REQUEST_PERMISSION:
+                if (!SystemUtils.checkPermission(this, permission))
+                    ActivityCompat.requestPermissions(this, new String[]{permission}, PERMISSION_REQUEST_CODE);
+                else
+                    finish();
+                break;
+            case REQUEST_PERMISSIONS:
+                List<String> deniedList = new ArrayList<>();
+                // 检测权限是否授权
+                for (String permission : permissions) {
+                    if (!SystemUtils.checkPermission(this, permission)) {
+                        deniedList.add(permission);
+                    }
                 }
-            }
-            // 申请权限
-            if (deniedList.size() > 0)
-                ActivityCompat.requestPermissions(this, deniedList.toArray(new String[deniedList.size()]), PERMISSION_REQUEST_CODE);
-            else
+                if (deniedList.size() > 0)
+                    ActivityCompat.requestPermissions(this, deniedList.toArray(new String[deniedList.size()]), PERMISSION_REQUEST_CODE);
+                else
+                    finish();
+                break;
+            default:
                 finish();
-        } else {
-            finish();
+                break;
         }
     }
 

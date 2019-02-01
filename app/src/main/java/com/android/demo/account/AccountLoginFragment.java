@@ -12,6 +12,7 @@ import com.android.common.base.fragment.BaseFragment;
 import com.android.common.base.fragment.FragmentAction;
 import com.android.common.view.ToolbarUtil;
 import com.android.demo.R;
+import com.android.utils.common.LogUtils;
 import com.viewinject.annotation.MyBindView;
 import com.viewinject.annotation.MyOnClick;
 import com.viewinject.bindview.MyViewInjector;
@@ -52,9 +53,7 @@ public class AccountLoginFragment extends BaseFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != FragmentAction.FRAGMENT_RESULT_OK) {
-            return;
-        } else {
+        if (resultCode == FragmentAction.FRAGMENT_RESULT_OK) {
             username = data.getStringExtra("username");
         }
     }
@@ -72,6 +71,6 @@ public class AccountLoginFragment extends BaseFragment {
 
     @MyOnClick(R.id.tv_setpwd)     // 重新打开Activity
     public void setPwd() {
-        FragmentHostActivity.openFragment(getActivity(), AccountSetPwdFragment.newInstance());
+        FragmentHostActivity.openFragment(getActivity(), AccountModPwdFragment.newInstance());
     }
 }

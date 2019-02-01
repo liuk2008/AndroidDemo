@@ -1,7 +1,5 @@
 package com.android.demo.account;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
 import android.widget.EditText;
@@ -32,7 +30,7 @@ public class AccountRegisterFragment extends BaseFragment {
         ToolbarUtil.configTitlebar(baseRootView, "注册", View.VISIBLE);
         ToolbarUtil.setTitlebarBack(baseRootView.findViewById(R.id.iv_arrow));
         et_username = baseRootView.findViewById(R.id.et_username);
-        setOnClickListener(R.id.btn_register, R.id.tv_term);
+        setOnClickListener(R.id.btn_register, R.id.tv_login);
     }
 
     @Override
@@ -43,7 +41,7 @@ public class AccountRegisterFragment extends BaseFragment {
                 sendResult(FragmentAction.FRAGMENT_RESULT_OK);
                 popBackStackImmediate();
                 break;
-            case R.id.tv_term:
+            case R.id.tv_login:
                 popBackStackImmediate();
                 break;
             default:
@@ -57,37 +55,12 @@ public class AccountRegisterFragment extends BaseFragment {
      * @param resultOk
      */
     private void sendResult(int resultOk) {
-        if (getTargetFragment() == null) {
-            return;
-        } else {
+        if (getTargetFragment() != null) {
             Intent intent = new Intent();
             intent.putExtra("username", et_username.getText().toString());
             getTargetFragment().onActivityResult(getTargetRequestCode(), resultOk, intent);
         }
     }
 
-    /**
-     * 捕捉返回键
-     */
-    @Override
-    public boolean onBackPressed() {
-        AlertDialog dialog = new AlertDialog.Builder(getActivity())
-                .setTitle("测试")
-                .setCancelable(false)
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        popBackStackImmediate();
-                    }
-                })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).create();
-        dialog.show();
-        return true;
-    }
 
 }

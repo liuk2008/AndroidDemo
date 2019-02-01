@@ -1,9 +1,9 @@
 package com.android.demo.account;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.view.View;
-import android.widget.TextView;
 
-import com.android.common.base.FragmentHostActivity;
 import com.android.common.base.fragment.BaseFragment;
 import com.android.common.view.ToolbarUtil;
 import com.android.demo.R;
@@ -25,13 +25,21 @@ public class AccountModPwdFragment extends BaseFragment {
     @Override
     public void initRootViews(View baseRootView) {
         super.initRootViews(baseRootView);
-        ToolbarUtil.configTitlebar(baseRootView, "修改密码", View.GONE);
-        TextView textView = baseRootView.findViewById(R.id.tv_setpwd);
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentHostActivity.openFragment(getActivity(), AccountSetPwdFragment.newInstance());
-            }
-        });
+        ToolbarUtil.configTitlebar(baseRootView, "修改密码", View.VISIBLE);
+        ToolbarUtil.setTitlebarClose(baseRootView.findViewById(R.id.iv_arrow));
+        setOnClickListener(R.id.tv_setpwd);
     }
+
+    @Override
+    public void onClick(View view) {
+        super.onClick(view);
+        switch (view.getId()) {
+            case R.id.tv_setpwd:
+                replaceFragmentToStack(AccountSetPwdFragment.newInstance());
+                break;
+            default:
+                break;
+        }
+    }
+
 }
