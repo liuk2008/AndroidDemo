@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,18 +36,24 @@ public class PermissionActivity extends AppCompatActivity {
     private static final int REQUEST_PERMISSION = 1;
     private static final int REQUEST_PERMISSIONS = 2;
     private static final int PERMISSION_REQUEST_CODE = 1001;
-    private String permission;
     private String tip;
     private int request;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
+        intent = getIntent();
         request = intent.getIntExtra("request", 0);
         tip = intent.getStringExtra("tip");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         if (request == REQUEST_PERMISSION) {
-            permission = intent.getStringExtra("permission");
+            String permission = intent.getStringExtra("permission");
+            ActivityCompat.requestPermissions(this, new String[]{permission}, PERMISSION_REQUEST_CODE);
         } else if (request == REQUEST_PERMISSIONS) {
             String[] permissions = intent.getStringArrayExtra("permissions");
             List<String> deniedList = new ArrayList<>();
@@ -63,17 +70,6 @@ public class PermissionActivity extends AppCompatActivity {
                 finish();
         } else {
             finish();
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (request == REQUEST_PERMISSION) {
-            if (!SystemUtils.checkPermission(this, permission))
-                showDialog(tip, REQUEST_PERMISSION);
-            else
-                finish();
         }
     }
 
@@ -112,17 +108,16 @@ public class PermissionActivity extends AppCompatActivity {
         switch (requestCode) {
             case PERMISSION_REQUEST_CODE:
                 boolean result = true;
-                for (String permission : permissions) {
-                    if (!SystemUtils.checkPermission(this, permission)) {
+                for (int i = 0; i < permissions.length; i++) {
+                    if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
                         result = false;
                         break;
                     }
                 }
                 if (!result)
-                    showDialog(tip, REQUEST_PERMISSIONS);
+                    showDialog(tip);
                 else
                     finish();
-//                grantResults[0] == PackageManager.PERMISSION_GRANTED // 申请多个权限时，只要有一个申请成功，此方法就会被回调
                 break;
             default:
                 break;
@@ -135,7 +130,7 @@ public class PermissionActivity extends AppCompatActivity {
         void onDenied(String[] permissions);
     }
 
-    private void showDialog(String tip, final int code) {
+    private void showDialog(String tip) {
         new AlertDialog.Builder(this)
                 .setTitle("申请权限")
                 .setMessage(!TextUtils.isEmpty(tip) ? tip : "请在系统设置中开启APP相关权限")
@@ -152,8 +147,6 @@ public class PermissionActivity extends AppCompatActivity {
                         } else {
                             startActivity(new Intent(Settings.ACTION_APPLICATION_SETTINGS));
                         }
-                        if (code == REQUEST_PERMISSIONS)
-                            finish();
                     }
                 }).show();
     }

@@ -127,7 +127,6 @@ public class BaseFragment extends CoreFragment implements View.OnClickListener {
     public void onDestroy() {
         super.onDestroy();
         showLog(BASETAG, "onDestroy");
-
     }
 
     @Override
