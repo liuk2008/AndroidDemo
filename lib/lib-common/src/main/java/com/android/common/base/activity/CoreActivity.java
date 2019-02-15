@@ -268,7 +268,7 @@ public class CoreActivity extends AppCompatActivity {
     /**
      * 设置状态栏背景色
      */
-    public void setStatusBarBgResource(int bgResource) {
+    private void setStatusBarBgResource(int bgResource) {
         int identifier = getResources().getIdentifier("statusBarBackground", "id", "android");
         View statusBarView = getWindow().findViewById(identifier);
         statusBarView.setBackgroundResource(bgResource);

@@ -1,6 +1,7 @@
 package com.android.demo.fragment;
 
 import android.Manifest;
+import android.content.Intent;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -12,6 +13,7 @@ import com.android.demo.R;
 import com.android.utils.system.SystemUtils;
 import com.viewinject.annotation.MyOnClick;
 import com.viewinject.bindview.MyViewInjector;
+import com.zxing.activity.CaptureActivity;
 
 import java.util.List;
 
@@ -59,6 +61,11 @@ public class WorkFragment extends BaseFragment {
                     permissions.toArray(new String[permissions.size()]),
                     "请打开SD卡读写权限、拍照等系统权限");
         }
+    }
+
+    @MyOnClick(R.id.btn_scan)
+    public void scan() {
+        startActivity(new Intent(getActivity(), CaptureActivity.class));
     }
 
     @Override

@@ -41,7 +41,7 @@ public final class ViewfinderView extends View {
 	/**
 	 * 刷新界面的时间
 	 */
-	private static final long ANIMATION_DELAY = 5L;
+	private static final long ANIMATION_DELAY = 1;
 	private static final int OPAQUE = 0xFF;
 
 	/**
@@ -240,7 +240,7 @@ public final class ViewfinderView extends View {
 			//只刷新扫描框的内容，其他地方不刷新
 			postInvalidateDelayed(ANIMATION_DELAY, frame.left, frame.top,
 					frame.right, frame.bottom);
-			
+
 		}
 	}
 

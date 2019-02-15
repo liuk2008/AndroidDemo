@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
@@ -22,7 +23,9 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
@@ -63,39 +66,42 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (myLayout != -1) {
-            setContentView(myLayout);
-        } else {
-            setContentView(R.layout.activity_capture);
-            ImageView iv_arrow = findViewById(R.id.iv_arrow);
-            ImageView iv_gallery = findViewById(R.id.iv_gallery);
-            ivLight = findViewById(R.id.iv_light);
-            ivLight.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    IfOpenLight();
-                }
-            });
-            iv_arrow.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                }
-            });
-            iv_gallery.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                            && checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                            != PackageManager.PERMISSION_GRANTED) {
-                        requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                                REQUEST_PERMISSION_PHOTO);
-                    } else {
-                        startActivityForGallery(PHOTO_REQUEST_GALLERY);
-                    }
-                }
-            });
+        setContentView(R.layout.activity_capture);
+        View view_title = findViewById(R.id.view_title);
+        view_title.setPadding(0,getStatusBarHeight(),0,0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
+        ImageView iv_arrow = findViewById(R.id.iv_arrow);
+        ImageView iv_gallery = findViewById(R.id.iv_gallery);
+        ivLight = findViewById(R.id.iv_light);
+        ivLight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IfOpenLight();
+            }
+        });
+        iv_arrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        iv_gallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                        && checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                            REQUEST_PERMISSION_PHOTO);
+                } else {
+                    startActivityForGallery(PHOTO_REQUEST_GALLERY);
+                }
+            }
+        });
+
         viewfinderView = findViewById(R.id.viewfinder_view);
         hasSurface = false;
         inactivityTimer = new InactivityTimer(this);
@@ -360,6 +366,12 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
                 }
             }
         }
+    }
+
+    private int getStatusBarHeight() {
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        int statusBarHeight = getResources().getDimensionPixelSize(resourceId);
+        return statusBarHeight;
     }
 
 }

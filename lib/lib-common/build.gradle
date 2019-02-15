@@ -32,5 +32,6 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation rootProject.SUPPORT_APPCOMPAT_V7
     api project(":lib:lib-utils")
+    api project(":lib:lib-scan")
     api 'com.squareup.leakcanary:leakcanary-android:1.5.4'
 }

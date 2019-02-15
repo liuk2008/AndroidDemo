@@ -12,14 +12,21 @@
     <include layout="@layout/titlebar_layout" />
 
     <Button
-        android:text="申请单个权限"
         android:id="@+id/btn_permission"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="申请单个权限" />
 
     <Button
-        android:text="申请多个权限"
         android:id="@+id/btn_permissions"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="申请多个权限" />
+
+    <Button
+        android:id="@+id/btn_scan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="扫码页面" />
+
 </LinearLayout>

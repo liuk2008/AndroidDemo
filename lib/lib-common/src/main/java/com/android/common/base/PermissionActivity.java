@@ -27,7 +27,7 @@ import java.util.List;
  * shouldShowRequestPermissionRationale()说明
  * 1、shouldShowRequestPermissionRationale() 默认返回 false。
  * 2、第一次请求权限时，如果用户拒绝了，再次请求时 shouldShowRequestPermissionRationale() 返回 true。
- * 3、多次请求权限（超过一次），用户如果选择了不再提醒并拒绝，shouldShowRequestPermissionRationale() 返回 false。
+ * 3、当多次（两次或两次以上）请求操作时，会有不再提示的选择框，如果用户选择了不再提示并拒绝，shouldShowRequestPermissionRationale() 返回 false。
  * 4、设备的策略禁止当前应用获取这个权限的授权，shouldShowRequestPermissionRationale() 返回 false。
  */
 public class PermissionActivity extends AppCompatActivity {
