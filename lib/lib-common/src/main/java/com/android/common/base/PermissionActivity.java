@@ -3,6 +3,7 @@ package com.android.common.base;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,10 +13,9 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-
-import com.android.utils.system.SystemUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +55,7 @@ public class PermissionActivity extends AppCompatActivity {
         super.onStart();
         switch (request) {
             case REQUEST_PERMISSION:
-                if (!SystemUtils.checkPermission(this, permission))
+                if (!checkPermission(this, permission))
                     ActivityCompat.requestPermissions(this, new String[]{permission}, PERMISSION_REQUEST_CODE);
                 else
                     finish();
@@ -64,7 +64,7 @@ public class PermissionActivity extends AppCompatActivity {
                 List<String> deniedList = new ArrayList<>();
                 // 检测权限是否授权
                 for (String permission : permissions) {
-                    if (!SystemUtils.checkPermission(this, permission)) {
+                    if (!checkPermission(this, permission)) {
                         deniedList.add(permission);
                     }
                 }
@@ -155,6 +155,20 @@ public class PermissionActivity extends AppCompatActivity {
                         }
                     }
                 }).show();
+    }
+
+    private boolean checkPermission(Context context, String permission) {
+        boolean result = true;
+        // android 6.0 以下会在安装时自动获取权限
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+            return result;
+        int targetSdkVersion = context.getApplicationInfo().targetSdkVersion;
+        if (targetSdkVersion >= Build.VERSION_CODES.M) {
+            result = context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
+        } else {
+            result = PermissionChecker.checkSelfPermission(context, permission) == PermissionChecker.PERMISSION_GRANTED;
+        }
+        return result;
     }
 
 }

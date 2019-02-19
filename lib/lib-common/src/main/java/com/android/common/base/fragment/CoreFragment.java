@@ -1,9 +1,9 @@
 package com.android.common.base.fragment;
 
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import com.android.common.base.activity.CoreActivity;
-import com.android.utils.common.LogUtils;
 
 /**
  * CoreFragment：
@@ -71,7 +71,7 @@ public class CoreFragment extends Fragment {
     }
 
     public void showLog(String TAG, String methodName) {
-        LogUtils.logd(TAG, methodName);
+        Log.d(TAG, "showLog: " + methodName);
     }
 
     /**

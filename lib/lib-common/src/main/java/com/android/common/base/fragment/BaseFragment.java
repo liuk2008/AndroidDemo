@@ -2,8 +2,6 @@ package com.android.common.base.fragment;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
@@ -12,9 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.android.common.R;
-import com.android.utils.system.NetUtils;
 
 /**
  * 当你有一个activity，想让这个activity根据事件响应可以对应不同的界面时，就可以创建几个fragment，将fragment绑定到该activity
@@ -68,7 +63,7 @@ public class BaseFragment extends CoreFragment implements View.OnClickListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         showLog(BASETAG, "onViewCreated");
-        checkNet(view);
+//        checkNet(view);
     }
 
     @Override
@@ -244,21 +239,21 @@ public class BaseFragment extends CoreFragment implements View.OnClickListener {
         return baseRootView;
     }
 
-    public void checkNet(final View view) {
-        netReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                boolean isConnected = NetUtils.isNetConnected(context);
-                View net_tips = view.findViewById(R.id.tv_net_tips);
-                if (null != net_tips) {
-                    net_tips.setVisibility(isConnected ? View.GONE : View.VISIBLE);
-                }
-            }
-        };
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-        getActivity().registerReceiver(netReceiver, filter);
-    }
+//    public void checkNet(final View view) {
+//        netReceiver = new BroadcastReceiver() {
+//            @Override
+//            public void onReceive(Context context, Intent intent) {
+//                boolean isConnected = NetUtils.isNetConnected(context);
+//                View net_tips = view.findViewById(R.id.tv_net_tips);
+//                if (null != net_tips) {
+//                    net_tips.setVisibility(isConnected ? View.GONE : View.VISIBLE);
+//                }
+//            }
+//        };
+//        IntentFilter filter = new IntentFilter();
+//        filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+//        getActivity().registerReceiver(netReceiver, filter);
+//    }
 
 
 }

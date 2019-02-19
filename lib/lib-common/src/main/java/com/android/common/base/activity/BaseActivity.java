@@ -1,9 +1,6 @@
 package com.android.common.base.activity;
 
 import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -12,7 +9,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.android.common.R;
-import com.android.utils.system.NetUtils;
 
 
 public class BaseActivity extends CoreActivity implements View.OnClickListener {
@@ -31,9 +27,9 @@ public class BaseActivity extends CoreActivity implements View.OnClickListener {
     protected void onStart() {
         super.onStart();
         // 当Activity中存在Fragment时，使用Fragment的网络检测方法，没有Fragment时，调用Activity方法检测网络
-        if (getSupportFragmentManager().getFragments().size() <= 0) {
-            checkNet();
-        }
+//        if (getSupportFragmentManager().getFragments().size() <= 0) {
+//            checkNet();
+//        }
     }
 
     @Override
@@ -127,22 +123,22 @@ public class BaseActivity extends CoreActivity implements View.OnClickListener {
         }
     }
 
-    public void checkNet() {
-        if (netReceiver == null) {
-            netReceiver = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    boolean isConnected = NetUtils.isNetConnected(context);
-                    View net_tips = findViewById(R.id.tv_net_tips);
-                    if (null != net_tips) {
-                        net_tips.setVisibility(isConnected ? View.GONE : View.VISIBLE);
-                    }
-                }
-            };
-            IntentFilter filter = new IntentFilter();
-            filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-            registerReceiver(netReceiver, filter);
-        }
-    }
+//    public void checkNet() {
+//        if (netReceiver == null) {
+//            netReceiver = new BroadcastReceiver() {
+//                @Override
+//                public void onReceive(Context context, Intent intent) {
+//                    boolean isConnected = NetUtils.isNetConnected(context);
+//                    View net_tips = findViewById(R.id.tv_net_tips);
+//                    if (null != net_tips) {
+//                        net_tips.setVisibility(isConnected ? View.GONE : View.VISIBLE);
+//                    }
+//                }
+//            };
+//            IntentFilter filter = new IntentFilter();
+//            filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+//            registerReceiver(netReceiver, filter);
+//        }
+//    }
 
 }

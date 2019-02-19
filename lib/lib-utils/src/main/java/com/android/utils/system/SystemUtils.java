@@ -102,13 +102,7 @@ public class SystemUtils {
      * 获取targetSdkVersion
      */
     public static int getTargetSdkVersion(Context context) {
-        try {
-            PackageInfo info = getPackageInfo(context);
-            return info.applicationInfo.targetSdkVersion;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-            return -1;
-        }
+        return context.getApplicationInfo().targetSdkVersion;
     }
 
     /*

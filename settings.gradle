@@ -1,4 +1,4 @@
-include ':app'
+include ':app', ':geetest'
 include ':lib:lib-common'
 include ':lib:lib-scan'
 include ':lib:lib-utils'

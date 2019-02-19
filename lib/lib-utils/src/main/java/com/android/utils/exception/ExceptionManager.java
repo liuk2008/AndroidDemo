@@ -22,6 +22,7 @@ public class ExceptionManager {
     public static void handle(final Throwable throwable) {
         if (null == mThrowableHandler)
             throw new RuntimeException("未初始化 ExceptionManager");
+        // 异步处理异常
         cacheThreadExecutorService.submit(new Runnable() {
             @Override
             public void run() {
