@@ -2,6 +2,7 @@ package com.android.demo;
 
 import android.app.Application;
 
+import com.android.common.net.retrofit.RetrofitEngine;
 import com.android.utils.common.LogUtils;
 import com.android.utils.exception.ThrowableConfigure;
 import com.android.utils.safety.ShakeInfoUtil;
@@ -21,5 +22,9 @@ public class MyApplication extends Application {
         LogUtils.init(this, "AndroidDemo");
         ShakeInfoUtil.init(this);
         ThrowableConfigure.init();
+
+        // 初始化Retrofit网络框架
+        RetrofitEngine.getInstance().init(this);
+
     }
 }

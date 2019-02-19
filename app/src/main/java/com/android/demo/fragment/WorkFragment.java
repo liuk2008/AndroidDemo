@@ -1,7 +1,6 @@
 package com.android.demo.fragment;
 
 import android.Manifest;
-import android.content.Intent;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -10,10 +9,10 @@ import com.android.common.base.activity.CoreActivity;
 import com.android.common.base.fragment.BaseFragment;
 import com.android.common.view.ToolbarUtil;
 import com.android.demo.R;
+import com.android.demo.netdemo.Demo;
 import com.android.utils.system.SystemUtils;
 import com.viewinject.annotation.MyOnClick;
 import com.viewinject.bindview.MyViewInjector;
-import com.zxing.activity.CaptureActivity;
 
 import java.util.List;
 
@@ -65,7 +64,8 @@ public class WorkFragment extends BaseFragment {
 
     @MyOnClick(R.id.btn_scan)
     public void scan() {
-        startActivity(new Intent(getActivity(), CaptureActivity.class));
+//        startActivity(new Intent(getActivity(), CaptureActivity.class));
+        Demo.monthBill();
     }
 
     @Override

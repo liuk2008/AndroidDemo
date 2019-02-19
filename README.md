@@ -38,6 +38,8 @@ Android演示项目
         * 3、safety：安全校验类
         * 4、system：系统工具类
         * 注意：使用ShakeInfoUtil工具类可以获取当前页面结构
+    * 4、geetest
+        * 1、增加极验验证码功能
 
 **viewinject**
 
