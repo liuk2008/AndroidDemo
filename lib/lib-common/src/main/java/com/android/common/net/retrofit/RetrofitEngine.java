@@ -29,10 +29,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * |-----------1、存在数据，使用数据model解析
  * |-----------2、不存在数据，使用Null对象解析
  * |--------2、业务层非200，抛出 ErrorException，通过ErrorHandler处理
- * |-----2、业务层数据非标准格式
- * |--------1、使用数据model解析
- * |--2、业务层不存在数据
- * |-----1、使用Null对象解析
+ * |-----2、业务层数据非标准格式，使用数据model解析
+ * |--2、业务层不存在数据，使用Null对象解析
  * 2、网络层非200情况下
  * |--1、网络异常时，捕获异常，通过ErrorHandler处理
  * |--2、网络正常，业务层异常通过网络层抛出时，通过ErrorHandler处理

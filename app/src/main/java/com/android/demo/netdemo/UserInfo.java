@@ -10,18 +10,15 @@ public class UserInfo implements Serializable {
     public String phone;
     @SerializedName("userId")
     public String userId;
-    @SerializedName("isNew")
-    public boolean isNew;
-    @SerializedName("rememberMe")
-    public String rememberMe;
+    @SerializedName("keepOnline")
+    public boolean keepOnline;
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("UserInfo{");
         sb.append("phone='").append(phone).append('\'');
         sb.append(", userId='").append(userId).append('\'');
-        sb.append(", isNew=").append(isNew);
-        sb.append(", rememberMe='").append(rememberMe).append('\'');
+        sb.append(", keepOnline=").append(keepOnline);
         sb.append('}');
         return sb.toString();
     }

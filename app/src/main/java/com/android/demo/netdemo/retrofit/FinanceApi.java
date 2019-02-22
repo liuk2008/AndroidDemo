@@ -1,7 +1,9 @@
-package com.android.demo.netdemo;
+package com.android.demo.netdemo.retrofit;
 
 
 import com.android.common.net.Null;
+import com.android.demo.netdemo.MonthBillInfo;
+import com.android.demo.netdemo.UserInfo;
 
 import java.util.LinkedHashMap;
 
@@ -41,6 +43,6 @@ public interface FinanceApi {
                                 @Path("phone") String phone);
 
     @GET("channelPage/monthBill")
-    Observable<LinkedHashMap<String, Object>> monthBill();
+    Observable<MonthBillInfo> monthBill();
 }
 

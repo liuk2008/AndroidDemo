@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by shmyh on 2018/3/19.
  */
 
-public class AccountGeeValidateInfo implements Serializable {
+public class GeeValidateInfo implements Serializable {
     private static final long serialVersionUID = -1;
 
     public String geetest_challenge;
@@ -51,7 +51,7 @@ public class AccountGeeValidateInfo implements Serializable {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("AccountGeeValidateInfo{");
+        final StringBuilder sb = new StringBuilder("GeeValidateInfo{");
         sb.append("geetest_challenge='").append(geetest_challenge).append('\'');
         sb.append(", geetest_validate='").append(geetest_validate).append('\'');
         sb.append(", geetest_seccode='").append(geetest_seccode).append('\'');

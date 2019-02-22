@@ -3,11 +3,10 @@ package com.android.common.net.rxjava;
 
 import android.util.Log;
 
+import com.android.common.net.callback.Callback;
+import com.android.common.net.callback.Callback1;
 import com.android.common.net.error.ErrorData;
 import com.android.common.net.error.ErrorHandler;
-import com.android.common.net.rxjava.callback.Callback;
-import com.android.common.net.rxjava.callback.Callback1;
-import com.android.common.net.rxjava.callback.Callback2;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -45,35 +44,6 @@ public class RxHelper {
                         public void accept(Throwable throwable) throws Exception {
                             handleException(throwable);
                             ErrorData error = ErrorHandler.handlerError(throwable);
-                            callback.onFail(error.getCode(), error.getMsg());
-                        }
-                    });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return disposable;
-    }
-
-    public static <T, Error> Disposable subscribe(Observable<T> observable, final Callback1<T> callback) {
-        Disposable disposable = null;
-        try {
-            disposable = observable
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Consumer<T>() {
-                        @Override
-                        public void accept(T t) throws Exception {
-                            try {
-                                callback.onSuccess(t);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }, new Consumer<Throwable>() {
-                        @Override
-                        public void accept(Throwable throwable) throws Exception {
-                            handleException(throwable);
-                            ErrorData error = ErrorHandler.handlerError(throwable);
                             callback.onFail(error.getCode(), error.getMsg(), error.getData());
                         }
                     });
@@ -83,7 +53,7 @@ public class RxHelper {
         return disposable;
     }
 
-    public static <X, Y> Disposable subscribe(Observable<X> xObservable, Observable<Y> yObservable, final Callback2<X, Y> callback) {
+    public static <X, Y> Disposable subscribe(Observable<X> xObservable, Observable<Y> yObservable, final Callback1<X, Y> callback) {
         Disposable disposable = null;
         try {
             disposable = Observable.zip(xObservable, yObservable, new BiFunction<X, Y, Object>() {
@@ -109,7 +79,7 @@ public class RxHelper {
                         public void accept(Throwable throwable) throws Exception {
                             handleException(throwable);
                             ErrorData error = ErrorHandler.handlerError(throwable);
-                            callback.onFail(error.getCode(), error.getMsg());
+                            callback.onFail(error.getCode(), error.getMsg(), error.getData());
                         }
                     });
 

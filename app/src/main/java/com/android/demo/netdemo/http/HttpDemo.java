@@ -1,31 +1,37 @@
-package com.android.demo.netdemo;
+package com.android.demo.netdemo.http;
 
 import android.content.Context;
 import android.text.TextUtils;
 
 import com.android.common.net.Null;
-import com.android.common.net.rxjava.RxHelper;
-import com.android.common.net.rxjava.callback.Callback;
-import com.android.common.net.rxjava.callback.Callback1;
+import com.android.common.net.callback.Callback;
+import com.android.common.net.http.request.HttpParams;
+import com.android.common.net.http.request.HttpUtils;
+import com.android.demo.netdemo.GeeValidateInfo;
+import com.android.demo.netdemo.MonthBillInfo;
+import com.android.demo.netdemo.UserInfo;
 import com.android.utils.common.LogUtils;
 import com.geetest.sdk.Bind.GT3GeetestBindListener;
 import com.geetest.sdk.Bind.GT3GeetestUtilsBind;
 import com.google.gson.Gson;
 
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
-public class Demo {
+public class HttpDemo {
 
-    private static final String TAG = Demo.class.getSimpleName();
-    private static ApiRequest apiRequest = ApiRequest.getInstance();
+    private static final String TAG = HttpDemo.class.getSimpleName();
 
     public static void login() {
-        RxHelper.subscribe(apiRequest.login("18909131172", "123qwe1"), new Callback1<UserInfo>() {
+        HttpParams httpParams = new HttpParams.Builder()
+                .setUrl("https://passport.lawcert.com/proxy/account/user/login")
+                .appendParams("phone", "18909131172")
+                .appendParams("password", "123qwe")
+                .builder();
+        HttpUtils.doPost(httpParams, new Callback<UserInfo>() {
             @Override
-            public void onSuccess(UserInfo userInfo) {
-                LogUtils.logd(TAG, "userinfo :" + userInfo);
+            public void onSuccess(UserInfo info) {
+                LogUtils.logd(TAG, "info :" + info);
             }
 
             @Override
@@ -36,16 +42,17 @@ public class Demo {
     }
 
     public static void checkPhone() {
-        RxHelper.subscribe(apiRequest.checkPhone("18909131173"), new Callback1<LinkedHashMap<String, Object>>() {
+        HttpParams httpParams = new HttpParams.Builder()
+                .setUrl("https://passport.lawcert.com/proxy/account/user/phone/exist/18909131190")
+                .builder();
+        HttpUtils.doGet(httpParams, new Callback<LinkedHashMap<String, Object>>() {
             @Override
             public void onSuccess(LinkedHashMap<String, Object> linkedHashMap) {
                 Set<String> keys = linkedHashMap.keySet();
-                Collection<Object> values = linkedHashMap.values();
                 for (String key : keys) {
                     LogUtils.logd(TAG, "key :" + key);
                     LogUtils.logd(TAG, "value :" + linkedHashMap.get(key));
                 }
-
             }
 
             @Override
@@ -79,8 +86,7 @@ public class Demo {
                             } else {
                                 gt3GeetestUtilsBind.gt3TestFinish();
                                 Gson gson = new Gson();
-                                AccountGeeValidateInfo model = gson.fromJson(result, AccountGeeValidateInfo.class);
-//                                sendLoginSms(model);
+                                GeeValidateInfo model = gson.fromJson(result, GeeValidateInfo.class);
                                 sendPwdSms(model);
                             }
                         } else {
@@ -90,35 +96,21 @@ public class Demo {
                 });
     }
 
-    public static void sendLoginSms(AccountGeeValidateInfo model) {
-        RxHelper.subscribe(apiRequest.sendLoginSms("18909131189", model), new Callback1<LinkedHashMap<String, Object>>() {
-            @Override
-            public void onSuccess(LinkedHashMap<String, Object> linkedHashMap) {
-                Set<String> keys = linkedHashMap.keySet();
-                for (String key : keys) {
-                    LogUtils.logd(TAG, "key :" + key);
-                    LogUtils.logd(TAG, "value :" + linkedHashMap.get(key));
-                }
-            }
-
-            @Override
-            public void onFail(int resultCode, String msg, String data) {
-                LogUtils.logd(TAG, "resultCode:" + resultCode + ", msg:" + msg + ", data:" + data);
-            }
-        });
-    }
-
-    public static void sendPwdSms(AccountGeeValidateInfo model) {
-
-        RxHelper.subscribe(apiRequest.sendPwdSms(true,
-                model.getGeetest_challenge(),
-                model.getGeetest_validate(),
-                model.getGeetest_seccode(),
-                model.getGtServerStatus(),
-                "18909131173"), new Callback1<Null>() {
+    private static void sendPwdSms(GeeValidateInfo info) {
+        HttpParams httpParams = new HttpParams.Builder()
+                .setUrl("https://passport.lawcert.com/proxy/account/sms/resetPassword/18909131173")
+                .appendParams("gtServerStatus", info.getGtServerStatus())
+                .appendParams("challenge", info.getGeetest_challenge())
+                .appendParams("validate", info.getGeetest_validate())
+                .appendParams("seccode", info.getGeetest_seccode())
+                .appendParams("slipFlag", true)
+                .appendParams("phone", "18909131173")
+                .appendParams("validationType", "SMS")
+                .builder();
+        HttpUtils.doPost(httpParams, new Callback<Null>() {
             @Override
             public void onSuccess(Null mNull) {
-                LogUtils.logd(TAG, "mNull:" + mNull);
+                LogUtils.logd(TAG, "Null :" + mNull);
             }
 
             @Override
@@ -129,20 +121,23 @@ public class Demo {
     }
 
     public static void monthBill() {
-        RxHelper.subscribe(apiRequest.monthBill(), new Callback<LinkedHashMap<String, Object>>() {
+        HttpParams httpParams = new HttpParams.Builder()
+                .setUrl("https://www.lawcert.com/proxy/hzcms/channelPage/monthBill")
+                .builder();
+
+        HttpUtils.doGet(httpParams, new Callback<MonthBillInfo>() {
             @Override
-            public void onSuccess(LinkedHashMap<String, Object> linkedHashMap) {
-                Set<String> keys = linkedHashMap.keySet();
-                for (String key : keys) {
-                    LogUtils.logd(TAG, "key :" + key);
-                    LogUtils.logd(TAG, "value :" + linkedHashMap.get(key));
-                }
+            public void onSuccess(MonthBillInfo info) {
+                LogUtils.logd(TAG, "info :" + info);
             }
 
             @Override
-            public void onFail(int resultCode, String msg) {
-                LogUtils.logd(TAG, "resultCode:" + resultCode + ", msg:" + msg);
+            public void onFail(int resultCode, String msg, String data) {
+                LogUtils.logd(TAG, "resultCode:" + resultCode + ", msg:" + msg + ", data:" + data);
             }
         });
+
     }
+
+
 }

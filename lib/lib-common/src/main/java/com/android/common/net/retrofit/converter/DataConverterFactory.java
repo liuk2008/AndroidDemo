@@ -1,10 +1,13 @@
 package com.android.common.net.retrofit.converter;
 
+import android.text.TextUtils;
+
 import com.android.common.net.ApiResponse;
 import com.android.common.net.Null;
 import com.android.common.net.error.ErrorException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
@@ -23,6 +26,8 @@ import retrofit2.Retrofit;
  * 2、捕获response，处理业务异常
  */
 public class DataConverterFactory<T> extends Converter.Factory {
+    private static final String TAG = DataConverterFactory.class.getSimpleName();
+
     @Override
     public Converter<ResponseBody, ?> responseBodyConverter(final Type type, final Annotation[] annotations, Retrofit retrofit) {
 
@@ -57,11 +62,14 @@ public class DataConverterFactory<T> extends Converter.Factory {
                     TypeAdapter<?> adapter = gson.getAdapter(TypeToken.get(wraperType)); // 此处使用ApiResponse类型
                     JsonReader jsonReader = gson.newJsonReader(body.charStream());
                     ApiResponse apiResponse = (ApiResponse) adapter.read(jsonReader);
-                    int resultCode = Integer.valueOf(apiResponse.getResultCode());
-                    if (resultCode != 200) { // 非200下，抛出业务层异常
-                        throw new ErrorException(resultCode, apiResponse.getMessage());
-                    }
                     try { // 200下，处理数据，禁止捕获异常
+                        if (TextUtils.isEmpty(apiResponse.getResultCode())) {
+                            throw new JsonSyntaxException("java.lang.IllegalStateException: Expected BEGIN");
+                        }
+                        int resultCode = Integer.valueOf(apiResponse.getResultCode());
+                        if (resultCode != 200) { // 非200下，抛出业务层异常
+                            throw new ErrorException(resultCode, apiResponse.getMessage());
+                        }
                         if (type == Null.class || null == apiResponse.getData()) {
                             return Null.INSTANCE;
                         } else {

@@ -1,5 +1,7 @@
 package com.android.common.net.error;
 
+import android.util.Log;
+
 import com.android.common.net.NetConstant;
 import com.google.gson.JsonSyntaxException;
 
@@ -23,6 +25,8 @@ public class ErrorHandler {
 
     public static ErrorData handlerError(Throwable throwable) {
         ErrorData data = new ErrorData();
+        data.setCode(NetConstant.ERROR_NETWORKEXCEPTION);
+        data.setMsg("网络异常");
         if (throwable instanceof TimeoutException
                 || throwable instanceof SocketTimeoutException
                 || throwable instanceof ConnectException
@@ -36,8 +40,6 @@ public class ErrorHandler {
             data.setCode(((ErrorException) throwable).getCode());
             data.setMsg(throwable.getMessage());
         } else if (throwable instanceof HttpException) { // 网络错误
-            data.setCode(NetConstant.ERROR_NETWORKEXCEPTION);
-            data.setMsg("网络异常");
             try {
                 // 业务层异常通过网络层抛出时，特殊处理
                 HttpException httpEx = (HttpException) throwable;
@@ -45,13 +47,15 @@ public class ErrorHandler {
                 ResponseBody responseBody = response.errorBody();
                 if (responseBody != null) {
                     String result = new String(responseBody.bytes());
-                    data.setCode(NetConstant.ERROR_DATAEXCEPTION);
-                    data.setMsg("业务层异常");
                     data.setData(result);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        } else {
+            data.setCode(NetConstant.ERROR_OTHER);
+            data.setMsg(throwable.getClass().getName());
+            throwable.printStackTrace();
         }
         return data;
     }

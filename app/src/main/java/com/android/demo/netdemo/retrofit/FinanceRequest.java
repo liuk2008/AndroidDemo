@@ -1,23 +1,26 @@
-package com.android.demo.netdemo;
+package com.android.demo.netdemo.retrofit;
 
 
 import com.android.common.net.NetConstant;
 import com.android.common.net.Null;
 import com.android.common.net.retrofit.RetrofitEngine;
+import com.android.demo.netdemo.GeeValidateInfo;
+import com.android.demo.netdemo.MonthBillInfo;
+import com.android.demo.netdemo.UserInfo;
 
 import java.util.LinkedHashMap;
 
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
 
-public class ApiRequest {
+public class FinanceRequest {
 
-    private static final String TAG = ApiRequest.class.getSimpleName();
-    private static ApiRequest retrofitApiRequest;
+    private static final String TAG = FinanceRequest.class.getSimpleName();
+    private static FinanceRequest retrofitApiRequest;
     private FinanceApi accountApi, financeApi;
     private RetrofitEngine retrofitEngine;
 
-    private ApiRequest() {
+    private FinanceRequest() {
         retrofitEngine = RetrofitEngine.getInstance();
         accountApi = retrofitEngine.getRetrofitService(FinanceApi.class,
                 "https://passport.lawcert.com/proxy/account/",
@@ -27,9 +30,9 @@ public class ApiRequest {
                 NetConstant.RETROFIT_RXJAVA_DATAWRAPPER);
     }
 
-    public static ApiRequest getInstance() {
+    public static FinanceRequest getInstance() {
         if (retrofitApiRequest == null) {
-            retrofitApiRequest = new ApiRequest();
+            retrofitApiRequest = new FinanceRequest();
         }
         return retrofitApiRequest;
     }
@@ -42,7 +45,7 @@ public class ApiRequest {
         return accountApi.checkPhone(phone);
     }
 
-    public Observable<LinkedHashMap<String, Object>> sendLoginSms(String phone, AccountGeeValidateInfo info) {
+    public Observable<LinkedHashMap<String, Object>> sendLoginSms(String phone, GeeValidateInfo info) {
         RequestBody requestBody = retrofitEngine.newRequestBuilder()
                 .append("gtServerStatus", info.getGtServerStatus())
                 .append("challenge", info.getGeetest_challenge())
@@ -64,7 +67,7 @@ public class ApiRequest {
         return accountApi.sendPwdSms(slipFlag, challenge, validate, seccode, gtServerStatus, phone);
     }
 
-    public Observable<LinkedHashMap<String, Object>> monthBill() {
+    public Observable<MonthBillInfo> monthBill() {
         return financeApi.monthBill();
     }
 }

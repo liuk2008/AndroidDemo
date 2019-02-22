@@ -9,7 +9,8 @@ import com.android.common.base.activity.CoreActivity;
 import com.android.common.base.fragment.BaseFragment;
 import com.android.common.view.ToolbarUtil;
 import com.android.demo.R;
-import com.android.demo.netdemo.Demo;
+import com.android.demo.netdemo.http.HttpDemo;
+import com.android.demo.netdemo.retrofit.RetrofitDemo;
 import com.android.utils.system.SystemUtils;
 import com.viewinject.annotation.MyOnClick;
 import com.viewinject.bindview.MyViewInjector;
@@ -65,7 +66,7 @@ public class WorkFragment extends BaseFragment {
     @MyOnClick(R.id.btn_scan)
     public void scan() {
 //        startActivity(new Intent(getActivity(), CaptureActivity.class));
-        Demo.monthBill();
+        HttpDemo.monthBill();
     }
 
     @Override
