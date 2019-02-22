@@ -1,7 +1,7 @@
-package com.android.common.net.rxjava.callback;
+package com.android.common.net.callback;
 
 
-public interface Callback1<T> {
+public interface Callback<T> {
 
     void onSuccess(T t);
 
