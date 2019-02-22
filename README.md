@@ -16,41 +16,41 @@ Android演示项目
     注意：尽量避免各个lib包之间相互引用
 	* 1、lib-common
 	    * base包
-            * 1、增加BaseFragment基础类
-                 1、可以捕捉返回键，增加自定义功能
-                 2、使用单例模式创建Fragment实例
-                 注意：Fragment中EditText文字的记忆性
-            * 2、增加BaseActivity基础类
-                 1、添加、回退Fragment
-                 2、特殊处理Fragment中的返回键
-                 3、配置沉浸式系统状态栏
-                 4、封装常见View的系统方法
-                 5、增加网络检测功能，网络未连接时显示异常信息
-            * 3、增加ToolbarUtil标题栏工具类
-            * 4、增加PermissionActivity，此Activity为Dialog形式，用于Android 6.0 动态申请权限
-                  1、可单独使用工具类请求权限，获取未授权的权限信息
-                  2、申请单个、多个权限时，弹出对话框，进入到应用系统信息页面
-            * 5、增加FragmentHostActivity，用于创建Fragment。注意：一般一个FragmentHostActivity嵌套一个Fragment
+          1、增加BaseFragment基础类
+             1、可以捕捉返回键，增加自定义功能
+             2、使用单例模式创建Fragment实例
+             注意：Fragment中EditText文字的记忆性
+          2、增加BaseActivity基础类
+             1、添加、回退Fragment
+             2、特殊处理Fragment中的返回键
+             3、配置沉浸式系统状态栏
+             4、封装常见View的系统方法
+             5、增加网络检测功能，网络未连接时显示异常信息
+          3、增加ToolbarUtil标题栏工具类
+          4、增加PermissionActivity，此Activity为Dialog形式，用于Android 6.0 动态申请权限
+              1、可单独使用工具类请求权限，获取未授权的权限信息
+              2、申请单个、多个权限时，弹出对话框，进入到应用系统信息页面
+          5、增加FragmentHostActivity，用于创建Fragment。注意：一般一个FragmentHostActivity嵌套一个Fragment
         * net包
-		    * 1、封装网络框架：
-		         1、Retrofit2 + CallBack
-		         2、Retrofit2 + RxJava2
-		         3、Http + Callback
-                 * http请求场景
-                 * 1、网络层200情况下
-                 * |--1、业务层存在数据
-                 * |-----1、业务层数据格式标准
-                 * |--------1、业务层200，处理返回数据
-                 * |-----------1、存在数据，使用数据model解析
-                 * |-----------2、不存在数据，使用Null对象解析
-                 * |--------2、业务层非200，抛出 ErrorException，通过ErrorHandler处理
-                 * |-----2、业务层数据非标准格式，使用数据model解析
-                 * |--2、业务层不存在数据，使用Null对象解析
-                 * 2、网络层非200情况下
-                 * |--1、网络异常时，捕获异常，通过ErrorHandler处理
-                 * |--2、网络正常，业务层异常通过网络层抛出时，通过ErrorHandler处理
-		    * 2、ErrorHandler：处理网络请求异常
-		    * 3、Null：当网络请求正常但无返回数据时，可使用Null对象解析
+	      1、封装网络框架：
+	         1、Retrofit2 + CallBack
+	         2、Retrofit2 + RxJava2
+	         3、Http + Callback
+             * http请求场景
+             * 1、网络层200情况下
+             * |--1、业务层存在数据
+             * |-----1、业务层数据格式标准
+             * |--------1、业务层200，处理返回数据
+             * |-----------1、存在数据，使用数据model解析
+             * |-----------2、不存在数据，使用Null对象解析
+             * |--------2、业务层非200，抛出 ErrorException，通过ErrorHandler处理
+             * |-----2、业务层数据非标准格式，使用数据model解析
+             * |--2、业务层不存在数据，使用Null对象解析
+             * 2、网络层非200情况下
+             * |--1、网络异常时，捕获异常，通过ErrorHandler处理
+             * |--2、网络正常，业务层异常通过网络层抛出时，通过ErrorHandler处理
+	      2、ErrorHandler：处理网络请求异常
+	      3、Null：当网络请求正常但无返回数据时，可使用Null对象解析
 
     * 2、lib-scan：扫码功能
         * 1、继承CaptureActivity，复写dealData方法可以获取到数据和码的格式
