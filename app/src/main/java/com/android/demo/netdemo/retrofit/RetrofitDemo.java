@@ -15,8 +15,10 @@ import com.geetest.sdk.Bind.GT3GeetestBindListener;
 import com.geetest.sdk.Bind.GT3GeetestUtilsBind;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Set;
 
 import retrofit2.Call;
@@ -25,24 +27,16 @@ public class RetrofitDemo {
 
     private static final String TAG = RetrofitDemo.class.getSimpleName();
     private static RetrofitRequest apiRequest = RetrofitRequest.getInstance();
+    private List<Call> taskList = new ArrayList<>();
 
-    public static void login() {
+    public void login(Callback<UserInfo> callback) {
         Call<UserInfo> call = apiRequest.login("18909131172", "123qwe1");
-        RetrofitUtils.request(call, new Callback<UserInfo>() {
-            @Override
-            public void onSuccess(UserInfo userInfo) {
-                LogUtils.logd(TAG, "userinfo :" + userInfo);
-            }
-
-            @Override
-            public void onFail(int resultCode, String msg, String data) {
-                LogUtils.logd(TAG, "resultCode:" + resultCode + ", msg:" + msg + ", data:" + data);
-            }
-        });
+        taskList.add(call);
+        RetrofitUtils.request(call, callback);
     }
 
 
-    public static void checkPhone() {
+    public void checkPhone() {
         RetrofitUtils.request(apiRequest.checkPhone("18909131173"), new Callback<LinkedHashMap<String, Object>>() {
             @Override
             public void onSuccess(LinkedHashMap<String, Object> linkedHashMap) {
@@ -64,7 +58,7 @@ public class RetrofitDemo {
 
 
     // 获取极验码
-    public static void checkGeetest(Context context) {
+    public void checkGeetest(Context context) {
         final GT3GeetestUtilsBind gt3GeetestUtilsBind = new GT3GeetestUtilsBind(context);
         gt3GeetestUtilsBind.getGeetest(context,
                 "https://passport.lawcert.com/proxy/account/captcha/slip/",
@@ -97,7 +91,7 @@ public class RetrofitDemo {
                 });
     }
 
-    public static void sendLoginSms(GeeValidateInfo model) {
+    public void sendLoginSms(GeeValidateInfo model) {
         RetrofitUtils.request(apiRequest.sendLoginSms("18909131189", model), new Callback<LinkedHashMap<String, Object>>() {
             @Override
             public void onSuccess(LinkedHashMap<String, Object> linkedHashMap) {
@@ -115,7 +109,7 @@ public class RetrofitDemo {
         });
     }
 
-    public static void sendPwdSms(GeeValidateInfo model) {
+    public void sendPwdSms(GeeValidateInfo model) {
         RetrofitUtils.request(apiRequest.sendPwdSms(true,
                 model.getGeetest_challenge(),
                 model.getGeetest_validate(),
@@ -134,7 +128,7 @@ public class RetrofitDemo {
         });
     }
 
-    public static void monthBill() {
+    public void monthBill() {
         RetrofitUtils.request(apiRequest.monthBill(), new Callback<MonthBillInfo>() {
             @Override
             public void onSuccess(MonthBillInfo info) {
@@ -147,6 +141,15 @@ public class RetrofitDemo {
 
             }
         });
+    }
+
+    public void cancelTask(Call call) {
+        taskList.remove(call);
+        RetrofitUtils.cancelTask(call);
+    }
+
+    public void cancelAll() {
+        RetrofitUtils.cancelAll(taskList);
     }
 
 

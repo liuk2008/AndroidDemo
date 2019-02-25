@@ -9,7 +9,6 @@ Android演示项目
          * 1、设置布局View，高度为0dp
          * 2、获取状态栏高度，设置布局View高度=状态栏高度
          * 3、设置布局View背景色与主题色一致
-    * 3、
 
 **lib**
 
@@ -28,41 +27,46 @@ Android演示项目
              5、增加网络检测功能，网络未连接时显示异常信息
           3、增加ToolbarUtil标题栏工具类
           4、增加PermissionActivity，此Activity为Dialog形式，用于Android 6.0 动态申请权限
-              1、可单独使用工具类请求权限，获取未授权的权限信息
-              2、申请单个、多个权限时，弹出对话框，进入到应用系统信息页面
+             1、可单独使用工具类请求权限，获取未授权的权限信息
+             2、申请单个、多个权限时，弹出对话框，进入到应用系统信息页面
           5、增加FragmentHostActivity，用于创建Fragment。注意：一般一个FragmentHostActivity嵌套一个Fragment
         * net包
 	      1、封装网络框架：
-	         1、Retrofit2 + CallBack
-	         2、Retrofit2 + RxJava2
-	         3、Http + Callback
-             * http请求场景
-             * 1、网络层200情况下
-             * |--1、业务层存在数据
-             * |-----1、业务层数据格式标准
-             * |--------1、业务层200，处理返回数据
-             * |-----------1、存在数据，使用数据model解析
-             * |-----------2、不存在数据，使用Null对象解析
-             * |--------2、业务层非200，抛出 ErrorException，通过ErrorHandler处理
-             * |-----2、业务层数据非标准格式，使用数据model解析
-             * |--2、业务层不存在数据，使用Null对象解析
-             * 2、网络层非200情况下
-             * |--1、网络异常时，捕获异常，通过ErrorHandler处理
-             * |--2、网络正常，业务层异常通过网络层抛出时，通过ErrorHandler处理
+	         1、Retrofit2 + CallBack：封装Retrofit网络框架
+	         2、Retrofit2 + RxJava2：封装Retrofit+RxJava2网络框架
+	         3、Http + Callback：封装原生网路框架
+	         4、每个网络框架可取消单个请求，也可取消全部请求
 	      2、ErrorHandler：处理网络请求异常
-	      3、Null：当网络请求正常但无返回数据时，可使用Null对象解析
+          3、Null：当网络请求正常但无返回数据时，可使用Null对象解析
+          * http请求场景
+          * 1、网络层200情况下
+          * |--1、业务层存在数据
+          * |-----1、业务层数据格式标准
+          * |--------1、业务层200，处理返回数据
+          * |-----------1、存在数据，使用数据model解析
+          * |-----------2、不存在数据，使用Null对象解析
+          * |--------2、业务层非200，抛出 ErrorException，通过ErrorHandler处理
+          * |-----2、业务层数据非标准格式，使用数据model解析
+          * |--2、业务层不存在数据，使用Null对象解析
+          * 2、网络层非200情况下
+          * |--1、网络异常时，捕获异常，通过ErrorHandler处理
+          * |--2、网络正常，业务层异常通过网络层抛出时，通过ErrorHandler处理
+          注意：
+          1、使用过程中注意内存泄漏问题
+          2、页面销毁后取消网络回调
 
     * 2、lib-scan：扫码功能
         * 1、继承CaptureActivity，复写dealData方法可以获取到数据和码的格式
         * 2、可以自定义布局页面，也可以使用默认扫码页面
+
     * 3、lib-utils：工具类
         * 1、common：一般功能工具类
         * 2、exception：异常工具类
         * 3、safety：安全校验类
         * 4、system：系统工具类
         * 注意：使用ShakeInfoUtil工具类可以获取当前页面结构
-    * 4、geetest
-        * 1、增加极验验证码功能
+
+    * 4、geetest：极验验证码
 
 **viewinject**
 
@@ -71,5 +75,5 @@ Android演示项目
         * 2、view-compiler：注解管理器包，在编译时扫描和处理注解，生成对应的Java文件，统一处理注解作用的元素
         * 3、view-bindview：MyViewInjector通过反射调用注解管理器生成的Java源文件
         * 注意：
-              1、使用此lib包时，会增加APK的方法数量以及APK的大小
-              2、使用注解时注意内存泄漏
+          1、使用此lib包时，会增加APK的方法数量以及APK的大小
+          2、使用注解时注意内存泄漏

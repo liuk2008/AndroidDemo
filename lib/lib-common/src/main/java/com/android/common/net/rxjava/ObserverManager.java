@@ -1,9 +1,9 @@
-package com.android.common.net.rxjava.disposable;
+package com.android.common.net.rxjava;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
-public class ObserverManager implements ObserverHelper {
+public class ObserverManager {
 
     private static ObserverManager manager = null;
     private CompositeDisposable mDisposable;
@@ -22,7 +22,6 @@ public class ObserverManager implements ObserverHelper {
     }
 
     //  添加到集合中
-    @Override
     public void add(Disposable disposable) {
         if (disposable != null && mDisposable != null) {
             mDisposable.add(disposable);
@@ -30,14 +29,12 @@ public class ObserverManager implements ObserverHelper {
     }
 
     // 从集合中移除
-    @Override
     public void cancel(Disposable disposable) {
         if (disposable != null && mDisposable != null) {
             mDisposable.remove(disposable);
         }
     }
 
-    @Override
     public void cancelAll() {
         if (mDisposable == null) return;
         mDisposable.clear();

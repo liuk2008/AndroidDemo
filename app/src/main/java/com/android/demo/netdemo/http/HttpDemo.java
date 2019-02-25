@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.android.common.net.Null;
 import com.android.common.net.callback.Callback;
 import com.android.common.net.http.request.HttpParams;
+import com.android.common.net.http.request.HttpTask;
 import com.android.common.net.http.request.HttpUtils;
 import com.android.demo.netdemo.GeeValidateInfo;
 import com.android.demo.netdemo.MonthBillInfo;
@@ -15,37 +16,31 @@ import com.geetest.sdk.Bind.GT3GeetestBindListener;
 import com.geetest.sdk.Bind.GT3GeetestUtilsBind;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Set;
 
 public class HttpDemo {
 
     private static final String TAG = HttpDemo.class.getSimpleName();
+    private List<HttpTask> taskList = new ArrayList<>();
 
-    public static void login() {
+    public void login(Callback<UserInfo> callback) {
         HttpParams httpParams = new HttpParams.Builder()
                 .setUrl("https://passport.lawcert.com/proxy/account/user/login")
                 .appendParams("phone", "18909131172")
                 .appendParams("password", "123qwe")
                 .builder();
-        HttpUtils.doPost(httpParams, new Callback<UserInfo>() {
-            @Override
-            public void onSuccess(UserInfo info) {
-                LogUtils.logd(TAG, "info :" + info);
-            }
-
-            @Override
-            public void onFail(int resultCode, String msg, String data) {
-                LogUtils.logd(TAG, "resultCode:" + resultCode + ", msg:" + msg + ", data:" + data);
-            }
-        });
+        HttpTask task = HttpUtils.doPost(httpParams, callback);
+        taskList.add(task);
     }
 
-    public static void checkPhone() {
+    public void checkPhone() {
         HttpParams httpParams = new HttpParams.Builder()
                 .setUrl("https://passport.lawcert.com/proxy/account/user/phone/exist/18909131190")
                 .builder();
-        HttpUtils.doGet(httpParams, new Callback<LinkedHashMap<String, Object>>() {
+        HttpTask task = HttpUtils.doGet(httpParams, new Callback<LinkedHashMap<String, Object>>() {
             @Override
             public void onSuccess(LinkedHashMap<String, Object> linkedHashMap) {
                 Set<String> keys = linkedHashMap.keySet();
@@ -60,11 +55,12 @@ public class HttpDemo {
                 LogUtils.logd(TAG, "resultCode:" + resultCode + ", msg:" + msg + ", data:" + data);
             }
         });
+
+        taskList.add(task);
     }
 
-
     // 获取极验码
-    public static void checkGeetest(Context context) {
+    public void checkGeetest(Context context) {
         final GT3GeetestUtilsBind gt3GeetestUtilsBind = new GT3GeetestUtilsBind(context);
         gt3GeetestUtilsBind.getGeetest(context,
                 "https://passport.lawcert.com/proxy/account/captcha/slip/",
@@ -96,7 +92,7 @@ public class HttpDemo {
                 });
     }
 
-    private static void sendPwdSms(GeeValidateInfo info) {
+    private void sendPwdSms(GeeValidateInfo info) {
         HttpParams httpParams = new HttpParams.Builder()
                 .setUrl("https://passport.lawcert.com/proxy/account/sms/resetPassword/18909131173")
                 .appendParams("gtServerStatus", info.getGtServerStatus())
@@ -107,7 +103,7 @@ public class HttpDemo {
                 .appendParams("phone", "18909131173")
                 .appendParams("validationType", "SMS")
                 .builder();
-        HttpUtils.doPost(httpParams, new Callback<Null>() {
+        HttpTask task = HttpUtils.doPost(httpParams, new Callback<Null>() {
             @Override
             public void onSuccess(Null mNull) {
                 LogUtils.logd(TAG, "Null :" + mNull);
@@ -118,14 +114,15 @@ public class HttpDemo {
                 LogUtils.logd(TAG, "resultCode:" + resultCode + ", msg:" + msg + ", data:" + data);
             }
         });
+        taskList.add(task);
     }
 
-    public static void monthBill() {
+    public void monthBill() {
         HttpParams httpParams = new HttpParams.Builder()
                 .setUrl("https://www.lawcert.com/proxy/hzcms/channelPage/monthBill")
                 .builder();
 
-        HttpUtils.doGet(httpParams, new Callback<MonthBillInfo>() {
+        HttpTask task =  HttpUtils.doGet(httpParams, new Callback<MonthBillInfo>() {
             @Override
             public void onSuccess(MonthBillInfo info) {
                 LogUtils.logd(TAG, "info :" + info);
@@ -136,8 +133,16 @@ public class HttpDemo {
                 LogUtils.logd(TAG, "resultCode:" + resultCode + ", msg:" + msg + ", data:" + data);
             }
         });
-
+        taskList.add(task);
     }
 
+    public void cancelTask(HttpTask task) {
+        taskList.remove(task);
+        HttpUtils.cancelTask(task);
+    }
+
+    public void cancelAll() {
+        HttpUtils.cancelAll(taskList);
+    }
 
 }

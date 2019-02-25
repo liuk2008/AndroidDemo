@@ -18,13 +18,17 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+
 public class RxNetDemo {
 
     private static final String TAG = RxNetDemo.class.getSimpleName();
     private static RxNetRequest apiRequest = RxNetRequest.getInstance();
+    private CompositeDisposable mDisposable = new CompositeDisposable();
 
-    public static void login() {
-        RxNetUtils.subscribe(apiRequest.login("18909131172", "123qwe"), new Callback<UserInfo>() {
+    public void login() {
+        Disposable disposable = RxNetUtils.subscribe(apiRequest.login("18909131172", "123qwe"), new Callback<UserInfo>() {
             @Override
             public void onSuccess(UserInfo userInfo) {
                 LogUtils.logd(TAG, "userinfo :" + userInfo);
@@ -35,9 +39,10 @@ public class RxNetDemo {
                 LogUtils.logd(TAG, "resultCode:" + resultCode + ", msg:" + msg + ", data:" + data);
             }
         });
+        mDisposable.add(disposable);
     }
 
-    public static void checkPhone() {
+    public void checkPhone() {
         RxNetUtils.subscribe(apiRequest.checkPhone("18909131173"), new Callback<LinkedHashMap<String, Object>>() {
             @Override
             public void onSuccess(LinkedHashMap<String, Object> linkedHashMap) {
@@ -59,7 +64,7 @@ public class RxNetDemo {
 
 
     // 获取极验码
-    public static void checkGeetest(Context context) {
+    public void checkGeetest(Context context) {
         final GT3GeetestUtilsBind gt3GeetestUtilsBind = new GT3GeetestUtilsBind(context);
         gt3GeetestUtilsBind.getGeetest(context,
                 "https://passport.lawcert.com/proxy/account/captcha/slip/",
@@ -92,7 +97,7 @@ public class RxNetDemo {
                 });
     }
 
-    public static void sendLoginSms(GeeValidateInfo model) {
+    public void sendLoginSms(GeeValidateInfo model) {
         RxNetUtils.subscribe(apiRequest.sendLoginSms("18909131189", model), new Callback<LinkedHashMap<String, Object>>() {
             @Override
             public void onSuccess(LinkedHashMap<String, Object> linkedHashMap) {
@@ -110,7 +115,7 @@ public class RxNetDemo {
         });
     }
 
-    public static void sendPwdSms(GeeValidateInfo model) {
+    public void sendPwdSms(GeeValidateInfo model) {
         RxNetUtils.subscribe(apiRequest.sendPwdSms(true,
                 model.getGeetest_challenge(),
                 model.getGeetest_validate(),
@@ -129,7 +134,7 @@ public class RxNetDemo {
         });
     }
 
-    public static void monthBill() {
+    public void monthBill() {
         RxNetUtils.subscribe(apiRequest.monthBill(), new Callback<MonthBillInfo>() {
             @Override
             public void onSuccess(MonthBillInfo info) {
@@ -141,6 +146,15 @@ public class RxNetDemo {
                 LogUtils.logd(TAG, "resultCode:" + resultCode + ", msg:" + msg + ", data:" + data);
             }
         });
+    }
+
+    public void cancelTask(Disposable disposable) {
+        if (disposable != null && !disposable.isDisposed())
+            mDisposable.remove(disposable);
+    }
+
+    public void cancelAll() {
+        mDisposable.clear();
     }
 
 }
