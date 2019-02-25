@@ -1,13 +1,9 @@
 package com.android.common.net.error;
 
-import android.util.Log;
-
 import com.android.common.net.NetConstant;
 import com.google.gson.JsonSyntaxException;
 
-import java.net.ConnectException;
 import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
 import java.util.concurrent.TimeoutException;
 
 import okhttp3.ResponseBody;
@@ -25,14 +21,11 @@ public class ErrorHandler {
 
     public static ErrorData handlerError(Throwable throwable) {
         ErrorData data = new ErrorData();
-        data.setCode(NetConstant.ERROR_NETWORKEXCEPTION);
-        data.setMsg("网络异常");
+        data.setData(throwable.getMessage());
         if (throwable instanceof TimeoutException
-                || throwable instanceof SocketTimeoutException
-                || throwable instanceof ConnectException
-                || throwable instanceof UnknownHostException) {
+                || throwable instanceof SocketTimeoutException) {
             data.setCode(NetConstant.ERROR_TIMEOUTXCEPTION);
-            data.setMsg("服务器连接超时");
+            data.setMsg("网络连接超时");
         } else if (throwable instanceof JsonSyntaxException) {
             data.setCode(NetConstant.ERROR_JSONEXCEPTION);
             data.setMsg("Json转换错误");
@@ -40,6 +33,8 @@ public class ErrorHandler {
             data.setCode(((ErrorException) throwable).getCode());
             data.setMsg(throwable.getMessage());
         } else if (throwable instanceof HttpException) { // 网络错误
+            data.setCode(NetConstant.ERROR_NETWORKEXCEPTION);
+            data.setMsg("网络异常");
             try {
                 // 业务层异常通过网络层抛出时，特殊处理
                 HttpException httpEx = (HttpException) throwable;
@@ -54,7 +49,7 @@ public class ErrorHandler {
             }
         } else {
             data.setCode(NetConstant.ERROR_OTHER);
-            data.setMsg(throwable.getClass().getName());
+            data.setMsg("服务器连接异常");
             throwable.printStackTrace();
         }
         return data;

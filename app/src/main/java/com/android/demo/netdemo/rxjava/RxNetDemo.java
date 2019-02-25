@@ -1,12 +1,11 @@
-package com.android.demo.netdemo.retrofit;
+package com.android.demo.netdemo.rxjava;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.android.common.net.Null;
 import com.android.common.net.callback.Callback;
-import com.android.common.net.retrofit.RetrofitUtils;
+import com.android.common.net.rxjava.RxNetUtils;
 import com.android.demo.netdemo.GeeValidateInfo;
 import com.android.demo.netdemo.MonthBillInfo;
 import com.android.demo.netdemo.UserInfo;
@@ -19,16 +18,13 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
-import retrofit2.Call;
+public class RxNetDemo {
 
-public class RetrofitDemo {
-
-    private static final String TAG = RetrofitDemo.class.getSimpleName();
-    private static RetrofitRequest apiRequest = RetrofitRequest.getInstance();
+    private static final String TAG = RxNetDemo.class.getSimpleName();
+    private static RxNetRequest apiRequest = RxNetRequest.getInstance();
 
     public static void login() {
-        Call<UserInfo> call = apiRequest.login("18909131172", "123qwe1");
-        RetrofitUtils.request(call, new Callback<UserInfo>() {
+        RxNetUtils.subscribe(apiRequest.login("18909131172", "123qwe"), new Callback<UserInfo>() {
             @Override
             public void onSuccess(UserInfo userInfo) {
                 LogUtils.logd(TAG, "userinfo :" + userInfo);
@@ -41,9 +37,8 @@ public class RetrofitDemo {
         });
     }
 
-
     public static void checkPhone() {
-        RetrofitUtils.request(apiRequest.checkPhone("18909131173"), new Callback<LinkedHashMap<String, Object>>() {
+        RxNetUtils.subscribe(apiRequest.checkPhone("18909131173"), new Callback<LinkedHashMap<String, Object>>() {
             @Override
             public void onSuccess(LinkedHashMap<String, Object> linkedHashMap) {
                 Set<String> keys = linkedHashMap.keySet();
@@ -98,7 +93,7 @@ public class RetrofitDemo {
     }
 
     public static void sendLoginSms(GeeValidateInfo model) {
-        RetrofitUtils.request(apiRequest.sendLoginSms("18909131189", model), new Callback<LinkedHashMap<String, Object>>() {
+        RxNetUtils.subscribe(apiRequest.sendLoginSms("18909131189", model), new Callback<LinkedHashMap<String, Object>>() {
             @Override
             public void onSuccess(LinkedHashMap<String, Object> linkedHashMap) {
                 Set<String> keys = linkedHashMap.keySet();
@@ -116,7 +111,7 @@ public class RetrofitDemo {
     }
 
     public static void sendPwdSms(GeeValidateInfo model) {
-        RetrofitUtils.request(apiRequest.sendPwdSms(true,
+        RxNetUtils.subscribe(apiRequest.sendPwdSms(true,
                 model.getGeetest_challenge(),
                 model.getGeetest_validate(),
                 model.getGeetest_seccode(),
@@ -135,19 +130,17 @@ public class RetrofitDemo {
     }
 
     public static void monthBill() {
-        RetrofitUtils.request(apiRequest.monthBill(), new Callback<MonthBillInfo>() {
+        RxNetUtils.subscribe(apiRequest.monthBill(), new Callback<MonthBillInfo>() {
             @Override
             public void onSuccess(MonthBillInfo info) {
-                Log.d(TAG, "monthBillInfo: " + info);
+                LogUtils.logd(TAG, "info :" + info);
             }
 
             @Override
             public void onFail(int resultCode, String msg, String data) {
                 LogUtils.logd(TAG, "resultCode:" + resultCode + ", msg:" + msg + ", data:" + data);
-
             }
         });
     }
-
 
 }

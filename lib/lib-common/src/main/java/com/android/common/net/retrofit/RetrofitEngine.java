@@ -84,6 +84,7 @@ public class RetrofitEngine {
     }
 
 
+    // 设置请求参数
     public RequestBuilder newRequestBuilder() {
         return new RequestBuilder();
     }

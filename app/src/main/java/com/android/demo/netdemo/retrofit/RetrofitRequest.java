@@ -10,42 +10,42 @@ import com.android.demo.netdemo.UserInfo;
 
 import java.util.LinkedHashMap;
 
-import io.reactivex.Observable;
 import okhttp3.RequestBody;
+import retrofit2.Call;
 
-public class FinanceRequest {
+public class RetrofitRequest {
 
-    private static final String TAG = FinanceRequest.class.getSimpleName();
-    private static FinanceRequest retrofitApiRequest;
+    private static final String TAG = RetrofitRequest.class.getSimpleName();
+    private static RetrofitRequest retrofitApiRequest;
     private FinanceApi accountApi, financeApi;
-    private RetrofitEngine retrofitEngine;
+    public RetrofitEngine retrofitEngine;
 
-    private FinanceRequest() {
+    private RetrofitRequest() {
         retrofitEngine = RetrofitEngine.getInstance();
         accountApi = retrofitEngine.getRetrofitService(FinanceApi.class,
                 "https://passport.lawcert.com/proxy/account/",
-                NetConstant.RETROFIT_RXJAVA);
+                -1);
         financeApi = retrofitEngine.getRetrofitService(FinanceApi.class,
                 "https://www.lawcert.com/proxy/hzcms/",
-                NetConstant.RETROFIT_RXJAVA_DATAWRAPPER);
+                NetConstant.RETROFIT_DEFAULT_DATAWRAPPER);
     }
 
-    public static FinanceRequest getInstance() {
+    public static RetrofitRequest getInstance() {
         if (retrofitApiRequest == null) {
-            retrofitApiRequest = new FinanceRequest();
+            retrofitApiRequest = new RetrofitRequest();
         }
         return retrofitApiRequest;
     }
 
-    public Observable<UserInfo> login(String phone, String pwd) {
+    public Call<UserInfo> login(String phone, String pwd) {
         return accountApi.login(phone, pwd);
     }
 
-    public Observable<LinkedHashMap<String, Object>> checkPhone(String phone) {
+    public Call<LinkedHashMap<String, Object>> checkPhone(String phone) {
         return accountApi.checkPhone(phone);
     }
 
-    public Observable<LinkedHashMap<String, Object>> sendLoginSms(String phone, GeeValidateInfo info) {
+    public Call<LinkedHashMap<String, Object>> sendLoginSms(String phone, GeeValidateInfo info) {
         RequestBody requestBody = retrofitEngine.newRequestBuilder()
                 .append("gtServerStatus", info.getGtServerStatus())
                 .append("challenge", info.getGeetest_challenge())
@@ -58,16 +58,17 @@ public class FinanceRequest {
         return accountApi.sendLoginSms(requestBody, phone);
     }
 
-    public Observable<Null> sendPwdSms(boolean slipFlag,
-                                       String challenge,
-                                       String validate,
-                                       String seccode,
-                                       int gtServerStatus,
-                                       String phone) {
+    public Call<Null> sendPwdSms(boolean slipFlag,
+                                 String challenge,
+                                 String validate,
+                                 String seccode,
+                                 int gtServerStatus,
+                                 String phone) {
         return accountApi.sendPwdSms(slipFlag, challenge, validate, seccode, gtServerStatus, phone);
     }
 
-    public Observable<MonthBillInfo> monthBill() {
+    public Call<MonthBillInfo> monthBill() {
         return financeApi.monthBill();
     }
+
 }

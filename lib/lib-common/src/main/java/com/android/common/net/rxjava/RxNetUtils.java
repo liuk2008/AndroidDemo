@@ -20,9 +20,9 @@ import retrofit2.HttpException;
 /**
  * RxJava与Retrofit网络框架
  */
-public class RxHelper {
+public class RxNetUtils {
 
-    private static final String TAG = RxHelper.class.getSimpleName();
+    private static final String TAG = RxNetUtils.class.getSimpleName();
 
     public static <T> Disposable subscribe(Observable<T> observable, final Callback<T> callback) {
         Disposable disposable = null;
