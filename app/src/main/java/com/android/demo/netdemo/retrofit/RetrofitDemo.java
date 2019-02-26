@@ -2,7 +2,6 @@ package com.android.demo.netdemo.retrofit;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.android.common.net.Null;
 import com.android.common.net.callback.Callback;
@@ -16,7 +15,6 @@ import com.geetest.sdk.Bind.GT3GeetestUtilsBind;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
@@ -35,27 +33,11 @@ public class RetrofitDemo {
         RetrofitUtils.request(call, callback);
     }
 
-
-    public void checkPhone() {
-        RetrofitUtils.request(apiRequest.checkPhone("18909131173"), new Callback<LinkedHashMap<String, Object>>() {
-            @Override
-            public void onSuccess(LinkedHashMap<String, Object> linkedHashMap) {
-                Set<String> keys = linkedHashMap.keySet();
-                Collection<Object> values = linkedHashMap.values();
-                for (String key : keys) {
-                    LogUtils.logd(TAG, "key :" + key);
-                    LogUtils.logd(TAG, "value :" + linkedHashMap.get(key));
-                }
-
-            }
-
-            @Override
-            public void onFail(int resultCode, String msg, String data) {
-                LogUtils.logd(TAG, "resultCode:" + resultCode + ", msg:" + msg + ", data:" + data);
-            }
-        });
+    public void checkPhone(Callback<LinkedHashMap<String, Object>> callback) {
+        Call<LinkedHashMap<String, Object>> call = apiRequest.checkPhone("18909131173");
+        taskList.add(call);
+        RetrofitUtils.request(call, callback);
     }
-
 
     // 获取极验码
     public void checkGeetest(Context context) {
@@ -128,19 +110,10 @@ public class RetrofitDemo {
         });
     }
 
-    public void monthBill() {
-        RetrofitUtils.request(apiRequest.monthBill(), new Callback<MonthBillInfo>() {
-            @Override
-            public void onSuccess(MonthBillInfo info) {
-                Log.d(TAG, "monthBillInfo: " + info);
-            }
-
-            @Override
-            public void onFail(int resultCode, String msg, String data) {
-                LogUtils.logd(TAG, "resultCode:" + resultCode + ", msg:" + msg + ", data:" + data);
-
-            }
-        });
+    public void monthBill(Callback<MonthBillInfo> callback) {
+        Call<MonthBillInfo> call = apiRequest.monthBill();
+        taskList.add(call);
+        RetrofitUtils.request(call, callback);
     }
 
     public void cancelTask(Call call) {
@@ -151,6 +124,5 @@ public class RetrofitDemo {
     public void cancelAll() {
         RetrofitUtils.cancelAll(taskList);
     }
-
 
 }

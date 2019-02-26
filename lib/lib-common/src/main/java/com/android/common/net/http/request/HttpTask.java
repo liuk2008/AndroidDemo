@@ -1,6 +1,7 @@
 package com.android.common.net.http.request;
 
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -23,15 +24,14 @@ public class HttpTask<T> extends AsyncTask<Void, Void, NetData> {
 
     private static final String TAG = "http";
     private HttpEngine httpEngine;
-    private String requestMethod;
+    private String mRequestMethod;
     private Callback mCallback;
     private Type type, wrapperType;
 
-    public HttpTask(HttpParams httpParams, Callback<T> callback, String requestMethod) {
+    public HttpTask(@NonNull HttpParams httpParams, @NonNull Callback<T> callback, String requestMethod) {
         httpEngine = new HttpEngine(httpParams);
         mCallback = callback;
-        this.requestMethod = requestMethod;
-
+        mRequestMethod = requestMethod;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class HttpTask<T> extends AsyncTask<Void, Void, NetData> {
                 ParameterizedType parameterizedType = (ParameterizedType) mCallback.getClass().getGenericInterfaces()[0];
                 type = parameterizedType.getActualTypeArguments()[0];
                 wrapperType = getWrapperType();
-                if ("GET".equals(requestMethod)) {
+                if ("GET".equals(mRequestMethod)) {
                     return httpEngine.doGet();
                 } else {
                     return httpEngine.doPost();
@@ -67,6 +67,8 @@ public class HttpTask<T> extends AsyncTask<Void, Void, NetData> {
     @Override
     protected void onPostExecute(NetData data) {
         super.onPostExecute(data);
+        if (mCallback == null)
+            return;
         try {
             if (data.getCode() == 200) { // 网络层200
                 Gson gson = new Gson();
@@ -102,7 +104,7 @@ public class HttpTask<T> extends AsyncTask<Void, Void, NetData> {
     @Override
     protected void onCancelled() {
         super.onCancelled();
-        Log.d(TAG, "cancel: http请求被取消");
+        Log.d(TAG, "cancel: 取消网络请求");
     }
 
     private Type getWrapperType() {
@@ -125,6 +127,11 @@ public class HttpTask<T> extends AsyncTask<Void, Void, NetData> {
             }
         };
         return wrapperType;
+    }
+
+    // 由于callback持有Activity/Fragment引用，设置为null防止内存泄漏
+    public void setCallback() {
+        mCallback = null;
     }
 
 }

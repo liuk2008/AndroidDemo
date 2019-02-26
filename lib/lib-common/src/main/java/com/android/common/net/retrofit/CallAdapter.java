@@ -59,4 +59,7 @@ public class CallAdapter<T> implements retrofit2.Callback<T> {
         }
     }
 
+    public void setCallback() {
+        mCallback = null;
+    }
 }

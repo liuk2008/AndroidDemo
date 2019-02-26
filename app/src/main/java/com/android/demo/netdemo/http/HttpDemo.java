@@ -19,7 +19,6 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
 
 public class HttpDemo {
 
@@ -32,30 +31,15 @@ public class HttpDemo {
                 .appendParams("phone", "18909131172")
                 .appendParams("password", "123qwe")
                 .builder();
-        HttpTask task = HttpUtils.doPost(httpParams, callback);
+        HttpTask task = HttpUtils.doGet(httpParams, callback);
         taskList.add(task);
     }
 
-    public void checkPhone() {
+    public void checkPhone(Callback<LinkedHashMap<String, Object>> callback) {
         HttpParams httpParams = new HttpParams.Builder()
                 .setUrl("https://passport.lawcert.com/proxy/account/user/phone/exist/18909131190")
                 .builder();
-        HttpTask task = HttpUtils.doGet(httpParams, new Callback<LinkedHashMap<String, Object>>() {
-            @Override
-            public void onSuccess(LinkedHashMap<String, Object> linkedHashMap) {
-                Set<String> keys = linkedHashMap.keySet();
-                for (String key : keys) {
-                    LogUtils.logd(TAG, "key :" + key);
-                    LogUtils.logd(TAG, "value :" + linkedHashMap.get(key));
-                }
-            }
-
-            @Override
-            public void onFail(int resultCode, String msg, String data) {
-                LogUtils.logd(TAG, "resultCode:" + resultCode + ", msg:" + msg + ", data:" + data);
-            }
-        });
-
+        HttpTask task = HttpUtils.doGet(httpParams, callback);
         taskList.add(task);
     }
 
@@ -117,22 +101,11 @@ public class HttpDemo {
         taskList.add(task);
     }
 
-    public void monthBill() {
+    public void monthBill(Callback<MonthBillInfo> callback) {
         HttpParams httpParams = new HttpParams.Builder()
                 .setUrl("https://www.lawcert.com/proxy/hzcms/channelPage/monthBill")
                 .builder();
-
-        HttpTask task =  HttpUtils.doGet(httpParams, new Callback<MonthBillInfo>() {
-            @Override
-            public void onSuccess(MonthBillInfo info) {
-                LogUtils.logd(TAG, "info :" + info);
-            }
-
-            @Override
-            public void onFail(int resultCode, String msg, String data) {
-                LogUtils.logd(TAG, "resultCode:" + resultCode + ", msg:" + msg + ", data:" + data);
-            }
-        });
+        HttpTask task = HttpUtils.doGet(httpParams, callback);
         taskList.add(task);
     }
 
