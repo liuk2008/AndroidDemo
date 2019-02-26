@@ -6,8 +6,10 @@ import com.android.demo.netdemo.MonthBillInfo;
 import com.android.demo.netdemo.UserInfo;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -15,6 +17,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.QueryMap;
 
 public interface FinanceApi {
 
@@ -44,5 +47,19 @@ public interface FinanceApi {
 
     @GET("channelPage/monthBill")
     Call<MonthBillInfo> monthBill();
+
+    /*
+     * 设置请求接口
+     * @QueryMap注解会把参数拼接到url后面，所以它适用于GET请求；
+     * @Body会把参数放到请求体中，所以适用于POST请求。
+     */
+
+    @GET("qingqi/product/login")
+    Call<ResponseBody> loginGet(@QueryMap Map<String, Object> hashMap);
+
+    @POST("api/hongyan/serverstation/login")
+    Call<ResponseBody> loginPost(@Body RequestBody requestBody);
+
+
 }
 

@@ -29,4 +29,10 @@
         android:layout_height="wrap_content"
         android:text="扫码页面" />
 
+    <Button
+        android:id="@+id/btn_net"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="测试网络框架" />
+
 </LinearLayout>

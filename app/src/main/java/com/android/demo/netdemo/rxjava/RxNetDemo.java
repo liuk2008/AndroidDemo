@@ -27,18 +27,8 @@ public class RxNetDemo {
     private static RxNetRequest apiRequest = RxNetRequest.getInstance();
     private CompositeDisposable mDisposable = new CompositeDisposable();
 
-    public void login() {
-        Disposable disposable = RxNetUtils.subscribe(apiRequest.login("18909131172", "123qwe"), new Callback<UserInfo>() {
-            @Override
-            public void onSuccess(UserInfo userInfo) {
-                LogUtils.logd(TAG, "userinfo :" + userInfo);
-            }
-
-            @Override
-            public void onFail(int resultCode, String msg, String data) {
-                LogUtils.logd(TAG, "resultCode:" + resultCode + ", msg:" + msg + ", data:" + data);
-            }
-        });
+    public void login(Callback<UserInfo> callback) {
+        Disposable disposable = RxNetUtils.subscribe(apiRequest.login("18909131172", "123qwe"), callback);
         mDisposable.add(disposable);
     }
 
