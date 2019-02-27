@@ -1,7 +1,7 @@
 package com.android.demo.fragment;
 
 import android.Manifest;
-import android.content.Intent;
+import android.text.format.Formatter;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -17,10 +17,10 @@ import com.android.demo.netdemo.http.HttpDemo;
 import com.android.demo.netdemo.retrofit.RetrofitDemo;
 import com.android.demo.netdemo.rxjava.RxNetDemo;
 import com.android.utils.common.LogUtils;
+import com.android.utils.system.CacheUtils;
 import com.android.utils.system.SystemUtils;
 import com.viewinject.annotation.MyOnClick;
 import com.viewinject.bindview.MyViewInjector;
-import com.zxing.activity.CaptureActivity;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -74,7 +74,8 @@ public class WorkFragment extends BaseFragment {
 
     @MyOnClick(R.id.btn_scan)
     public void scan() {
-        startActivity(new Intent(getActivity(), CaptureActivity.class));
+//        startActivity(new Intent(getActivity(), CaptureActivity.class));
+        getCache();
     }
 
     HttpDemo httpDemo;
@@ -96,6 +97,17 @@ public class WorkFragment extends BaseFragment {
         rxNetDemo.cancelAll();
         httpDemo.cancelAll();
         retrofitDemo.cancelAll();
+    }
+
+    public void getCache() {
+        CacheUtils.getCache(getActivity(), "com.android.demo", new CacheUtils.onCacheListener() {
+            @Override
+            public void onCache(long... size) {
+                LogUtils.logd(TAG, String.format("缓存大小：%s", Formatter.formatFileSize(getContext(), size[0])));
+                LogUtils.logd(TAG, String.format("数据大小：%s", Formatter.formatFileSize(getContext(), size[1])));
+                LogUtils.logd(TAG, String.format("应用大小：%s", Formatter.formatFileSize(getContext(), size[2])));
+            }
+        });
     }
 
     private void test() {
@@ -137,6 +149,5 @@ public class WorkFragment extends BaseFragment {
             }
         });
     }
-
 
 }
