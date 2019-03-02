@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.telephony.TelephonyManager;
 
 import java.io.IOException;
 
@@ -50,19 +49,11 @@ public class MyHttpHeaderInterceptor implements Interceptor {
             versionCode = pi.versionCode;
             int screenWidth = context.getResources().getDisplayMetrics().widthPixels;
             int screenHeight = context.getResources().getDisplayMetrics().heightPixels;
-            TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-            String networkOperatorName = telephonyManager.getNetworkOperatorName();
-            osVersion = Build.VERSION.CODENAME;
-            userAgent = "OS/android "
-                    + "OSVersion/" + Build.VERSION.SDK_INT + " "
-                    + "product/trc" + " "
-                    + "IMEI/" + deviceId + " "
-                    + "phoneBrand/" + Build.MANUFACTURER + " "
-                    + "phoneModel/" + Build.MODEL + " "
-                    + "screenHeight/" + screenHeight + " "
-                    + "screenWidth/" + screenWidth + " "
-                    + "appVersionName/" + versionName + " "
-                    + "appVersionCode/" + versionCode;
+            userAgent = "OS/android;"
+                    + "OSVersion/" + Build.VERSION.SDK_INT + ";"
+                    + "phoneBrand/" + Build.MANUFACTURER + ";"
+                    + "screenHeight/" + screenHeight + ";"
+                    + "screenWidth/" + screenWidth;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -75,9 +66,6 @@ public class MyHttpHeaderInterceptor implements Interceptor {
             addHeader(builder, "User-Agent", userAgent);
             addHeader(builder, "versionName", versionName);//重要
             addHeader(builder, "versionCode", versionCode);//重要
-            addHeader(builder, "model", Build.MODEL);
-            addHeader(builder, "uniquecode", deviceId);
-            addHeader(builder, "osversion", osVersion);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -37,7 +37,7 @@ public class HttpDemo {
 
     public void checkPhone(Callback<LinkedHashMap<String, Object>> callback) {
         HttpParams httpParams = new HttpParams.Builder()
-                .setUrl("https://passport.lawcert.com/proxy/account/user/phone/exist/18909131190")
+                .setUrl("https://passport.lawcert.com/proxy/account/user/phone/exist/18909131172")
                 .builder();
         HttpTask task = HttpUtils.doGet(httpParams, callback);
         taskList.add(task);
