@@ -89,27 +89,26 @@ public class MyWebView extends WebView {
     // 设置cookie
     private void setCookie(String url) {
         if (TextUtils.isEmpty(url)) return;
+        if (WebViewUtils.getCookieMap().size() == 0) return;
         if (url.startsWith("http")) {
             Uri uri = Uri.parse(url);
             String domain = uri.getHost();
-            if (WebViewUtils.getCookieMap().size() == 0) return;
-            Map<String, String> hashMap = new HashMap<>();
-            hashMap.putAll(WebViewUtils.getCookieMap());
+            Map<String, String> hashMap = new HashMap<>(WebViewUtils.getCookieMap());
             WebViewUtils.clearCookie();
+            CookieManager cookieManager = CookieManager.getInstance();
+            cookieManager.setAcceptCookie(true);
+            if (!TextUtils.isEmpty(domain) && domain.contains("//")) {
+                domain = Uri.parse(domain).getHost();
+            }
             for (String key : hashMap.keySet()) {
                 String value = hashMap.get(key);
-                if (domain.contains("//")) {
-                    domain = Uri.parse(domain).getHost();
-                }
-                CookieManager cookieManager = CookieManager.getInstance();
-                cookieManager.setAcceptCookie(true);
-                // 只有cookie的domain和path与请求的URL匹配才会发送这个cookie。
                 cookieManager.setCookie(domain, key + "=" + value);
-                cookieManager.setCookie(domain, "domain=" + domain);
-                cookieManager.setCookie(domain, "path=/");
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    cookieManager.flush(); // 立即同步cookie的操作
-                }
+            }
+            // 只有cookie的domain和path与请求的URL匹配才会发送这个cookie。
+            cookieManager.setCookie(domain, "domain=" + domain);
+            cookieManager.setCookie(domain, "path=/");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                cookieManager.flush(); // 立即同步cookie的操作
             }
         }
     }

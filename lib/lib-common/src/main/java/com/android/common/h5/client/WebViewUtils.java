@@ -32,7 +32,6 @@ public class WebViewUtils {
 
     public static void setHeader(@Nullable String key, @Nullable String value) {
         if (null == key) return;
-        if (headerMap.containsKey(key)) headerMap.remove(key);
         if (null == value) value = "";
         headerMap.put(key, value);
     }

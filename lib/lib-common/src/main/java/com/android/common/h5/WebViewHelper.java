@@ -1,19 +1,37 @@
 package com.android.common.h5;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
+import android.content.ContentValues;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.ValueCallback;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 
 import com.android.common.R;
 import com.android.common.h5.client.MyWebChromeClient;
@@ -21,6 +39,7 @@ import com.android.common.h5.client.MyWebViewClient;
 import com.android.common.h5.client.WebViewUtils;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 
 public class WebViewHelper {
@@ -35,6 +54,16 @@ public class WebViewHelper {
     private ImageView iv_arrow, iv_close;
     private View rootView;
 
+    // webview 拍照
+    private PopupWindow picPopupWindow;
+    private static final int PHOTO_GRAPH = 6;// 拍照
+    private static final int PHOTO_PICTURE = 7;// 图库
+    private static final String IMAGE_UNSPECIFIED = "image/*";
+
+    // webview 读取系统图片
+    private ValueCallback<Uri> mUploadMsg;
+    private ValueCallback<Uri[]> mUploadMsg5Plus;
+    private File file, imagePath;
 
     public static WebViewHelper create(FragmentActivity activity) {
         WebViewHelper webViewHelper = new WebViewHelper(activity);
@@ -50,10 +79,34 @@ public class WebViewHelper {
     }
 
     private void initView() {
-        View rootView = LayoutInflater.from(activity).inflate(R.layout.activity_h5, null);
+        rootView = LayoutInflater.from(activity).inflate(R.layout.activity_h5, null);
+        // 配置系统状态栏
+        configStatusBar();
+        View statusBar = rootView.findViewById(R.id.status_bar_fix);
+        statusBar.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                getStatusBarHeight()));
+        statusBar.setBackgroundResource(R.drawable.shape_titlebar);
         mWebView = rootView.findViewById(R.id.webview);
         iv_arrow = rootView.findViewById(R.id.iv_arrow);
         iv_close = rootView.findViewById(R.id.iv_close);
+    }
+
+    private void configStatusBar() {
+        Window window = activity.getWindow();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.setStatusBarColor(Color.TRANSPARENT);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.setStatusBarColor(Color.parseColor("#33000000"));
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
+    }
+
+    private int getStatusBarHeight() {
+        int resourceId = activity.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        int statusBarHeight = activity.getResources().getDimensionPixelSize(resourceId);
+        return statusBarHeight;
     }
 
 
@@ -110,7 +163,7 @@ public class WebViewHelper {
     }
 
     public void setWebChromeClientInterface(MyWebChromeClient.OpenFileChooserCallBack clientInterface) {
-        webChromeClient.setWebViewClientInterface(null);
+        webChromeClient.setWebViewClientInterface(clientInterface);
     }
 
     public View getRootView() {
@@ -140,7 +193,6 @@ public class WebViewHelper {
         }
     }
 
-
     // 从assets中加载文件
     public String getFromAssets(String fileName) {
         try {
@@ -158,15 +210,6 @@ public class WebViewHelper {
         return "";
     }
 
-    // 调用js方法
-    public void excJsMethod(WebView webView, String method) {
-        if (method.endsWith("()")) {
-            webView.loadUrl("javascript:" + method);
-        } else {
-            webView.loadUrl("javascript:" + method + "()");
-        }
-    }
-
     // 注入本地js脚本
     public void injectJs(WebView webView, String src) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -176,28 +219,166 @@ public class WebViewHelper {
         }
     }
 
+    // 本地调用js方法，无回调方法
+    public void excJsMethod(WebView webView, String method) {
+        if (method.endsWith("()")) {
+            webView.loadUrl("javascript:" + method);
+        } else {
+            webView.loadUrl("javascript:" + method + "()");
+        }
+    }
+
     /**
      * 本地调用js函数
-     * js 函数返回值在onReceiveValue回调函数中取得，
-     * evaluateJavascript方法必须在UI线程（主线程）调用，因此onReceiveValue也执行在主线程。
+     * 1、JavaScript和Java的交互是在子线程上面进行的
+     * 2、js 函数返回值在onReceiveValue回调函数中取得，
      */
     public void evaluateJs(WebView webView, String method, ValueCallback<String> callback) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             if (callback == null) return;
-            webView.evaluateJavascript(method, callback);
+            webView.evaluateJavascript(method, callback); // 本地执行js方法，在主线程执行回调方法
         } else {
             // 4.4 以下需要手动执行js方法，js函数的返回值要再通过js调用本地java方法传递
             webView.loadUrl(method);
         }
     }
 
+    /**
+     * Js调用本地方法，jsObject 参数会被指向object参数
+     * 因此js中可以通过jsObject.methodName()调用object对象有的本地方法
+     * 1、object 参数的实现是一个普通Java类,实现对应的方法
+     * 2、method 参数，其实就是注入的JS对象名称
+     * CallAppFunction.onReceiveTitleInfo()
+     */
     @SuppressLint("JavascriptInterface")
-    public void addJavascriptInterface(Object object, String method) {
-        mWebView.addJavascriptInterface(object, method);
+    public void addJavascriptInterface(Object object, String jsObject) {
+        mWebView.addJavascriptInterface(object, jsObject); // js调用本地方法，执行在子线程
     }
 
     public void load(String url) {
         mWebView.loadUrl(url);
+    }
+
+    // 弹出图片方式选择框
+    public void showPicWindow() {
+        mUploadMsg = webChromeClient.getUploadMsg();
+        mUploadMsg5Plus = webChromeClient.getUploadMsgs();
+        // 请求权限
+        ActivityCompat.requestPermissions(activity,
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.CAMERA}, 0);
+        // 是否授予权限
+        if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.CAMERA)) {
+            resetWebViewPic();
+            return;
+        }
+        if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            resetWebViewPic();
+            return;
+        }
+
+        file = new File(Environment.getExternalStorageDirectory() + "/webview");
+        //如果文件夹不存在则创建
+        if (!file.exists() && !file.isDirectory()) {
+            file.mkdir();
+        }
+        if (picPopupWindow == null) {
+            View contentView = View.inflate(activity, R.layout.popupwindow_photo, null);
+            Button btnCancel = contentView.findViewById(R.id.btn_cancel);
+            Button btnCapture = contentView.findViewById(R.id.btn_capture);
+            Button btnPicture = contentView.findViewById(R.id.btn_picture);
+            btnCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    resetWebViewPic();
+                    picPopupWindow.dismiss();
+                }
+            });
+            btnCapture.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent capture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    imagePath = new File(file, System.currentTimeMillis() + "_picture.jpg");
+                    capture.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imagePath));
+                    activity.startActivityForResult(capture, PHOTO_GRAPH);
+                    picPopupWindow.dismiss();
+                }
+            });
+            btnPicture.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent picture = new Intent(Intent.ACTION_PICK, null);
+                    picture.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, IMAGE_UNSPECIFIED);
+                    activity.startActivityForResult(picture, PHOTO_PICTURE);
+                    picPopupWindow.dismiss();
+                }
+            });
+            // 使用布局参数设置宽高
+            picPopupWindow = new PopupWindow(contentView,
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            // 设置空白背景,点击空白/返回键可以消失
+//            picPopupWindow.setBackgroundDrawable(new ColorDrawable());
+            // 设置不消失，但是下层控件还会响应
+//            picPopupWindow.setFocusable(false);
+//            picPopupWindow.setOutsideTouchable(false);
+            picPopupWindow.setAnimationStyle(R.style.animation);
+        }
+        View parent = View.inflate(activity, R.layout.activity_h5, null);
+        // 防止手机底部的菜单栏挡住
+        picPopupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        // 从底层弹出
+        picPopupWindow.showAtLocation(parent, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+    }
+
+    // 获取本地图片
+    public void setPicData(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            if (mUploadMsg == null && mUploadMsg5Plus == null) {
+                return;
+            }
+            if (requestCode == PHOTO_GRAPH) { // 拍照 返回的data为null
+                if (imagePath.exists()) {
+                    ContentValues values = new ContentValues(2);
+                    values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg/jpg");
+                    values.put(MediaStore.Images.Media.DATA, imagePath.toString());
+                    Uri uri = activity.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                    if (uri != null) { // 更新系统图库
+                        activity.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(imagePath)));
+                        activity.sendBroadcast(new Intent("Intent.ACTION_GET_IMAGE"));
+                        // 将图片传递至webview
+                        setWebViewPic(uri);
+                    }
+                }
+            }
+            if (requestCode == PHOTO_PICTURE) { // 图库 返回的data不为null
+                setWebViewPic(data.getData());
+            }
+        } else {
+            resetWebViewPic();
+        }
+    }
+
+    // 向WebView传递图片
+    private void setWebViewPic(Uri uri) {
+        if (mUploadMsg != null) {
+            mUploadMsg.onReceiveValue(uri);
+            mUploadMsg = null;
+        } else {
+            mUploadMsg5Plus.onReceiveValue(new Uri[]{uri});
+            mUploadMsg5Plus = null;
+        }
+    }
+
+    //  取消之后要告诉WebView 不要再等待返回结果，设置为空就等于重置了状态
+    private void resetWebViewPic() {
+        if (mUploadMsg != null) {
+            mUploadMsg.onReceiveValue(null);
+            mUploadMsg = null;
+        }
+        if (mUploadMsg5Plus != null) {
+            mUploadMsg5Plus.onReceiveValue(null);
+            mUploadMsg5Plus = null;
+        }
     }
 
 }

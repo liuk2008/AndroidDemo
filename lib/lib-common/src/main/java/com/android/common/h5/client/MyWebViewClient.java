@@ -68,6 +68,7 @@ public class MyWebViewClient extends WebViewClient {
         } else {
             myWebView.setVisibility(View.VISIBLE);
         }
+        // 执行js脚本，JS代码调用一定要在 onPageFinished（） 回调之后才能调用，否则不会调用。
         if (webViewClientInterface != null)
             webViewClientInterface.executorJs(webView, url);
     }
@@ -82,8 +83,14 @@ public class MyWebViewClient extends WebViewClient {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { // 防止重复显示
             return;
         }
-        Log.d(TAG, "onReceivedError: ");
-        isNet = true;
+        if (errorCode == WebViewClient.ERROR_HOST_LOOKUP
+                || errorCode == WebViewClient.ERROR_CONNECT
+                || errorCode == WebViewClient.ERROR_IO
+                || errorCode == WebViewClient.ERROR_TIMEOUT) {
+            isNet = true;
+        } else {
+            isFail = true;
+        }
     }
 
     // 6.0 以上调用
@@ -93,11 +100,31 @@ public class MyWebViewClient extends WebViewClient {
         super.onReceivedError(view, request, error);
         Log.d(TAG, "onReceivedError: ");
         if (request.isForMainFrame()) { // 获取当前的网络请求是否是为main frame创建的.
-            isNet = true;
+            int errorCode = error.getErrorCode();
+            if (errorCode == WebViewClient.ERROR_HOST_LOOKUP
+                    || errorCode == WebViewClient.ERROR_CONNECT
+                    || errorCode == WebViewClient.ERROR_IO
+                    || errorCode == WebViewClient.ERROR_TIMEOUT) {
+                isNet = true;
+            } else {
+                isFail = true;
+            }
         }
     }
 
-    // 404、500 等网络错误会回调这里
+    /**
+     * 404、500 等网络错误会回调这里
+     * <p>
+     * WebView在请求加载一个页面的同时，还会发送一个请求图标文件的请求。
+     * webView.loadUrl("http://192.168.5.40:9006/sso_web/html/H5/doctor/aboutUs.html");
+     * 同时还会发送一个请求图标文件的请求
+     * http://192.168.5.40:9006/favicon.ico
+     * onReceivedHttpError这个方法主要用于响应服务器返回的Http错误(状态码大于等于400)，
+     * 这个回调将被调用任何资源（IFRAME，图像等），而不仅仅是主页面。所以就会出现主页面虽然加载成功，
+     * 但由于网站没有favicon.ico文件导致返回404错误。
+     * 1、在onReceivedHttpError()做相应处理，忽略请求favicon.ico文件404的错误
+     * 2、重写WebViewClient的shouldInterceptRequest方法禁用favicon.ico请求
+     */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
@@ -154,6 +181,7 @@ public class MyWebViewClient extends WebViewClient {
     public interface WebViewClientInterface {
         // 处理特定url
         boolean onLoadUrl(WebView webView, String url);
+
         // 执行js脚本
         void executorJs(WebView webView, String url);
 
@@ -162,6 +190,5 @@ public class MyWebViewClient extends WebViewClient {
     public void setWebViewClientInterface(WebViewClientInterface webViewClientInterface) {
         this.webViewClientInterface = webViewClientInterface;
     }
-
 
 }

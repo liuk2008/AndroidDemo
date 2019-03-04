@@ -6,4 +6,11 @@
         <item name="windowActionBar">false</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
+
+    <!--动画-->
+    <style name="animation">
+        <item name="android:windowEnterAnimation">@anim/enter_anim</item>
+        <item name="android:windowExitAnimation">@anim/out_anim</item>
+    </style>
+
 </resources>

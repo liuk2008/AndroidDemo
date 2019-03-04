@@ -21,6 +21,10 @@ public class MyWebChromeClient extends WebChromeClient {
     private OpenFileChooserCallBack mOpenFileChooserCallBack;
     private ProgressBar progressBar;
     private TextView tv_title;
+    // webview 读取系统图片
+    private ValueCallback<Uri> mUploadMsg;
+    private ValueCallback<Uri[]> mUploadMsg5Plus;
+
 
     public MyWebChromeClient(View view) {
         progressBar = view.findViewById(R.id.progressbar);
@@ -36,7 +40,7 @@ public class MyWebChromeClient extends WebChromeClient {
     @Override
     public void onReceivedTitle(WebView view, String title) {
         super.onReceivedTitle(view, title);
-        Log.d(TAG, "onReceivedTitle: "+title);
+        Log.d(TAG, "onReceivedTitle: " + title);
         tv_title.setText(title);
     }
 
@@ -47,25 +51,17 @@ public class MyWebChromeClient extends WebChromeClient {
 
 
     // =========文件上传=============
-
-    // For Android 5.0+
-    @Override
-    public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
-        mOpenFileChooserCallBack.showFileChooserCallBack(filePathCallback);
-        return true;
-    }
-
-    //For Android 3.0+
-    public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType) {
-        mOpenFileChooserCallBack.openFileChooserCallBack(uploadMsg, acceptType);
-    }
-
-
     // For Android < 3.0
     public void openFileChooser(ValueCallback<Uri> uploadMsg) {
         openFileChooser(uploadMsg, "");
     }
 
+    //For Android 3.0+
+    public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType) {
+        Log.d(TAG, "openFileChooser: ");
+        this.mUploadMsg = uploadMsg;
+        mOpenFileChooserCallBack.showPicWindow();
+    }
 
     // For Android  > 4.1.1
     public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
@@ -73,12 +69,25 @@ public class MyWebChromeClient extends WebChromeClient {
     }
 
 
-    public interface OpenFileChooserCallBack {
-        // 5.0 以下
-        void openFileChooserCallBack(ValueCallback<Uri> uploadMsg, String acceptType);
-
-        // 5.0 以上
-        void showFileChooserCallBack(ValueCallback<Uri[]> filePathCallback);
+    // For Android 5.0+
+    @Override
+    public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> uploadMsgs, FileChooserParams fileChooserParams) {
+        Log.d(TAG, "onShowFileChooser: ");
+        this.mUploadMsg5Plus = uploadMsgs;
+        mOpenFileChooserCallBack.showPicWindow();
+        return true;
     }
 
+
+    public interface OpenFileChooserCallBack {
+        void showPicWindow();
+    }
+
+    public ValueCallback<Uri> getUploadMsg() {
+        return mUploadMsg;
+    }
+
+    public ValueCallback<Uri[]> getUploadMsgs() {
+        return mUploadMsg5Plus;
+    }
 }
