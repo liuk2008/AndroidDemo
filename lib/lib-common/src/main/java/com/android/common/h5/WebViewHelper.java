@@ -17,7 +17,6 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -34,6 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.android.common.R;
+import com.android.common.h5.client.MyImage;
 import com.android.common.h5.client.MyWebChromeClient;
 import com.android.common.h5.client.MyWebViewClient;
 import com.android.common.h5.client.WebViewUtils;
@@ -91,7 +91,6 @@ public class WebViewHelper {
         iv_arrow = rootView.findViewById(R.id.iv_arrow);
         iv_close = rootView.findViewById(R.id.iv_close);
     }
-
     private void configStatusBar() {
         Window window = activity.getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -108,7 +107,6 @@ public class WebViewHelper {
         int statusBarHeight = activity.getResources().getDimensionPixelSize(resourceId);
         return statusBarHeight;
     }
-
 
     private void initListener() {
         iv_close.setOnClickListener(new View.OnClickListener() {
@@ -379,6 +377,16 @@ public class WebViewHelper {
             mUploadMsg5Plus.onReceiveValue(null);
             mUploadMsg5Plus = null;
         }
+    }
+
+    /**
+     * 设置h5页面中图片点击后是否可放大或缩小
+     */
+    public void showImage(WebView webView) {
+        MyImage image = new MyImage(activity);
+        addJavascriptInterface(image, "image");
+        String js = getFromAssets("image.js");
+        injectJs(webView, js);
     }
 
 }

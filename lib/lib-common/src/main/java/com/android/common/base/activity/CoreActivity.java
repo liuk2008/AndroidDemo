@@ -222,16 +222,32 @@ public class CoreActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * 设置状态栏颜色与标题栏颜色一致
-     */
-    public void configStatusBar(final int bgResource) {
+    public void configStatusBarBgColor(final int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.getDecorView().addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
                 @Override
                 public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                    setStatusBarBgResource(bgResource);
+                    View statusBarView = getStatusBarView();
+                    statusBarView.setBackgroundColor(color);
+                    getWindow().getDecorView().removeOnLayoutChangeListener(this);
+                }
+            });
+        }
+    }
+
+
+    /**
+     * 设置状态栏颜色与标题栏颜色一致
+     */
+    public void configStatusBarBgRes(final int bgResource) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.getDecorView().addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+                @Override
+                public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                    View statusBarView = getStatusBarView();
+                    statusBarView.setBackgroundResource(bgResource);
                     getWindow().getDecorView().removeOnLayoutChangeListener(this);
                 }
             });
@@ -255,7 +271,6 @@ public class CoreActivity extends AppCompatActivity {
         }
     }
 
-
     /**
      * 获取状态栏高度
      */
@@ -266,12 +281,12 @@ public class CoreActivity extends AppCompatActivity {
     }
 
     /**
-     * 设置状态栏背景色
+     * 获取状态栏View
      */
-    private void setStatusBarBgResource(int bgResource) {
+    public View getStatusBarView() {
         int identifier = getResources().getIdentifier("statusBarBackground", "id", "android");
         View statusBarView = getWindow().findViewById(identifier);
-        statusBarView.setBackgroundResource(bgResource);
+        return statusBarView;
     }
 
 }
