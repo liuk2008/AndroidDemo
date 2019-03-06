@@ -26,28 +26,30 @@ public class WebViewActivity extends AppCompatActivity {
         webViewHelper = WebViewHelper.create(this);
         setContentView(webViewHelper.getRootView());
 
+//        testCookie();
+//        testFile();
+        testImage();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        webViewHelper.setPicData(requestCode, resultCode, data);
+    }
+
+    private void testCookie() {
         // 设置cookie
-        WebViewUtils.setCookie("token", "1F99DF52AFFD474CB5C5331C86AFB4CA.10D5D0054A8C144C38693F714694BF2C");
+        WebViewUtils.setCookie("token", "197E440633084154B30B330E9C77235C.9EFB8608CBF00C5241FD657847358D9B");
         WebViewUtils.setCookie("currentUserId", "ED08E7A6C6F7459FA264C736482CD5F6");
         WebViewUtils.setCookie("origin", "android");
         WebViewUtils.setCookie("platform", "finance");
         WebViewUtils.setCookie("version", "1.3.0.0");
         WebViewUtils.setCookie("channel", "official");
         WebViewUtils.setCookie("phone", "18909131172");
+        webViewHelper.load("https://h5.lawcert.com/trade/withdraw");
+    }
 
-        webViewHelper.setWebViewClientInterface(new MyWebViewClient.WebViewClientInterface() {
-            @Override
-            public boolean onLoadUrl(WebView webView, String url) {
-                LogUtils.logd(TAG, "onLoadUrl:" + url);
-                return false;
-            }
-
-            @Override
-            public void executorJs(WebView webView, String url) {
-                LogUtils.logd(TAG, "executorJs: ");
-            }
-        });
-
+    private void testFile() {
         webViewHelper.setWebChromeClientInterface(new MyWebChromeClient.OpenFileChooserCallBack() {
             // ===============点击表单选择图片或者拍照==============
             @Override
@@ -55,7 +57,6 @@ public class WebViewActivity extends AppCompatActivity {
                 webViewHelper.showPicWindow();
             }
         });
-
         String url = "http://jfx.qdfaw.com:6180/truck-qingdao-web/";
         String token = "00bdd0c39498430e94801beb6578ef6dg";
         String appType = "2", userType = "1", platform = "2";
@@ -66,17 +67,25 @@ public class WebViewActivity extends AppCompatActivity {
         }
         url = String.format("%s?token=%s&appType=%s&userType=%s&platform=%s&cityNmae=%s", url,
                 token, appType, userType, platform, "西安");
-
         webViewHelper.load(url);
-//       webView.loadUrl("https://appapp.snxw.com/sy/tj_3696/201809/t20180930_376601.html");
-//       webViewHelper.load("https://h5.lawcert.com/trade/withdraw");
-
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        webViewHelper.setPicData(requestCode, resultCode, data);
+    private void testImage() {
+        webViewHelper.setWebViewClientInterface(new MyWebViewClient.WebViewClientInterface() {
+            @Override
+            public boolean onLoadUrl(WebView webView, String url) {
+                LogUtils.logd(TAG, "onLoadUrl:" + url);
+                return false;
+            }
+
+            @Override
+            public void executorJs(WebView webView, String url) {
+                LogUtils.logd(TAG, "executorJs: ");
+                webViewHelper.showImage(webView);
+            }
+        });
+        webViewHelper.load("file:///android_asset/test.html");
     }
-    
+
+
 }

@@ -35,4 +35,10 @@
         android:layout_height="wrap_content"
         android:text="测试网络框架" />
 
+    <Button
+        android:id="@+id/btn_h5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="测试webview功能" />
+
 </LinearLayout>
