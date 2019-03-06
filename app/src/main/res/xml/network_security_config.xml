@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- TARGET_SDK_VERSION >23，如果要抓取https包，需配置android:networkSecurityConfig="@xml/network_security_config"-->
 <network-security-config>
     <debug-overrides>
         <trust-anchors>
