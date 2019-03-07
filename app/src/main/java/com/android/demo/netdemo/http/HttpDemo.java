@@ -29,9 +29,9 @@ public class HttpDemo {
         HttpParams httpParams = new HttpParams.Builder()
                 .setUrl("https://passport.lawcert.com/proxy/account/user/login")
                 .appendParams("phone", "18909131172")
-                .appendParams("password", "123qwe")
+                .appendParams("password", "123qwe1")
                 .builder();
-        HttpTask task = HttpUtils.doGet(httpParams, callback);
+        HttpTask task = HttpUtils.doPost(httpParams, callback);
         taskList.add(task);
     }
 

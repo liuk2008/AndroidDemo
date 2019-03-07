@@ -1,8 +1,13 @@
 package com.android.common.net.http.engine;
 
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.android.common.BuildConfig;
+import com.android.common.net.NetStatus;
+import com.android.common.net.NetUtils;
 import com.android.common.net.http.request.HttpParams;
 import com.android.common.net.http.request.NetData;
 import com.google.gson.Gson;
@@ -14,6 +19,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.Proxy;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Map;
@@ -32,10 +38,48 @@ public class HttpEngine {
     private final static String TAG = "http";
     private final static String ENCODE_TYPE = "utf-8";
     private final static int TIMEOUT_IN_MILLIONS = 15 * 1000;
+    private static HttpEngine httpEngine;
+    private Context mContext;
     private HttpParams httpParams;
 
-    public HttpEngine(HttpParams httpParams) {
+    public static synchronized HttpEngine getInstance() {
+        if (httpEngine == null) {
+            httpEngine = new HttpEngine();
+        }
+        return httpEngine;
+    }
+
+    public void init(Context context) {
+        mContext = context;
+    }
+
+    public void setHttpParams(HttpParams httpParams) {
         this.httpParams = httpParams;
+    }
+
+    /**
+     * 检测网络状态
+     * 1、是否连接网络
+     * 2、已连接网络，是否可正常访问网络
+     */
+    private NetData checkNet() {
+        if (null == mContext)
+            throw new RuntimeException("未初始化 HttpEngine");
+        boolean isConnected = NetUtils.isNetConnected(mContext);
+        if (!isConnected) {
+            NetData data = new NetData(NetStatus.NETWORK_DISCONNECTED.getErrorCode(),
+                    NetStatus.NETWORK_DISCONNECTED.getErrorMessage(), "");
+            NetUtils.showToast(mContext,NetStatus.NETWORK_DISCONNECTED.getErrorMessage());
+            return data;
+        }
+        boolean isValidated= NetUtils.isNetValidated(mContext);
+        if (!isValidated) {
+            NetData data = new NetData(NetStatus.NETWORK_UNABLE.getErrorCode(),
+                    NetStatus.NETWORK_UNABLE.getErrorMessage(), "");
+            NetUtils.showToast(mContext,NetStatus.NETWORK_UNABLE.getErrorMessage());
+            return data;
+        }
+        return null;
     }
 
     /**
@@ -43,6 +87,8 @@ public class HttpEngine {
      * 请求参数赋值在url
      */
     public NetData doGet() throws Exception {
+        NetData data = checkNet();
+        if(null!=data) return data;
         String url = httpParams.url;
         String params = addParameter(httpParams.params);
         if (!TextUtils.isEmpty(params)) {
@@ -57,6 +103,8 @@ public class HttpEngine {
      * 提交json数据不需要编码
      */
     public NetData doPost() throws Exception {
+        NetData data = checkNet();
+        if(null!=data) return data;
         String url = httpParams.url;
         String params = "";
         if ("application/json".equals(httpParams.contentType)) {
@@ -76,11 +124,16 @@ public class HttpEngine {
         ByteArrayOutputStream baos = null;
         PrintWriter out = null;
         int responseCode = -1;
-        String msg = "网络异常";
+        String msg = "服务器访问异常";
         String result = "";
         try {
             URL realUrl = new URL(url);
-            connection = (HttpURLConnection) realUrl.openConnection();
+            // 设置release版本禁止通过代理抓取http、https请求
+            if ("release".equals(BuildConfig.BUILD_TYPE)) {
+                connection = (HttpURLConnection) realUrl.openConnection(Proxy.NO_PROXY);
+            } else {
+                connection = (HttpURLConnection) realUrl.openConnection();
+            }
             // 设置连接主机超时
             connection.setConnectTimeout(TIMEOUT_IN_MILLIONS);
             // 设置从主机读取数据超时
@@ -96,6 +149,10 @@ public class HttpEngine {
                 connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             }
             connection.setRequestProperty("Response-Type", "json");
+            Log.d(TAG, "request: url = [" + url + "]");
+            Log.d(TAG, "request: method = [" + requestMethod + "]");
+            Log.d(TAG, "request: contentType = [" + httpParams.contentType + "]");
+            Log.d(TAG, "request: params = [" + params + "]");
             // 设置POST方式
             if ("POST".equals(requestMethod)) {
                 // Post请求不能使用缓存
@@ -116,10 +173,6 @@ public class HttpEngine {
             // 调用connect()只是建立连接，并不会向服务器传送数据，只要调用getResponseCode()，就不必要调用connect方法
             connection.connect();
             // 获得服务器响应的结果和状态码
-            Log.d(TAG, "request: url = [" + url + "]");
-            Log.d(TAG, "request: method = [" + requestMethod + "]");
-            Log.d(TAG, "request: contentType = [" + httpParams.contentType + "]");
-            Log.d(TAG, "request: params = [" + params + "]");
             responseCode = connection.getResponseCode();
             Log.d(TAG, "response: code = [" + responseCode + "]");
             Log.d(TAG, "response: message = [" + connection.getResponseMessage() + "]");

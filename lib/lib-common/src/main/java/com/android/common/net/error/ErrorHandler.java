@@ -1,6 +1,6 @@
 package com.android.common.net.error;
 
-import com.android.common.net.NetConstant;
+import com.android.common.net.NetStatus;
 import com.google.gson.JsonSyntaxException;
 
 import java.net.SocketTimeoutException;
@@ -24,17 +24,17 @@ public class ErrorHandler {
         data.setData(throwable.getMessage());
         if (throwable instanceof TimeoutException
                 || throwable instanceof SocketTimeoutException) {
-            data.setCode(NetConstant.ERROR_TIMEOUTXCEPTION);
-            data.setMsg("网络连接超时");
+            data.setCode(NetStatus.NETWORK_SERVER_TIMEOUT.getErrorCode());
+            data.setMsg(NetStatus.NETWORK_SERVER_TIMEOUT.getErrorMessage());
         } else if (throwable instanceof JsonSyntaxException) {
-            data.setCode(NetConstant.ERROR_JSONEXCEPTION);
-            data.setMsg("Json转换错误");
+            data.setCode(NetStatus.NETWORK_JSON_EXCEPTION.getErrorCode());
+            data.setMsg(NetStatus.NETWORK_JSON_EXCEPTION.getErrorMessage());
         } else if (throwable instanceof ErrorException) { // 业务异常
             data.setCode(((ErrorException) throwable).getCode());
             data.setMsg(throwable.getMessage());
-        } else if (throwable instanceof HttpException) { // 网络错误
-            data.setCode(NetConstant.ERROR_NETWORKEXCEPTION);
-            data.setMsg("网络异常");
+        } else if (throwable instanceof HttpException) { // 404、500 网络错误
+            data.setCode(NetStatus.NETWORK_HTTP_EXCEPTION.getErrorCode());
+            data.setMsg(NetStatus.NETWORK_HTTP_EXCEPTION.getErrorMessage());
             try {
                 // 业务层异常通过网络层抛出时，特殊处理
                 HttpException httpEx = (HttpException) throwable;
@@ -48,8 +48,8 @@ public class ErrorHandler {
                 e.printStackTrace();
             }
         } else {
-            data.setCode(NetConstant.ERROR_OTHER);
-            data.setMsg("服务器连接异常");
+            data.setCode(NetStatus.NETWORK_SERVER_EXCEPTION.getErrorCode());
+            data.setMsg(NetStatus.NETWORK_SERVER_EXCEPTION.getErrorMessage());
             throwable.printStackTrace();
         }
         return data;

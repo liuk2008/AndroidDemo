@@ -29,7 +29,8 @@ public class HttpTask<T> extends AsyncTask<Void, Void, NetData> {
     private Type type, wrapperType;
 
     public HttpTask(@NonNull HttpParams httpParams, @NonNull Callback<T> callback, String requestMethod) {
-        httpEngine = new HttpEngine(httpParams);
+        httpEngine = HttpEngine.getInstance();
+        httpEngine.setHttpParams(httpParams);
         mCallback = callback;
         mRequestMethod = requestMethod;
     }
