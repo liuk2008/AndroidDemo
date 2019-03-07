@@ -3,7 +3,6 @@
     package="com.android.demo">
 
     <application
-        android:networkSecurityConfig="@xml/network_security_config"
         android:name="com.android.demo.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"

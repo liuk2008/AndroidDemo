@@ -12,9 +12,6 @@ import com.android.common.h5.client.MyWebViewClient;
 import com.android.common.h5.client.WebViewUtils;
 import com.android.utils.common.LogUtils;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 public class WebViewActivity extends AppCompatActivity {
 
     private static final String TAG = WebViewActivity.class.getSimpleName();
@@ -27,8 +24,8 @@ public class WebViewActivity extends AppCompatActivity {
         setContentView(webViewHelper.getRootView());
 
 //        testCookie();
-//        testFile();
-        testImage();
+        testFile();
+//        testImage();
     }
 
     @Override
@@ -39,7 +36,7 @@ public class WebViewActivity extends AppCompatActivity {
 
     private void testCookie() {
         // 设置cookie
-        WebViewUtils.setCookie("token", "197E440633084154B30B330E9C77235C.9EFB8608CBF00C5241FD657847358D9B");
+        WebViewUtils.setCookie("token", "84643485AD2A48CD97F718421F9BAD32.08EA217B8E0792B04FB7090685B64BE6");
         WebViewUtils.setCookie("currentUserId", "ED08E7A6C6F7459FA264C736482CD5F6");
         WebViewUtils.setCookie("origin", "android");
         WebViewUtils.setCookie("platform", "finance");
@@ -57,17 +54,7 @@ public class WebViewActivity extends AppCompatActivity {
                 webViewHelper.showPicWindow();
             }
         });
-        String url = "http://jfx.qdfaw.com:6180/truck-qingdao-web/";
-        String token = "00bdd0c39498430e94801beb6578ef6dg";
-        String appType = "2", userType = "1", platform = "2";
-        try {
-            token = URLEncoder.encode(token, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        url = String.format("%s?token=%s&appType=%s&userType=%s&platform=%s&cityNmae=%s", url,
-                token, appType, userType, platform, "西安");
-        webViewHelper.load(url);
+        webViewHelper.load("http://jfx.qdfaw.com:6180/truck-qingdao-web/");
     }
 
     private void testImage() {
@@ -77,7 +64,6 @@ public class WebViewActivity extends AppCompatActivity {
                 LogUtils.logd(TAG, "onLoadUrl:" + url);
                 return false;
             }
-
             @Override
             public void executorJs(WebView webView, String url) {
                 LogUtils.logd(TAG, "executorJs: ");

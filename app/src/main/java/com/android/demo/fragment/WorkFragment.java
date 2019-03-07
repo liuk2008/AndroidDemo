@@ -14,6 +14,7 @@ import com.android.common.view.ToolbarUtil;
 import com.android.demo.R;
 import com.android.demo.WebViewActivity;
 import com.android.demo.netdemo.MonthBillInfo;
+import com.android.demo.netdemo.UserInfo;
 import com.android.demo.netdemo.http.HttpDemo;
 import com.android.demo.netdemo.retrofit.RetrofitDemo;
 import com.android.demo.netdemo.rxjava.RxNetDemo;

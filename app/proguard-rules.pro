@@ -51,6 +51,7 @@
 #---------------------------------默认保留区---------------------------------
 # 不混淆四大组件
 -keep public class * extends android.app.Activity
+-keep public class * extends android.support.v4.app.Fragment
 -keep public class * extends android.app.Application
 -keep public class * extends android.app.Service
 -keep public class * extends android.content.BroadcastReceiver
@@ -123,6 +124,16 @@
 
 # Zxing 混淆规则
 -dontwarn com.google.zxing.**
+
+# viewinject 混淆规则
+-keep class com.viewinject.bindview.** { *; }
+-keep class **ViewInjector{ *; }
+-keepclasseswithmembernames class * {
+    @MyBindView.* <fields>;
+}
+-keepclasseswithmembernames class * {
+    @MyOnClick.* <methods>;
+}
 #---------------------------------第三方--------------------------------
 
 
