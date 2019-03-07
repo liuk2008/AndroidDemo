@@ -54,7 +54,7 @@ android {
             zipAlignEnabled false
             debuggable true
             signingConfig signingConfigs.debug
-            matchingFallbacks = ['release', 'debug']
+            matchingFallbacks = ['debug']
         }
     }
 
