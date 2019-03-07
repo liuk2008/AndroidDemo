@@ -3,7 +3,7 @@ package com.android.common.net.retrofit;
 
 import android.content.Context;
 
-import com.android.common.net.NetConstant;
+import com.android.common.net.NetStatus;
 import com.android.common.net.retrofit.converter.ConverterFactory;
 import com.android.common.net.retrofit.converter.DataConverterFactory;
 import com.android.common.net.retrofit.interceptor.MyOkHttpClient;
@@ -63,15 +63,15 @@ public class RetrofitEngine {
                 .baseUrl(url)
                 .client(okHttpClient);
         switch (type) {
-            case NetConstant.RETROFIT_DEFAULT_DATAWRAPPER:
+            case NetStatus.Type.RETROFIT_DEFAULT_DATAWRAPPER:
                 client.addConverterFactory(new DataConverterFactory<>());
                 break;
-            case NetConstant.RETROFIT_RXJAVA:
+            case NetStatus.Type.RETROFIT_RXJAVA:
                 client.addConverterFactory(new ConverterFactory<>());  // 必须设置在 Gson 转换之前
                 client.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
                 client.addConverterFactory(GsonConverterFactory.create());
                 break;
-            case NetConstant.RETROFIT_RXJAVA_DATAWRAPPER:
+            case NetStatus.Type.RETROFIT_RXJAVA_DATAWRAPPER:
                 client.addConverterFactory(new DataConverterFactory<>());
                 client.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
                 break;

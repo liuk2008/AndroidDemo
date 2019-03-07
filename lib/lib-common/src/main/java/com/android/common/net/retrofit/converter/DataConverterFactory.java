@@ -67,7 +67,7 @@ public class DataConverterFactory<T> extends Converter.Factory {
                             throw new JsonSyntaxException("java.lang.IllegalStateException: Expected BEGIN");
                         }
                         int resultCode = Integer.valueOf(apiResponse.getResultCode());
-                        if (resultCode != 200) { // 非200下，抛出业务层异常
+                        if (resultCode != 200) { // 非200下，抛出自定义异常
                             throw new ErrorException(resultCode, apiResponse.getMessage());
                         }
                         if (type == Null.class || null == apiResponse.getData()) {

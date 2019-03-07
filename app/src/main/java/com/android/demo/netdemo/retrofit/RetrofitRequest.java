@@ -1,7 +1,7 @@
 package com.android.demo.netdemo.retrofit;
 
 
-import com.android.common.net.NetConstant;
+import com.android.common.net.NetStatus;
 import com.android.common.net.Null;
 import com.android.common.net.retrofit.RetrofitEngine;
 import com.android.demo.netdemo.GeeValidateInfo;
@@ -27,7 +27,7 @@ public class RetrofitRequest {
                 -1);
         financeApi = retrofitEngine.getRetrofitService(FinanceApi.class,
                 "https://www.lawcert.com/proxy/hzcms/",
-                NetConstant.RETROFIT_DEFAULT_DATAWRAPPER);
+                NetStatus.Type.RETROFIT_DEFAULT_DATAWRAPPER);
     }
 
     public static RetrofitRequest getInstance() {

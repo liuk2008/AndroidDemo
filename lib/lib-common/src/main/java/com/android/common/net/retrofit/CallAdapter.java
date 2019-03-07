@@ -42,14 +42,13 @@ public class CallAdapter<T> implements retrofit2.Callback<T> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            mCallback.onFail(response.code(), "网络异常", result);
+            mCallback.onFail(response.code(), "服务器访问异常", result);
         }
     }
 
     //  当一个请求取消时，回调方法onFailure()会执行，而onFailure()方法在没有网络或网络超时的时候也会执行。
     @Override
     public void onFailure(Call<T> call, Throwable throwable) {
-        Log.d(TAG, "onFailure: ");
         throwable.printStackTrace();
         if (!call.isCanceled()) {
             ErrorData errorData = ErrorHandler.handlerError(throwable);
@@ -62,4 +61,5 @@ public class CallAdapter<T> implements retrofit2.Callback<T> {
     public void setCallback() {
         mCallback = null;
     }
+
 }

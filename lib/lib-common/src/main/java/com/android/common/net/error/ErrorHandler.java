@@ -29,9 +29,10 @@ public class ErrorHandler {
         } else if (throwable instanceof JsonSyntaxException) {
             data.setCode(NetStatus.NETWORK_JSON_EXCEPTION.getErrorCode());
             data.setMsg(NetStatus.NETWORK_JSON_EXCEPTION.getErrorMessage());
-        } else if (throwable instanceof ErrorException) { // 业务异常
+        } else if (throwable instanceof ErrorException) { // 自定义异常
             data.setCode(((ErrorException) throwable).getCode());
             data.setMsg(throwable.getMessage());
+            data.setData("");
         } else if (throwable instanceof HttpException) { // 404、500 网络错误
             data.setCode(NetStatus.NETWORK_HTTP_EXCEPTION.getErrorCode());
             data.setMsg(NetStatus.NETWORK_HTTP_EXCEPTION.getErrorMessage());

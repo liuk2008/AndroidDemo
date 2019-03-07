@@ -1,9 +1,13 @@
 package com.android.common.net.error;
 
+import java.io.IOException;
+
 /**
- * 自定义业务异常
+ * 自定义异常
+ * 1、可抛出业务异常
+ * 2、可抛出网络层异常
  */
-public class ErrorException extends RuntimeException {
+public class ErrorException extends IOException {
 
     private int code;
     private String message;

@@ -1,7 +1,7 @@
 package com.android.demo.netdemo.rxjava;
 
 
-import com.android.common.net.NetConstant;
+import com.android.common.net.NetStatus;
 import com.android.common.net.Null;
 import com.android.common.net.retrofit.RetrofitEngine;
 import com.android.demo.netdemo.GeeValidateInfo;
@@ -24,10 +24,10 @@ public class RxNetRequest {
         retrofitEngine = RetrofitEngine.getInstance();
         accountApi = retrofitEngine.getRetrofitService(FinanceApi.class,
                 "https://passport.lawcert.com/proxy/account/",
-                NetConstant.RETROFIT_RXJAVA);
+                NetStatus.Type.RETROFIT_RXJAVA);
         financeApi = retrofitEngine.getRetrofitService(FinanceApi.class,
                 "https://www.lawcert.com/proxy/hzcms/",
-                NetConstant.RETROFIT_RXJAVA_DATAWRAPPER);
+                NetStatus.Type.RETROFIT_RXJAVA_DATAWRAPPER);
     }
 
     public static RxNetRequest getInstance() {
