@@ -2,8 +2,10 @@ package com.android.common.net.retrofit.interceptor;
 
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.text.TextUtils;
+
+import com.android.common.net.NetStatus;
+import com.android.common.net.NetUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +20,6 @@ import okhttp3.HttpUrl;
 public class MyHttpCookieInterceptor implements CookieJar {
 
     private static final String TAG = MyHttpCookieInterceptor.class.getSimpleName();
-    private static final String TOKEN_KEY = "token";
-    private static final String DOMAIN_KEY = "domain";
     private static MyHttpCookieInterceptor instance;
     private Context mContext;
 
@@ -45,17 +45,19 @@ public class MyHttpCookieInterceptor implements CookieJar {
     public List<Cookie> loadForRequest(HttpUrl url) {
         List<Cookie> cookieList = new ArrayList<>();
         //  判断是否存在token
-        String token = getString(mContext, TOKEN_KEY, "");
+        String token = NetUtils.getString(mContext, NetStatus.Type.TOKEN_KEY, "");
         if (!TextUtils.isEmpty(token)) {
             //  TODO 将token设置在cookie中
             Cookie.Builder builder = new Cookie.Builder();
-            String domain = getString(mContext, DOMAIN_KEY, "");
+            String domain = NetUtils.getString(mContext, NetStatus.Type.DOMAIN_KEY, "");
             builder.domain(domain);  // cookie的作用域
-            builder.name(TOKEN_KEY);
+            builder.name(NetStatus.Type.TOKEN_KEY);
             builder.value(token);
             Cookie tokenCookie = builder.build();
             cookieList.add(tokenCookie);
         }
+        Cookie VERSION_COOKIE = new Cookie.Builder().domain("lawcert.com").name("version").value("1.0").build();
+        cookieList.add(VERSION_COOKIE);
         return cookieList;
     }
 
@@ -63,27 +65,13 @@ public class MyHttpCookieInterceptor implements CookieJar {
     @Override
     public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
         for (Cookie cookie : cookies) {
-            if (TOKEN_KEY.equalsIgnoreCase(cookie.name())) {
+            if (NetStatus.Type.TOKEN_KEY.equalsIgnoreCase(cookie.name())) {
                 // TODO 本地持久化存储token
-                putString(mContext, TOKEN_KEY, cookie.value());
-                putString(mContext, DOMAIN_KEY, cookie.domain());
+                NetUtils.putString(mContext, NetStatus.Type.TOKEN_KEY, cookie.value());
+                NetUtils.putString(mContext, NetStatus.Type.DOMAIN_KEY, cookie.domain());
                 break;
             }
         }
-    }
-
-    private void putString(Context context, String key, String value) {
-        SharedPreferences sp = context.getSharedPreferences("config",
-                Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putString(key, value);
-        editor.commit();
-    }
-
-    private String getString(Context context, String key, String defValue) {
-        SharedPreferences sp = context.getSharedPreferences("config",
-                Context.MODE_PRIVATE);
-        return sp.getString(key, defValue);
     }
 
 

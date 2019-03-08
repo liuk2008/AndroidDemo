@@ -64,9 +64,9 @@ public class MyOkHttpClient {
         MyHttpCacheInterceptor cacheInterceptor = new MyHttpCacheInterceptor(context);
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.connectTimeout(TIME, TimeUnit.SECONDS)
-                .writeTimeout(TIME, TimeUnit.SECONDS)
-                .readTimeout(TIME, TimeUnit.SECONDS)
+        builder.connectTimeout(NetStatus.Type.TIMEOUT_MILLISECONDS, TimeUnit.MILLISECONDS)
+                .writeTimeout(NetStatus.Type.TIMEOUT_MILLISECONDS, TimeUnit.MILLISECONDS)
+                .readTimeout(NetStatus.Type.TIMEOUT_MILLISECONDS, TimeUnit.MILLISECONDS)
                 .retryOnConnectionFailure(false) // 禁止重新连接
                 .cookieJar(cookieInterceptor) // 设置cookie
 //                .connectionPool(new ConnectionPool(0, 1, TimeUnit.SECONDS))

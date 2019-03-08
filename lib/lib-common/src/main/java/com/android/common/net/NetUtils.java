@@ -1,6 +1,7 @@
 package com.android.common.net;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
@@ -48,6 +49,7 @@ public class NetUtils {
     }
 
     private static Toast toast;
+
     public static void showToast(final Context context, final String msg) {
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(new Runnable() {
@@ -62,4 +64,18 @@ public class NetUtils {
         });
     }
 
+
+    public static void putString(Context context, String key, String value) {
+        SharedPreferences sp = context.getSharedPreferences("config",
+                Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(key, value);
+        editor.commit();
+    }
+
+    public static String getString(Context context, String key, String defValue) {
+        SharedPreferences sp = context.getSharedPreferences("config",
+                Context.MODE_PRIVATE);
+        return sp.getString(key, defValue);
+    }
 }

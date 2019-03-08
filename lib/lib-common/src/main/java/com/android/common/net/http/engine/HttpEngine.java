@@ -3,7 +3,6 @@ package com.android.common.net.http.engine;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.android.common.BuildConfig;
 import com.android.common.net.NetStatus;
@@ -22,6 +21,7 @@ import java.net.HttpURLConnection;
 import java.net.Proxy;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,7 +37,7 @@ import java.util.Map;
 public class HttpEngine {
     private final static String TAG = "http";
     private final static String ENCODE_TYPE = "utf-8";
-    private final static int TIMEOUT_IN_MILLIONS = 15 * 1000;
+
     private static HttpEngine httpEngine;
     private Context mContext;
     private HttpParams httpParams;
@@ -69,14 +69,14 @@ public class HttpEngine {
         if (!isConnected) {
             NetData data = new NetData(NetStatus.NETWORK_DISCONNECTED.getErrorCode(),
                     NetStatus.NETWORK_DISCONNECTED.getErrorMessage(), "");
-            NetUtils.showToast(mContext,NetStatus.NETWORK_DISCONNECTED.getErrorMessage());
+            NetUtils.showToast(mContext, NetStatus.NETWORK_DISCONNECTED.getErrorMessage());
             return data;
         }
-        boolean isValidated= NetUtils.isNetValidated(mContext);
+        boolean isValidated = NetUtils.isNetValidated(mContext);
         if (!isValidated) {
             NetData data = new NetData(NetStatus.NETWORK_UNABLE.getErrorCode(),
                     NetStatus.NETWORK_UNABLE.getErrorMessage(), "");
-            NetUtils.showToast(mContext,NetStatus.NETWORK_UNABLE.getErrorMessage());
+            NetUtils.showToast(mContext, NetStatus.NETWORK_UNABLE.getErrorMessage());
             return data;
         }
         return null;
@@ -88,7 +88,7 @@ public class HttpEngine {
      */
     public NetData doGet() throws Exception {
         NetData data = checkNet();
-        if(null!=data) return data;
+        if (null != data) return data;
         String url = httpParams.url;
         String params = addParameter(httpParams.params);
         if (!TextUtils.isEmpty(params)) {
@@ -104,7 +104,7 @@ public class HttpEngine {
      */
     public NetData doPost() throws Exception {
         NetData data = checkNet();
-        if(null!=data) return data;
+        if (null != data) return data;
         String url = httpParams.url;
         String params = "";
         if ("application/json".equals(httpParams.contentType)) {
@@ -135,9 +135,9 @@ public class HttpEngine {
                 connection = (HttpURLConnection) realUrl.openConnection();
             }
             // 设置连接主机超时
-            connection.setConnectTimeout(TIMEOUT_IN_MILLIONS);
+            connection.setConnectTimeout(NetStatus.Type.TIMEOUT_MILLISECONDS);
             // 设置从主机读取数据超时
-            connection.setReadTimeout(TIMEOUT_IN_MILLIONS);
+            connection.setReadTimeout(NetStatus.Type.TIMEOUT_MILLISECONDS);
             // 设置请求方式
             connection.setRequestMethod(requestMethod);
             connection.setRequestProperty("Accept", "application/json");
@@ -149,6 +149,13 @@ public class HttpEngine {
                 connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             }
             connection.setRequestProperty("Response-Type", "json");
+            // 设置自定义请求头
+            Map<String, String> headers = httpParams.headers;
+            for (String header : headers.keySet()) {
+                connection.setRequestProperty(header, headers.get(header));
+            }
+            // 设置cookie
+            connection.setRequestProperty("Cookie", httpParams.setCookie(mContext));
             Log.d(TAG, "request: url = [" + url + "]");
             Log.d(TAG, "request: method = [" + requestMethod + "]");
             Log.d(TAG, "request: contentType = [" + httpParams.contentType + "]");
@@ -174,9 +181,22 @@ public class HttpEngine {
             connection.connect();
             // 获得服务器响应的结果和状态码
             responseCode = connection.getResponseCode();
-            Log.d(TAG, "response: code = [" + responseCode + "]");
-            Log.d(TAG, "response: message = [" + connection.getResponseMessage() + "]");
-            Log.d(TAG, "response: server = [" + connection.getHeaderField("Server") + "]");
+            Map<String, List<String>> headerFields = connection.getHeaderFields();
+            for (String key : headerFields.keySet()) {
+                StringBuilder sb = new StringBuilder();
+                sb.append(TextUtils.isEmpty(key) ? "response: " : "response: " + key + " = ");
+                List<String> values = headerFields.get(key);
+                if (values != null && values.size() > 0) {
+                    for (String value : values) {
+                        sb.append("[" + value + "]");
+                    }
+                    // 存储cookie
+                    if ("Set-Cookie".equals(key)) {
+                        httpParams.getCookie(mContext, values);
+                    }
+                }
+                Log.d(TAG, sb.toString());
+            }
             if (responseCode == 200) {
                 is = connection.getInputStream();
                 baos = new ByteArrayOutputStream();
@@ -237,5 +257,6 @@ public class HttpEngine {
         }
         return paramStr;
     }
+
 
 }
