@@ -89,7 +89,7 @@ public class MyWebView extends WebView {
     // 设置cookie
     private void setCookie(String url) {
         if (TextUtils.isEmpty(url)) return;
-        if (WebViewUtils.getCookieMap().size() == 0) return;
+        if (WebViewUtils.getCookieMap().size() <= 0) return;
         if (url.startsWith("http")) {
             Uri uri = Uri.parse(url);
             String domain = uri.getHost();
@@ -97,9 +97,6 @@ public class MyWebView extends WebView {
             WebViewUtils.clearCookie();
             CookieManager cookieManager = CookieManager.getInstance();
             cookieManager.setAcceptCookie(true);
-            if (!TextUtils.isEmpty(domain) && domain.contains("//")) {
-                domain = Uri.parse(domain).getHost();
-            }
             for (String key : hashMap.keySet()) {
                 String value = hashMap.get(key);
                 cookieManager.setCookie(domain, key + "=" + value);

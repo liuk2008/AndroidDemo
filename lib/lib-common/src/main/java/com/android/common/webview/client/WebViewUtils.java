@@ -59,9 +59,10 @@ public class WebViewUtils {
             for (String split : splits) {
                 split = split.trim();
                 String[] tokens = split.split("=");
-                if ("token".equals(tokens[0].trim().toLowerCase())) {
+                if ("token".equalsIgnoreCase(tokens[0].trim())) {
                     if (!token.equals(tokens[1].trim())) {
                         token = tokens[1].trim();
+                        break;
                     }
                 }
             }
