@@ -13,6 +13,7 @@ import com.android.common.net.callback.Callback;
 import com.android.common.view.ToolbarUtil;
 import com.android.demo.R;
 import com.android.demo.WebViewActivity;
+import com.android.demo.netdemo.AccountSummaryInfo;
 import com.android.demo.netdemo.MonthBillInfo;
 import com.android.demo.netdemo.UserInfo;
 import com.android.demo.netdemo.http.HttpDemo;
@@ -107,7 +108,7 @@ public class WorkFragment extends BaseFragment {
         httpDemo = new HttpDemo();
         retrofitDemo = new RetrofitDemo();
         rxNetDemo = new RxNetDemo();
-        test();
+        testSummary();
     }
 
     @Override
@@ -120,18 +121,22 @@ public class WorkFragment extends BaseFragment {
     }
 
 
-    private void test() {
-//        rxNetDemo.login(new Callback<UserInfo>() {
-//            @Override
-//            public void onSuccess(UserInfo userInfo) {
-//                LogUtils.logd(TAG, "userinfo :" + userInfo);
-//            }
-//
-//            @Override
-//            public void onFail(int resultCode, String msg, String data) {
-//                LogUtils.logd(TAG, LogUtils.getThreadName() + "resultCode:" + resultCode + ", msg:" + msg + ", data:" + data);
-//            }
-//        });
+    private void testLogin() {
+        httpDemo.login(new Callback<UserInfo>() {
+            @Override
+            public void onSuccess(UserInfo userInfo) {
+                LogUtils.logd(TAG, "userinfo :" + userInfo);
+                testSummary();
+            }
+
+            @Override
+            public void onFail(int resultCode, String msg, String data) {
+                LogUtils.logd(TAG, LogUtils.getThreadName() + "resultCode:" + resultCode + ", msg:" + msg + ", data:" + data);
+            }
+        });
+    }
+
+    private void testPhone() {
         httpDemo.checkPhone(new Callback<LinkedHashMap<String, Object>>() {
             @Override
             public void onSuccess(LinkedHashMap<String, Object> linkedHashMap) {
@@ -147,17 +152,34 @@ public class WorkFragment extends BaseFragment {
                 LogUtils.logd(TAG, "resultCode:" + resultCode + ", msg:" + msg + ", data:" + data);
             }
         });
-//        retrofitDemo.monthBill(new Callback<MonthBillInfo>() {
-//            @Override
-//            public void onSuccess(MonthBillInfo info) {
-//                LogUtils.logd(TAG, "info :" + info);
-//            }
-//
-//            @Override
-//            public void onFail(int resultCode, String msg, String data) {
-//                LogUtils.logd(TAG, LogUtils.getThreadName() + "resultCode:" + resultCode + ", msg:" + msg + ", data:" + data);
-//            }
-//        });
+    }
+
+    private void testBill() {
+        httpDemo.monthBill(new Callback<MonthBillInfo>() {
+            @Override
+            public void onSuccess(MonthBillInfo info) {
+                LogUtils.logd(TAG, "info :" + info);
+            }
+
+            @Override
+            public void onFail(int resultCode, String msg, String data) {
+                LogUtils.logd(TAG, LogUtils.getThreadName() + "resultCode:" + resultCode + ", msg:" + msg + ", data:" + data);
+            }
+        });
+    }
+
+    private void testSummary() {
+        httpDemo.accountSummary(new Callback<AccountSummaryInfo>() {
+            @Override
+            public void onSuccess(AccountSummaryInfo info) {
+                LogUtils.logd(TAG, "info :" + info);
+            }
+
+            @Override
+            public void onFail(int resultCode, String msg, String data) {
+                LogUtils.logd(TAG, LogUtils.getThreadName() + "resultCode:" + resultCode + ", msg:" + msg + ", data:" + data);
+            }
+        });
     }
 
 

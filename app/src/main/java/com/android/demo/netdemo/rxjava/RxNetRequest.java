@@ -4,6 +4,7 @@ package com.android.demo.netdemo.rxjava;
 import com.android.common.net.NetStatus;
 import com.android.common.net.Null;
 import com.android.common.net.retrofit.RetrofitEngine;
+import com.android.demo.netdemo.AccountSummaryInfo;
 import com.android.demo.netdemo.GeeValidateInfo;
 import com.android.demo.netdemo.MonthBillInfo;
 import com.android.demo.netdemo.UserInfo;
@@ -70,4 +71,9 @@ public class RxNetRequest {
     public Observable<MonthBillInfo> monthBill() {
         return financeApi.monthBill();
     }
+
+    public Observable<AccountSummaryInfo> accountSummary() {
+        return financeApi.accountSummary();
+    }
+
 }

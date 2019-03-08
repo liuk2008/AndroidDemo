@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.android.common.net.Null;
 import com.android.common.net.callback.Callback;
 import com.android.common.net.rxjava.RxNetUtils;
+import com.android.demo.netdemo.AccountSummaryInfo;
 import com.android.demo.netdemo.GeeValidateInfo;
 import com.android.demo.netdemo.MonthBillInfo;
 import com.android.demo.netdemo.UserInfo;
@@ -128,6 +129,20 @@ public class RxNetDemo {
         RxNetUtils.subscribe(apiRequest.monthBill(), new Callback<MonthBillInfo>() {
             @Override
             public void onSuccess(MonthBillInfo info) {
+                LogUtils.logd(TAG, "info :" + info);
+            }
+
+            @Override
+            public void onFail(int resultCode, String msg, String data) {
+                LogUtils.logd(TAG, "resultCode:" + resultCode + ", msg:" + msg + ", data:" + data);
+            }
+        });
+    }
+
+    public void accountSummary() {
+        RxNetUtils.subscribe(apiRequest.accountSummary(), new Callback<AccountSummaryInfo>() {
+            @Override
+            public void onSuccess(AccountSummaryInfo info) {
                 LogUtils.logd(TAG, "info :" + info);
             }
 

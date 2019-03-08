@@ -8,6 +8,7 @@ import com.android.common.net.callback.Callback;
 import com.android.common.net.http.request.HttpParams;
 import com.android.common.net.http.request.HttpTask;
 import com.android.common.net.http.request.HttpUtils;
+import com.android.demo.netdemo.AccountSummaryInfo;
 import com.android.demo.netdemo.GeeValidateInfo;
 import com.android.demo.netdemo.MonthBillInfo;
 import com.android.demo.netdemo.UserInfo;
@@ -29,8 +30,9 @@ public class HttpDemo {
         HttpParams httpParams = new HttpParams.Builder()
                 .setUrl("https://passport.lawcert.com/proxy/account/user/login")
                 .appendParams("phone", "18909131172")
-                .appendParams("password", "123qwe1")
+                .appendParams("password", "123qwe")
                 .builder();
+
         HttpTask task = HttpUtils.doPost(httpParams, callback);
         taskList.add(task);
     }
@@ -38,6 +40,8 @@ public class HttpDemo {
     public void checkPhone(Callback<LinkedHashMap<String, Object>> callback) {
         HttpParams httpParams = new HttpParams.Builder()
                 .setUrl("https://passport.lawcert.com/proxy/account/user/phone/exist/18909131172")
+                .appendHeader("version", "1.0")
+                .appendCookie("version","1.0")
                 .builder();
         HttpTask task = HttpUtils.doGet(httpParams, callback);
         taskList.add(task);
@@ -108,6 +112,15 @@ public class HttpDemo {
         HttpTask task = HttpUtils.doGet(httpParams, callback);
         taskList.add(task);
     }
+
+    public void accountSummary(Callback<AccountSummaryInfo> callback) {
+        HttpParams httpParams = new HttpParams.Builder()
+                .setUrl("https://www.lawcert.com/proxy/trc_bjcg/u/m/myAccount/accountSummary")
+                .builder();
+        HttpTask task = HttpUtils.doGet(httpParams, callback);
+        taskList.add(task);
+    }
+
 
     public void cancelTask(HttpTask task) {
         taskList.remove(task);

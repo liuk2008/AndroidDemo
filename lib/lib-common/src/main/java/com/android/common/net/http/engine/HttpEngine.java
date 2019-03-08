@@ -158,8 +158,19 @@ public class HttpEngine {
             connection.setRequestProperty("Cookie", httpParams.setCookie(mContext));
             Log.d(TAG, "request: url = [" + url + "]");
             Log.d(TAG, "request: method = [" + requestMethod + "]");
-            Log.d(TAG, "request: contentType = [" + httpParams.contentType + "]");
             Log.d(TAG, "request: params = [" + params + "]");
+            Map<String, List<String>> requestProperties = connection.getRequestProperties();
+            for (String key : requestProperties.keySet()) {
+                StringBuilder sb = new StringBuilder();
+                sb.append("request: " + key + " = ");
+                List<String> values = requestProperties.get(key);
+                if (values != null && values.size() > 0) {
+                    for (String value : values) {
+                        sb.append("[" + value + "]");
+                    }
+                }
+                Log.d(TAG, sb.toString());
+            }
             // 设置POST方式
             if ("POST".equals(requestMethod)) {
                 // Post请求不能使用缓存

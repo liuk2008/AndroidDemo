@@ -2,6 +2,7 @@ package com.android.demo.netdemo.rxjava;
 
 
 import com.android.common.net.Null;
+import com.android.demo.netdemo.AccountSummaryInfo;
 import com.android.demo.netdemo.MonthBillInfo;
 import com.android.demo.netdemo.UserInfo;
 
@@ -45,5 +46,7 @@ public interface FinanceApi {
     @GET("channelPage/monthBill")
     Observable<MonthBillInfo> monthBill();
 
+    @GET("trc_bjcg/u/m/myAccount/accountSummary")
+    Observable<AccountSummaryInfo> accountSummary();
 }
 
