@@ -1,15 +1,17 @@
 package com.android.demo;
 
 import android.content.Intent;
+import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 
-import com.android.common.h5.WebViewHelper;
-import com.android.common.h5.client.MyWebChromeClient;
-import com.android.common.h5.client.MyWebViewClient;
-import com.android.common.h5.client.WebViewUtils;
+import com.android.common.webview.WebViewHelper;
+import com.android.common.webview.client.MyWebChromeClient;
+import com.android.common.webview.client.MyWebViewClient;
+import com.android.common.webview.client.WebViewUtils;
 import com.android.utils.common.LogUtils;
 
 public class WebViewActivity extends AppCompatActivity {
@@ -22,7 +24,7 @@ public class WebViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         webViewHelper = WebViewHelper.create(this);
         setContentView(webViewHelper.getRootView());
-
+        webViewHelper.initClient();
 //        testCookie();
         testFile();
 //        testImage();
@@ -64,11 +66,18 @@ public class WebViewActivity extends AppCompatActivity {
                 LogUtils.logd(TAG, "onLoadUrl:" + url);
                 return false;
             }
+
             @Override
             public void executorJs(WebView webView, String url) {
                 LogUtils.logd(TAG, "executorJs: ");
                 webViewHelper.showImage(webView);
             }
+
+            @Override
+            public void SSLException(WebView view, SslErrorHandler handler, SslError error) {
+
+            }
+
         });
         webViewHelper.load("file:///android_asset/test.html");
     }

@@ -1,4 +1,4 @@
-package com.android.common.h5;
+package com.android.common.webview;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -10,7 +10,7 @@ import android.webkit.CookieManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
-import com.android.common.h5.client.WebViewUtils;
+import com.android.common.webview.client.WebViewUtils;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -10,7 +10,8 @@ Android演示项目
          * 2、获取状态栏高度，设置布局View高度=状态栏高度
          * 3、设置布局View背景色与主题色一致
     * 3、增加网络框架使用Demo
-    * 4、当TARGET_SDK_VERSION >23时，如果要抓取https包，需配置android:networkSecurityConfig="@xml/network_security_config"
+    * 4、当TARGET_SDK_VERSION >23时，设置代理抓取https包，需配置android:networkSecurityConfig="@xml/network_security_config"
+    * 5、当TARGET_SDK_VERSION >=28时，使用WebView无法加载http请求，需配置 android:usesCleartextTraffic="true"
 
 **lib**
 
@@ -42,6 +43,8 @@ Android演示项目
 	             增加Retrofit缓存机制、Cookie管理机制、设置请求头、日志机制、重新连接机制
 	          3、Http + Callback：封装原生网路框架
 	          4、每个网络框架可取消单个请求，也可取消全部请求
+	          5、网络层统一检测网络连接状态，包含：网络未连接，网络已连接但无法正常访问
+	          6、release版本设置NO_PROXY，禁止通过代理抓取http、https请求
          * 2、ErrorHandler：处理网络请求异常
          * 3、Null：当网络请求正常但无返回数据时，可使用Null对象解析
 		      * http请求场景
@@ -121,7 +124,6 @@ Android演示项目
 
 	* 1、主页框架的搭建
 	* 2、Fragment与Activity嵌套使用
-	* 3、WebView加载H5页面，与原生交互，事件拦截
 	* 4、路由框架的使用
 	* 5、组件化、模块化使用思路
 	* 6、代码混淆，签名校验，MD5算法与SHA算法原理

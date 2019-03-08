@@ -1,4 +1,4 @@
-package com.android.common.h5.client;
+package com.android.common.webview.client;
 
 import android.net.Uri;
 import android.util.Log;
@@ -14,7 +14,6 @@ import com.android.common.R;
 /**
  * Created by Administrator on 2018/3/21.
  */
-
 public class MyWebChromeClient extends WebChromeClient {
 
     private static final String TAG = "MyWebChromeClient";

@@ -1,4 +1,4 @@
-package com.android.common.h5.client;
+package com.android.common.webview.client;
 
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;
@@ -17,10 +17,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.common.R;
-import com.android.common.h5.MyWebView;
+import com.android.common.webview.MyWebView;
 
 /**
- *
+ * 处理网络错误，加载自定义页面
  */
 public class MyWebViewClient extends WebViewClient {
 
@@ -149,11 +149,13 @@ public class MyWebViewClient extends WebViewClient {
      * 在重写WebViewClient的onReceivedSslError方法时，注意一定要去除onReceivedSslError方法的super.onReceivedSslError(view, handler, error);，否则设置无效。
      */
     @Override
-    public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+    public void onReceivedSslError(WebView webView, SslErrorHandler handler, SslError error) {
         //super.onReceivedSslError(webView, sslErrorHandler, sslError);
+        Log.d(TAG, "onReceivedSslError: ");
         // 忽略SSL证书错误，继续加载页面
         handler.proceed();
-        Log.d(TAG, "onReceivedSslError: ");
+        if (webViewClientInterface != null)
+            webViewClientInterface.SSLException(webView, handler, error);
     }
 
     /**
@@ -181,10 +183,10 @@ public class MyWebViewClient extends WebViewClient {
     public interface WebViewClientInterface {
         // 处理特定url
         boolean onLoadUrl(WebView webView, String url);
-
         // 执行js脚本
         void executorJs(WebView webView, String url);
-
+        // 处理https错误
+        void SSLException(WebView webView, SslErrorHandler handler, SslError error);
     }
 
     public void setWebViewClientInterface(WebViewClientInterface webViewClientInterface) {

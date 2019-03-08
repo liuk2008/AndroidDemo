@@ -1,4 +1,4 @@
-package com.android.common.h5;
+package com.android.common.webview;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -33,10 +33,10 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.android.common.R;
-import com.android.common.h5.client.MyImage;
-import com.android.common.h5.client.MyWebChromeClient;
-import com.android.common.h5.client.MyWebViewClient;
-import com.android.common.h5.client.WebViewUtils;
+import com.android.common.webview.client.MyImage;
+import com.android.common.webview.client.MyWebChromeClient;
+import com.android.common.webview.client.MyWebViewClient;
+import com.android.common.webview.client.WebViewUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -69,7 +69,6 @@ public class WebViewHelper {
         WebViewHelper webViewHelper = new WebViewHelper(activity);
         webViewHelper.initView();
         webViewHelper.initListener();
-        webViewHelper.initClient();
         webViewHelper.registerLifecycle();
         return webViewHelper;
     }
@@ -79,7 +78,7 @@ public class WebViewHelper {
     }
 
     private void initView() {
-        rootView = LayoutInflater.from(activity).inflate(R.layout.activity_h5, null);
+        rootView = LayoutInflater.from(activity).inflate(R.layout.activity_webview, null);
         // 配置系统状态栏
         configStatusBar();
         View statusBar = rootView.findViewById(R.id.status_bar_fix);
@@ -91,6 +90,7 @@ public class WebViewHelper {
         iv_arrow = rootView.findViewById(R.id.iv_arrow);
         iv_close = rootView.findViewById(R.id.iv_close);
     }
+
     private void configStatusBar() {
         Window window = activity.getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -140,7 +140,7 @@ public class WebViewHelper {
         });
     }
 
-    private void initClient() {
+    public void initClient() {
         webViewClient = new MyWebViewClient(rootView);
         mWebView.setWebViewClient(webViewClient);
         webChromeClient = new MyWebChromeClient(rootView);
@@ -157,15 +157,21 @@ public class WebViewHelper {
     }
 
     public void setWebViewClientInterface(MyWebViewClient.WebViewClientInterface clientInterface) {
-        webViewClient.setWebViewClientInterface(clientInterface);
+        if (webViewClient != null)
+            webViewClient.setWebViewClientInterface(clientInterface);
     }
 
     public void setWebChromeClientInterface(MyWebChromeClient.OpenFileChooserCallBack clientInterface) {
-        webChromeClient.setWebViewClientInterface(clientInterface);
+        if (webChromeClient != null)
+            webChromeClient.setWebViewClientInterface(clientInterface);
     }
 
     public View getRootView() {
         return rootView;
+    }
+
+    public MyWebView getWebView() {
+        return mWebView;
     }
 
     // 释放资源
@@ -321,7 +327,7 @@ public class WebViewHelper {
 //            picPopupWindow.setOutsideTouchable(false);
             picPopupWindow.setAnimationStyle(R.style.animation);
         }
-        View parent = View.inflate(activity, R.layout.activity_h5, null);
+        View parent = View.inflate(activity, R.layout.activity_webview, null);
         // 防止手机底部的菜单栏挡住
         picPopupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         // 从底层弹出

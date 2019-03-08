@@ -1,4 +1,4 @@
-package com.android.common.h5.client;
+package com.android.common.webview.client;
 
 
 import android.hardware.Camera;
