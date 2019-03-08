@@ -55,6 +55,9 @@ public class MyOkHttpClient {
         loggingInterceptor.setLevel(MyHttpLoggingInterceptor.Level.BODY);
         // 设置请求头
         MyHttpHeaderInterceptor headerInterceptor = MyHttpHeaderInterceptor.getInstance(context);
+        // 设置cookie
+        MyHttpCookieInterceptor cookieInterceptor = MyHttpCookieInterceptor.getInstance(context);
+
         // 设置缓存
         File cacheDir = new File(context.getCacheDir().getAbsolutePath(), "HttpCache");
         Cache cache = new Cache(cacheDir, 10 * 1024 * 1024);//缓存10m
@@ -65,7 +68,7 @@ public class MyOkHttpClient {
                 .writeTimeout(TIME, TimeUnit.SECONDS)
                 .readTimeout(TIME, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(false) // 禁止重新连接
-//                .cookieJar(new MyHttpCookieInterceptor()) // 设置cookie
+                .cookieJar(cookieInterceptor) // 设置cookie
 //                .connectionPool(new ConnectionPool(0, 1, TimeUnit.SECONDS))
 //                .cache(cache) // 设置缓存目录
 //                .addInterceptor(cacheInterceptor) // 设置缓存

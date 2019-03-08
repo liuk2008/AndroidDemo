@@ -2,6 +2,7 @@ package com.android.demo.netdemo.retrofit;
 
 
 import com.android.common.net.Null;
+import com.android.demo.netdemo.AccountSummaryInfo;
 import com.android.demo.netdemo.MonthBillInfo;
 import com.android.demo.netdemo.UserInfo;
 
@@ -45,8 +46,11 @@ public interface FinanceApi {
                           @Field("gtServerStatus") int gtServerStatus,
                           @Path("phone") String phone);
 
-    @GET("channelPage/monthBill")
+    @GET("hzcms/channelPage/monthBill")
     Call<MonthBillInfo> monthBill();
+
+    @GET("trc_bjcg/u/m/myAccount/accountSummary")
+    Call<AccountSummaryInfo> accountSummary();
 
     /*
      * 设置请求接口

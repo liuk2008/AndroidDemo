@@ -4,6 +4,7 @@ package com.android.demo.netdemo.retrofit;
 import com.android.common.net.NetStatus;
 import com.android.common.net.Null;
 import com.android.common.net.retrofit.RetrofitEngine;
+import com.android.demo.netdemo.AccountSummaryInfo;
 import com.android.demo.netdemo.GeeValidateInfo;
 import com.android.demo.netdemo.MonthBillInfo;
 import com.android.demo.netdemo.UserInfo;
@@ -26,7 +27,7 @@ public class RetrofitRequest {
                 "https://passport.lawcert.com/proxy/account/",
                 -1);
         financeApi = retrofitEngine.getRetrofitService(FinanceApi.class,
-                "https://www.lawcert.com/proxy/hzcms/",
+                "https://www.lawcert.com/proxy/",
                 NetStatus.Type.RETROFIT_DEFAULT_DATAWRAPPER);
     }
 
@@ -69,6 +70,10 @@ public class RetrofitRequest {
 
     public Call<MonthBillInfo> monthBill() {
         return financeApi.monthBill();
+    }
+
+    public Call<AccountSummaryInfo> accountSummary() {
+        return financeApi.accountSummary();
     }
 
 }

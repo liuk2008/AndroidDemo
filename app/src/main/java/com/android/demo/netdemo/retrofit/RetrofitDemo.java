@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.android.common.net.Null;
 import com.android.common.net.callback.Callback;
 import com.android.common.net.retrofit.RetrofitUtils;
+import com.android.demo.netdemo.AccountSummaryInfo;
 import com.android.demo.netdemo.GeeValidateInfo;
 import com.android.demo.netdemo.MonthBillInfo;
 import com.android.demo.netdemo.UserInfo;
@@ -28,7 +29,7 @@ public class RetrofitDemo {
     private List<Call> taskList = new ArrayList<>();
 
     public void login(Callback<UserInfo> callback) {
-        Call<UserInfo> call = apiRequest.login("18909131172", "123qwe1");
+        Call<UserInfo> call = apiRequest.login("18909131172", "123qwe");
         taskList.add(call);
         RetrofitUtils.request(call, callback);
     }
@@ -112,6 +113,12 @@ public class RetrofitDemo {
 
     public void monthBill(Callback<MonthBillInfo> callback) {
         Call<MonthBillInfo> call = apiRequest.monthBill();
+        taskList.add(call);
+        RetrofitUtils.request(call, callback);
+    }
+
+    public void accountSummary(Callback<AccountSummaryInfo> callback) {
+        Call<AccountSummaryInfo> call = apiRequest.accountSummary();
         taskList.add(call);
         RetrofitUtils.request(call, callback);
     }
