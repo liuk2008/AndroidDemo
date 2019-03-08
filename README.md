@@ -10,8 +10,22 @@ Android演示项目
          * 2、获取状态栏高度，设置布局View高度=状态栏高度
          * 3、设置布局View背景色与主题色一致
     * 3、增加网络框架使用Demo
-    * 4、当TARGET_SDK_VERSION >23时，设置代理抓取https包，需配置android:networkSecurityConfig="@xml/network_security_config"
-    * 5、当TARGET_SDK_VERSION >=28时，使用WebView无法加载http请求，需配置 android:usesCleartextTraffic="true"
+    * 4、当TARGET_SDK_VERSION>=24时，设置代理无法抓取https包
+         解决办法：targetSdkVersion降到23以下
+    * 5、当TARGET_SDK_VERSION>=28且手机系统>=9.0时，当前应用被禁止进行http请求
+         解决办法：APP改用https请求或者targetSdkVersion降到27以下
+    * 6、同时解决4和5问题：在res下新增一个xml目录，创建xml文件，配置内容
+         <!-- 需在Application配置android:networkSecurityConfig="@xml/network_security_config"-->
+         <network-security-config>
+             <!-- 处理7.0系统无法抓取https请求-->
+             <debug-overrides>
+                 <trust-anchors>
+                     <certificates src="user" />
+                 </trust-anchors>
+             </debug-overrides>
+             <!--处理9.0系统无法使用http请求-->
+             <base-config cleartextTrafficPermitted="true" />
+         </network-security-config>
 
 **lib**
 
@@ -39,6 +53,7 @@ Android演示项目
          * net包
          * 1、封装网络框架：
 	          1、Retrofit2 + CallBack：封装Retrofit网络框架
+	             增加Cookie管理机制、设置请求头
 	          2、Retrofit2 + RxJava2：封装Retrofit+RxJava2网络框架
 	             增加Retrofit缓存机制、Cookie管理机制、设置请求头、日志机制、重新连接机制
 	          3、Http + Callback：封装原生网路框架
@@ -105,26 +120,35 @@ Android演示项目
 
 **重点注意**
 
-	* 1、项目架构中的内存泄露问题，需重点考虑
-	* 2、JSON解析工作在UI线程中进行，影响性能，需放在工作线程进行处理
-	* 3、需同时考虑http协议&https协议请求
-	* 4、UI线程做下面的操作影响性能
-		 * |--1、载入图片
-		 * |--2、网络请求
-		 * |--3、解析JSON
-		 * |--4、读取数据库
-	* 5、注意安全问题，加密，代码混淆
-	* 6、考虑发送多个请求后，页面销毁时如何管理
-	* 7、执行GC操作时，会影响性能
-	* 8、考虑统一检测网络连接
-	* 9、注意Application与BaseActivity的冗余程度
-	* 10、动态申请权限需注意多种机型问题
+    * 1、项目框架：
+         * 1、主页框架的搭建，Fragment与Activity嵌套使用等
+         * 2、路由框架，网络框架
+         * 3、组件化，模块化
+         * 4、异常处理机制
+         * 5、MVC、MVP、MVVM 模型
+    * 2、性能问题：
+         * 1、项目架构中的内存泄露问题
+         * 2、UI线程做下面的操作影响性能
+              * |--1、载入图片
+              * |--2、网络请求
+              * |--3、解析JSON
+              * |--4、读取数据库
+         * 3、执行GC操作，以及频繁创建对象，会影响性能
+         * 4、使用网络框架时，当发送多个请求后页面销毁时，如何处理回调方法
+         * 5、启动速度：热启动、冷启动、暖启动
+         * 6、编译速度，功耗
+         * 7、安装包大小，布局优化
+    * 3、安全问题：
+         * 1、代码混淆
+         * 2、签名校验
+         * 3、http&https请求加密
+    * 4、其他问题
+         * 1、动态申请权限需注意多种机型问题
+         * 2、注意Application与BaseActivity的冗余程度
+         * 3、考虑统一检测网络连接
+         * 4、抽取工具类
 
-**遗留问题**
 
-	* 1、主页框架的搭建
-	* 2、Fragment与Activity嵌套使用
-	* 4、路由框架的使用
-	* 5、组件化、模块化使用思路
-	* 6、代码混淆，签名校验，MD5算法与SHA算法原理
-	* 7、性能优化
+
+
+
