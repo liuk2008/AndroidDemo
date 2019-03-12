@@ -14,24 +14,14 @@ import com.android.demo.R;
 public class HomeFragment extends BaseFragment {
 
     private static final String TAG = HomeFragment.class.getSimpleName();
-    private View rootView;
-
-    public HomeFragment() {
-        super();
-        BASETAG = TAG;
+    {
+        super.TAG = TAG;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        if (rootView == null) {
-            rootView = inflater.inflate(R.layout.fragment_home, null);
-        }
-        ViewGroup parent = (ViewGroup) rootView.getParent();
-        if (parent != null) {
-            parent.removeView(rootView);
-        }
-        return rootView;
+        return setRootView(inflater, R.layout.fragment_home);
     }
 
 }

@@ -26,17 +26,4 @@
         android:textSize="18sp"
         tools:text="标题" />
 
-
-    <TextView
-        android:id="@+id/tv_net_tips"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_below="@id/tv_title"
-        android:background="#e5e5e5"
-        android:gravity="center"
-        android:text="网络连接不可用，请检查网络设置！"
-        android:textColor="#ffc0cb"
-        android:visibility="gone"
-        tools:visibility="visible" />
-
 </RelativeLayout>

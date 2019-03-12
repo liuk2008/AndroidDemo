@@ -1,11 +1,11 @@
 package com.android.common.base.fragment;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,58 +18,38 @@ import android.widget.TextView;
  */
 public class BaseFragment extends CoreFragment implements View.OnClickListener {
 
-    public String BASETAG = BaseFragment.class.getSimpleName();
-    private View baseRootView;
-    private int layoutId = -1;
-    private BroadcastReceiver netReceiver;
-
-    public BaseFragment() {
-        showLog(BASETAG, "BaseFragment");
-    }
+    public String TAG = BaseFragment.class.getSimpleName();
+    protected View mRootView;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        showLog(BASETAG, "onAttach");
+        showLog("onAttach");
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showLog(BASETAG, "onCreate");
+        showLog("onCreate");
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        showLog(BASETAG, "onCreateView");
-        if (layoutId != -1) {
-            if (baseRootView == null) {
-                baseRootView = inflater.inflate(layoutId, null);
-//                 rootView = inflater.inflate(layoutId, container, false);
-                initRootViews(baseRootView);
-            }
-            // 缓存的rootView需要判断是否已经被加过parent，如果有parent需要从parent删除，要不然会发生这个rootview已经有parent的错误。
-            ViewGroup parent = (ViewGroup) baseRootView.getParent();
-            if (parent != null) {
-                parent.removeView(baseRootView);
-            }
-            return baseRootView;
-        } else
-            return super.onCreateView(inflater, container, savedInstanceState);
+        showLog("onCreateView");
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        showLog(BASETAG, "onViewCreated");
-//        checkNet(view);
+        showLog("onViewCreated");
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        showLog(BASETAG, "onActivityCreated");
+        showLog("onActivityCreated");
         afterCreateView(savedInstanceState);
     }
 
@@ -81,59 +61,77 @@ public class BaseFragment extends CoreFragment implements View.OnClickListener {
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        showLog(BASETAG, "onViewStateRestored");
+        showLog("onViewStateRestored");
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        showLog(BASETAG, "onStart");
+        showLog("onStart");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        showLog(BASETAG, "onResume");
+        showLog("onResume");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        showLog(BASETAG, "onPause");
+        showLog("onPause");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        showLog(BASETAG, "onStop");
+        showLog("onStop");
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        showLog(BASETAG, "onDestroyView");
-        if (null != netReceiver) {
-            getActivity().unregisterReceiver(netReceiver);
-            netReceiver = null;
-        }
+        showLog("onDestroyView");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        showLog(BASETAG, "onDestroy");
+        showLog("onDestroy");
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        showLog(BASETAG, "onDetach");
+        showLog("onDetach");
     }
 
 
-    public void setLayoutId(int layoutId) {
-        this.layoutId = layoutId;
+    public void showLog(String methodName) {
+        Log.d(TAG, "showLog: " + methodName);
     }
+
+    /**
+     * 设置Fragment布局文件
+     *
+     * @param inflater
+     * @param layoutId
+     * @return
+     */
+    public View setRootView(LayoutInflater inflater, int layoutId) {
+        if (mRootView == null) {
+            mRootView = inflater.inflate(layoutId, null);
+//            rootView = inflater.inflate(layoutId, container, false);
+            initRootViews(mRootView);
+        }
+        // 缓存的rootView需要判断是否已经被加过parent，如果有parent需要从parent删除，要不然会发生这个rootview已经有parent的错误。
+        ViewGroup parent = (ViewGroup) mRootView.getParent();
+        if (parent != null) {
+            parent.removeView(mRootView);
+        }
+        return mRootView;
+    }
+
 
     public void initRootViews(View baseRootView) {
 
@@ -152,12 +150,10 @@ public class BaseFragment extends CoreFragment implements View.OnClickListener {
         }
     }
 
-    public void setVisible(int... ids) {
-        if (null != baseRootView) {
-            for (int id : ids) {
-                View view = baseRootView.findViewById(id);
-                setViewStatus(view, View.VISIBLE);
-            }
+    public void setVisible(View rootView, int... ids) {
+        for (int id : ids) {
+            View view = rootView.findViewById(id);
+            setViewStatus(view, View.VISIBLE);
         }
     }
 
@@ -167,12 +163,10 @@ public class BaseFragment extends CoreFragment implements View.OnClickListener {
         }
     }
 
-    public void setInvisible(int... ids) {
-        if (null != baseRootView) {
-            for (int id : ids) {
-                View view = baseRootView.findViewById(id);
-                setViewStatus(view, View.INVISIBLE);
-            }
+    public void setInvisible(View rootView, int... ids) {
+        for (int id : ids) {
+            View view = rootView.findViewById(id);
+            setViewStatus(view, View.INVISIBLE);
         }
     }
 
@@ -182,12 +176,10 @@ public class BaseFragment extends CoreFragment implements View.OnClickListener {
         }
     }
 
-    public void setGone(int... ids) {
-        if (null != baseRootView) {
-            for (int id : ids) {
-                View view = baseRootView.findViewById(id);
-                setViewStatus(view, View.GONE);
-            }
+    public void setGone(View rootView, int... ids) {
+        for (int id : ids) {
+            View view = rootView.findViewById(id);
+            setViewStatus(view, View.GONE);
         }
     }
 
@@ -197,11 +189,9 @@ public class BaseFragment extends CoreFragment implements View.OnClickListener {
     }
 
 
-    public void setText(@IdRes int textViewId, @Nullable Object text) {
-        if (null != baseRootView) {
-            TextView textView = baseRootView.findViewById(textViewId);
-            setText(textView, text);
-        }
+    public void setText(View rooView, @IdRes int textViewId, @Nullable Object text) {
+        TextView textView = rooView.findViewById(textViewId);
+        setText(textView, text);
     }
 
     public void setText(TextView textView, @Nullable Object text) {
@@ -225,35 +215,12 @@ public class BaseFragment extends CoreFragment implements View.OnClickListener {
         }
     }
 
-    public void setOnClickListener(int... ids) {
-        if (null != baseRootView) {
-            for (int id : ids) {
-                View view = baseRootView.findViewById(id);
-                if (null != view)
-                    view.setOnClickListener(this);
-            }
+    public void setOnClickListener(View rootView, int... ids) {
+        for (int id : ids) {
+            View view = rootView.findViewById(id);
+            if (null != view)
+                view.setOnClickListener(this);
         }
     }
-
-    public View getRootView() {
-        return baseRootView;
-    }
-
-//    public void checkNet(final View view) {
-//        netReceiver = new BroadcastReceiver() {
-//            @Override
-//            public void onReceive(Context context, Intent intent) {
-//                boolean isConnected = NetUtils.isNetConnected(context);
-//                View net_tips = view.findViewById(R.id.tv_net_tips);
-//                if (null != net_tips) {
-//                    net_tips.setVisibility(isConnected ? View.GONE : View.VISIBLE);
-//                }
-//            }
-//        };
-//        IntentFilter filter = new IntentFilter();
-//        filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-//        getActivity().registerReceiver(netReceiver, filter);
-//    }
-
 
 }

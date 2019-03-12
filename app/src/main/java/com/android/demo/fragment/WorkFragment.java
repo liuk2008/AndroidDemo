@@ -2,8 +2,13 @@ package com.android.demo.fragment;
 
 import android.Manifest;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.format.Formatter;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.android.common.base.PermissionActivity;
@@ -20,10 +25,9 @@ import com.android.demo.netdemo.http.HttpDemo;
 import com.android.demo.netdemo.retrofit.RetrofitDemo;
 import com.android.demo.netdemo.rxjava.RxNetDemo;
 import com.android.utils.common.LogUtils;
+import com.android.utils.common.ToastUtils;
 import com.android.utils.system.CacheUtils;
 import com.android.utils.system.SystemUtils;
-import com.viewinject.annotation.MyOnClick;
-import com.viewinject.bindview.MyViewInjector;
 import com.zxing.activity.CaptureActivity;
 
 import java.util.LinkedHashMap;
@@ -39,11 +43,19 @@ import java.util.Set;
 public class WorkFragment extends BaseFragment {
 
     private static final String TAG = WorkFragment.class.getSimpleName();
+    private HttpDemo httpDemo;
+    private RetrofitDemo retrofitDemo;
+    private RxNetDemo rxNetDemo;
 
-    public WorkFragment() {
-        super();
-        BASETAG = TAG;
-        setLayoutId(R.layout.fragment_work);
+    {
+        super.TAG = TAG;
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        return setRootView(inflater, R.layout.fragment_work);
     }
 
     @Override
@@ -55,66 +67,63 @@ public class WorkFragment extends BaseFragment {
                 ((CoreActivity) getActivity()).getStatusBarHeight()));
         statusBar.setBackgroundResource(R.drawable.shape_titlebar);
         ToolbarUtil.configTitlebar(baseRootView, "业务", View.GONE);
-        MyViewInjector.bindView(this, baseRootView);
-        getCache(); // 测试缓存功能
-    }
 
-    private void getCache() {
-        CacheUtils.getCache(getActivity(), "com.android.demo", new CacheUtils.onCacheListener() {
-            @Override
-            public void onCache(long... size) {
-                LogUtils.logd(TAG, String.format("缓存大小：%s", Formatter.formatFileSize(getContext(), size[0])));
-                LogUtils.logd(TAG, String.format("数据大小：%s", Formatter.formatFileSize(getContext(), size[1])));
-                LogUtils.logd(TAG, String.format("应用大小：%s", Formatter.formatFileSize(getContext(), size[2])));
-            }
-        });
-    }
+        setOnClickListener(baseRootView, R.id.btn_permission, R.id.btn_permissions,
+                R.id.btn_scan, R.id.btn_webview, R.id.btn_net,R.id.btn_cache);
 
-    @MyOnClick(R.id.btn_permission)
-    public void permission() {
-        // 测试申请单个权限
-        PermissionActivity.requestPermission(getActivity(),
-                Manifest.permission.WRITE_EXTERNAL_STORAGE, "图片等文件存储需要SD卡读写权限");
-    }
-
-    @MyOnClick(R.id.btn_permissions)
-    public void permissions() {
-        // 测试申请多个权限
-        List<String> permissions = SystemUtils.getDeniedPermission(getActivity());
-        if (permissions.size() > 0) {
-            PermissionActivity.requestPermissions(getActivity(),
-                    permissions.toArray(new String[permissions.size()]),
-                    "请打开SD卡读写权限、拍照等系统权限");
-        }
-    }
-
-    @MyOnClick(R.id.btn_scan)
-    public void scan() {
-        startActivity(new Intent(getActivity(), CaptureActivity.class));
-    }
-
-
-    @MyOnClick(R.id.btn_h5)
-    public void webview() {
-        startActivity(new Intent(getActivity(), WebViewActivity.class));
-    }
-
-    HttpDemo httpDemo;
-    RetrofitDemo retrofitDemo;
-    RxNetDemo rxNetDemo;
-
-    @MyOnClick(R.id.btn_net)
-    public void net() {
         httpDemo = new HttpDemo();
         retrofitDemo = new RetrofitDemo();
         rxNetDemo = new RxNetDemo();
-        testSummary();
+    }
+
+
+    @Override
+    public void onClick(View view) {
+        super.onClick(view);
+        switch (view.getId()) {
+            case R.id.btn_permission:
+                // 测试申请单个权限
+                PermissionActivity.requestPermission(getActivity(),
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE, "图片等文件存储需要SD卡读写权限");
+                break;
+            case R.id.btn_permissions:
+                // 测试申请多个权限
+                List<String> permissions = SystemUtils.getDeniedPermission(getActivity());
+                if (permissions.size() > 0) {
+                    PermissionActivity.requestPermissions(getActivity(),
+                            permissions.toArray(new String[permissions.size()]),
+                            "请打开SD卡读写权限、拍照等系统权限");
+                }
+                break;
+            case R.id.btn_scan:
+                startActivity(new Intent(getActivity(), CaptureActivity.class));
+                break;
+            case R.id.btn_webview:
+                startActivity(new Intent(getActivity(), WebViewActivity.class));
+                break;
+            case R.id.btn_net:
+                testSummary();
+                break;
+            case R.id.btn_cache:
+                CacheUtils.getCache(getActivity(), "com.android.demo", new CacheUtils.onCacheListener() {
+                    @Override
+                    public void onCache(long... size) {
+                        StringBuilder cache = new StringBuilder();
+                        cache.append(String.format("缓存大小：%s", Formatter.formatFileSize(getContext(), size[0])))
+                                .append("\n")
+                                .append(String.format("数据大小：%s", Formatter.formatFileSize(getContext(), size[1])))
+                                .append("\n")
+                                .append(String.format("应用大小：%s", Formatter.formatFileSize(getContext(), size[2])));
+                        ToastUtils.showToast(getContext(), cache.toString());
+                    }
+                });
+                break;
+        }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        MyViewInjector.unbindView(this);
         rxNetDemo.cancelAll();
         httpDemo.cancelAll();
         retrofitDemo.cancelAll();

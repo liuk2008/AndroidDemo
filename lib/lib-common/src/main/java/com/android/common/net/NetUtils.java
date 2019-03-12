@@ -64,7 +64,6 @@ public class NetUtils {
         });
     }
 
-
     public static void putString(Context context, String key, String value) {
         SharedPreferences sp = context.getSharedPreferences("config",
                 Context.MODE_PRIVATE);

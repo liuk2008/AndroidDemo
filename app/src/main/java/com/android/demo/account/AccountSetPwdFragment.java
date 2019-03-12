@@ -2,7 +2,12 @@ package com.android.demo.account;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.android.common.base.fragment.BaseFragment;
 import com.android.common.view.ToolbarUtil;
@@ -13,13 +18,15 @@ public class AccountSetPwdFragment extends BaseFragment {
 
     private static final String TAG = AccountSetPwdFragment.class.getSimpleName();
 
-    public AccountSetPwdFragment() {
-        BASETAG = TAG;
-        setLayoutId(R.layout.account_frg_setpwd);
-    }
 
     public static AccountSetPwdFragment newInstance() {
         return new AccountSetPwdFragment();
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return setRootView(inflater, R.layout.account_frg_setpwd);
     }
 
     @Override
@@ -27,7 +34,7 @@ public class AccountSetPwdFragment extends BaseFragment {
         super.initRootViews(baseRootView);
         ToolbarUtil.configTitlebar(baseRootView, "重置密码", View.VISIBLE);
         ToolbarUtil.setTitlebarBack(baseRootView.findViewById(R.id.iv_arrow));
-        setOnClickListener(R.id.btn_confirm);
+        setOnClickListener(baseRootView, R.id.btn_confirm);
     }
 
     @Override

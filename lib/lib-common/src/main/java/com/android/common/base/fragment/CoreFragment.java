@@ -1,7 +1,6 @@
 package com.android.common.base.fragment;
 
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
 import com.android.common.base.activity.CoreActivity;
 
@@ -68,10 +67,6 @@ public class CoreFragment extends Fragment {
 
     public void popBackStackImmediate(Class fragmentClazz, int type) {
         getBaseActivity().popBackStackImmediate(fragmentClazz, type);
-    }
-
-    public void showLog(String TAG, String methodName) {
-        Log.d(TAG, "showLog: " + methodName);
     }
 
     /**

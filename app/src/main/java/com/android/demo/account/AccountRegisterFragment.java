@@ -1,7 +1,12 @@
 package com.android.demo.account;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.android.common.base.fragment.BaseFragment;
@@ -15,13 +20,15 @@ public class AccountRegisterFragment extends BaseFragment {
     private static final String TAG = AccountRegisterFragment.class.getSimpleName();
     public EditText et_username;
 
-    public AccountRegisterFragment() {
-        BASETAG = TAG;
-        setLayoutId(R.layout.account_frg_register);
-    }
 
     public static AccountRegisterFragment newInstance() {
         return new AccountRegisterFragment();
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return setRootView(inflater, R.layout.account_frg_register);
     }
 
     @Override
@@ -30,7 +37,7 @@ public class AccountRegisterFragment extends BaseFragment {
         ToolbarUtil.configTitlebar(baseRootView, "注册", View.VISIBLE);
         ToolbarUtil.setTitlebarBack(baseRootView.findViewById(R.id.iv_arrow));
         et_username = baseRootView.findViewById(R.id.et_username);
-        setOnClickListener(R.id.btn_register, R.id.tv_login);
+        setOnClickListener(baseRootView, R.id.btn_register, R.id.tv_login);
     }
 
     @Override

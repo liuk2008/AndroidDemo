@@ -14,31 +14,12 @@ import com.android.common.R;
 public class BaseActivity extends CoreActivity implements View.OnClickListener {
 
     private static final String TAG = BaseActivity.class.getSimpleName();
-    private BroadcastReceiver netReceiver;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         configStatusBarBgRes(R.drawable.shape_titlebar); // 设置状态栏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); // 设置屏幕方向
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        // 当Activity中存在Fragment时，使用Fragment的网络检测方法，没有Fragment时，调用Activity方法检测网络
-//        if (getSupportFragmentManager().getFragments().size() <= 0) {
-//            checkNet();
-//        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (null != netReceiver) {
-            unregisterReceiver(netReceiver);
-            netReceiver = null;
-        }
     }
 
     /**
@@ -122,23 +103,5 @@ public class BaseActivity extends CoreActivity implements View.OnClickListener {
                 view.setOnClickListener(this);
         }
     }
-
-//    public void checkNet() {
-//        if (netReceiver == null) {
-//            netReceiver = new BroadcastReceiver() {
-//                @Override
-//                public void onReceive(Context context, Intent intent) {
-//                    boolean isConnected = NetUtils.isNetConnected(context);
-//                    View net_tips = findViewById(R.id.tv_net_tips);
-//                    if (null != net_tips) {
-//                        net_tips.setVisibility(isConnected ? View.GONE : View.VISIBLE);
-//                    }
-//                }
-//            };
-//            IntentFilter filter = new IntentFilter();
-//            filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-//            registerReceiver(netReceiver, filter);
-//        }
-//    }
 
 }

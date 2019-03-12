@@ -1,7 +1,12 @@
 package com.android.demo.fragment;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.android.common.base.fragment.BaseFragment;
 import com.android.demo.R;
@@ -16,10 +21,15 @@ public class MineFragment extends BaseFragment {
 
     private static final String TAG = MineFragment.class.getSimpleName();
 
-    public MineFragment() {
-        super();
-        BASETAG = TAG;
-        setLayoutId(R.layout.fragment_mine);
+    {
+        super.TAG = TAG;
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        return setRootView(inflater, R.layout.fragment_mine);
     }
 
     @Override
