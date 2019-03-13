@@ -36,10 +36,9 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 通过代码动态设置状态栏与主题色一致
- * 1、设置布局View，高度为0dp
+ * 设置系统状态栏透明，通过设置自定义布局，保持颜色一致
+ * 1、设置布局View，高度为0dp，背景色与主题色一致
  * 2、获取状态栏高度，设置布局View高度=状态栏高度
- * 3、设置布局View背景色与主题色一致
  */
 public class WorkFragment extends BaseFragment {
 
@@ -66,7 +65,6 @@ public class WorkFragment extends BaseFragment {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, StatusBarUtils.getStatusBarHeight(getActivity()));
         statusBar.setLayoutParams(layoutParams);
-        statusBar.setBackgroundResource(R.drawable.shape_titlebar);
         ToolbarUtil.configTitlebar(baseRootView, "业务", View.GONE);
 
         ViewUtils.setViewOnClickListener(this, baseRootView, R.id.btn_permission, R.id.btn_permissions,

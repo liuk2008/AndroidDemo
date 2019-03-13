@@ -82,10 +82,8 @@ public class WebViewHelper {
         StatusBarUtils.configStatusBar(activity);
         // 获取系统状态栏高度
         int height = StatusBarUtils.getStatusBarHeight(activity);
-        View statusBar = rootView.findViewById(R.id.status_bar_fix);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height);
-        statusBar.setLayoutParams(layoutParams);
-        statusBar.setBackgroundResource(R.drawable.shape_titlebar);
+        View viewTitle = rootView.findViewById(R.id.view_title);
+        viewTitle.setPadding(0, height, 0, 0);
         mWebView = rootView.findViewById(R.id.webview);
         iv_arrow = rootView.findViewById(R.id.iv_arrow);
         iv_close = rootView.findViewById(R.id.iv_close);
