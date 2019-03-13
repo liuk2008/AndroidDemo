@@ -2,14 +2,12 @@ package com.android.common.base.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 /**
  * 当你有一个activity，想让这个activity根据事件响应可以对应不同的界面时，就可以创建几个fragment，将fragment绑定到该activity
@@ -141,67 +139,6 @@ public class BaseFragment extends CoreFragment implements View.OnClickListener {
 
     }
 
-    /**
-     * View相关方法
-     */
-    public void setVisible(View... views) {
-        for (View view : views) {
-            setViewStatus(view, View.VISIBLE);
-        }
-    }
-
-    public void setVisible(View rootView, int... ids) {
-        for (int id : ids) {
-            View view = rootView.findViewById(id);
-            setViewStatus(view, View.VISIBLE);
-        }
-    }
-
-    public void setInvisible(View... views) {
-        for (View view : views) {
-            setViewStatus(view, View.INVISIBLE);
-        }
-    }
-
-    public void setInvisible(View rootView, int... ids) {
-        for (int id : ids) {
-            View view = rootView.findViewById(id);
-            setViewStatus(view, View.INVISIBLE);
-        }
-    }
-
-    public void setGone(View... views) {
-        for (View view : views) {
-            setViewStatus(view, View.GONE);
-        }
-    }
-
-    public void setGone(View rootView, int... ids) {
-        for (int id : ids) {
-            View view = rootView.findViewById(id);
-            setViewStatus(view, View.GONE);
-        }
-    }
-
-    private void setViewStatus(View view, int type) {
-        if (null != view && view.getVisibility() != type)
-            view.setVisibility(type);
-    }
-
-
-    public void setText(View rooView, @IdRes int textViewId, @Nullable Object text) {
-        TextView textView = rooView.findViewById(textViewId);
-        setText(textView, text);
-    }
-
-    public void setText(TextView textView, @Nullable Object text) {
-        if (null != textView && null != text) {
-            if (text instanceof CharSequence)
-                textView.setText((CharSequence) text);
-            else
-                textView.setText(String.valueOf(text));
-        }
-    }
 
     @Override
     public void onClick(View view) {
@@ -209,18 +146,5 @@ public class BaseFragment extends CoreFragment implements View.OnClickListener {
             return;
     }
 
-    public void setOnClickListener(View... views) {
-        for (View view : views) {
-            view.setOnClickListener(this);
-        }
-    }
-
-    public void setOnClickListener(View rootView, int... ids) {
-        for (int id : ids) {
-            View view = rootView.findViewById(id);
-            if (null != view)
-                view.setOnClickListener(this);
-        }
-    }
 
 }

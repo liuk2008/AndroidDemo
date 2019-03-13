@@ -1,6 +1,5 @@
 package com.android.common.base;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -87,7 +86,6 @@ public class PermissionActivity extends AppCompatActivity {
         startPermissions(activity, permissions, tips);
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
     private static void startPermission(Activity activity, @NonNull String permission, @NonNull String tip) {
         Intent intent = new Intent(activity, PermissionActivity.class);
         intent.putExtra("permission", permission);
@@ -96,7 +94,6 @@ public class PermissionActivity extends AppCompatActivity {
         activity.startActivity(intent);
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
     private static void startPermissions(Activity activity, @NonNull String[] permissions, @NonNull String tips) {
         Intent intent = new Intent(activity, PermissionActivity.class);
         intent.putExtra("permissions", permissions);

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.android.common.base.fragment.BaseFragment;
 import com.android.common.view.ToolbarUtil;
+import com.android.common.view.ViewUtils;
 import com.android.demo.R;
 
 
@@ -34,7 +35,7 @@ public class AccountSetPwdFragment extends BaseFragment {
         super.initRootViews(baseRootView);
         ToolbarUtil.configTitlebar(baseRootView, "重置密码", View.VISIBLE);
         ToolbarUtil.setTitlebarBack(baseRootView.findViewById(R.id.iv_arrow));
-        setOnClickListener(baseRootView, R.id.btn_confirm);
+        ViewUtils.setViewOnClickListener(this, baseRootView, R.id.btn_confirm);
     }
 
     @Override

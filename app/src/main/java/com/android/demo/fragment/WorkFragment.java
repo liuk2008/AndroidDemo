@@ -12,10 +12,11 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.android.common.base.PermissionActivity;
-import com.android.common.base.activity.CoreActivity;
 import com.android.common.base.fragment.BaseFragment;
 import com.android.common.net.callback.Callback;
+import com.android.common.view.StatusBarUtils;
 import com.android.common.view.ToolbarUtil;
+import com.android.common.view.ViewUtils;
 import com.android.demo.R;
 import com.android.demo.WebViewActivity;
 import com.android.demo.netdemo.AccountSummaryInfo;
@@ -62,15 +63,14 @@ public class WorkFragment extends BaseFragment {
     public void initRootViews(View baseRootView) {
         super.initRootViews(baseRootView);
         View statusBar = baseRootView.findViewById(R.id.status_bar_fix);
-        statusBar.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                ((CoreActivity) getActivity()).getStatusBarHeight()));
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, StatusBarUtils.getStatusBarHeight(getActivity()));
+        statusBar.setLayoutParams(layoutParams);
         statusBar.setBackgroundResource(R.drawable.shape_titlebar);
         ToolbarUtil.configTitlebar(baseRootView, "业务", View.GONE);
 
-        setOnClickListener(baseRootView, R.id.btn_permission, R.id.btn_permissions,
-                R.id.btn_scan, R.id.btn_webview, R.id.btn_net,R.id.btn_cache);
-
+        ViewUtils.setViewOnClickListener(this, baseRootView, R.id.btn_permission, R.id.btn_permissions,
+                R.id.btn_scan, R.id.btn_webview, R.id.btn_net, R.id.btn_cache);
         httpDemo = new HttpDemo();
         retrofitDemo = new RetrofitDemo();
         rxNetDemo = new RxNetDemo();

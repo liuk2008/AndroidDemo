@@ -1,9 +1,9 @@
 package com.android.common.webview.client;
 
-import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.View;
 import android.webkit.SslErrorHandler;
@@ -94,7 +94,7 @@ public class MyWebViewClient extends WebViewClient {
     }
 
     // 6.0 以上调用
-    @TargetApi(Build.VERSION_CODES.M)
+    @RequiresApi(Build.VERSION_CODES.M)
     @Override
     public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
         super.onReceivedError(view, request, error);
@@ -125,7 +125,7 @@ public class MyWebViewClient extends WebViewClient {
      * 1、在onReceivedHttpError()做相应处理，忽略请求favicon.ico文件404的错误
      * 2、重写WebViewClient的shouldInterceptRequest方法禁用favicon.ico请求
      */
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
         super.onReceivedHttpError(view, request, errorResponse);
@@ -183,8 +183,10 @@ public class MyWebViewClient extends WebViewClient {
     public interface WebViewClientInterface {
         // 处理特定url
         boolean onLoadUrl(WebView webView, String url);
+
         // 执行js脚本
         void executorJs(WebView webView, String url);
+
         // 处理https错误
         void SSLException(WebView webView, SslErrorHandler handler, SslError error);
     }

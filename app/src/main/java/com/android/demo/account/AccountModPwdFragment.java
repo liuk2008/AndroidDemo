@@ -8,7 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.common.base.fragment.BaseFragment;
+import com.android.common.view.StatusBarUtils;
 import com.android.common.view.ToolbarUtil;
+import com.android.common.view.ViewUtils;
 import com.android.demo.R;
 
 
@@ -31,7 +33,7 @@ public class AccountModPwdFragment extends BaseFragment {
         super.initRootViews(baseRootView);
         ToolbarUtil.configTitlebar(baseRootView, "修改密码", View.VISIBLE);
         ToolbarUtil.setTitlebarClose(baseRootView.findViewById(R.id.iv_arrow));
-        setOnClickListener(baseRootView, R.id.tv_setpwd);
+        ViewUtils.setViewOnClickListener(this,baseRootView, R.id.tv_setpwd);
     }
 
     @Override

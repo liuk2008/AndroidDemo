@@ -1,7 +1,6 @@
 package com.android.utils.system;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
@@ -11,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.PermissionChecker;
 import android.telephony.TelephonyManager;
@@ -172,7 +172,7 @@ public class SystemUtils {
     }
 
 
-    @TargetApi(Build.VERSION_CODES.M)
+    @RequiresApi(Build.VERSION_CODES.M)
     public static void requestPermission(Activity activity, @NonNull String[] permissions) {
         // 检测权限是否授权
         List<String> permissionList = new ArrayList<>();

@@ -9,6 +9,7 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.android.common.base.activity.CoreActivity;
+import com.android.common.view.StatusBarUtils;
 import com.android.demo.fragment.HomeFragment;
 import com.android.demo.fragment.MineFragment;
 import com.android.demo.fragment.WorkFragment;
@@ -30,7 +31,7 @@ public class MainActivity extends CoreActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        configStatusBar();
+        StatusBarUtils.configStatusBar(this);
         initView();
     }
 

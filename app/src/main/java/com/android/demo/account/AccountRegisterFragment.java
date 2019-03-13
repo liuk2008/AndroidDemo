@@ -12,6 +12,7 @@ import android.widget.EditText;
 import com.android.common.base.fragment.BaseFragment;
 import com.android.common.base.fragment.FragmentAction;
 import com.android.common.view.ToolbarUtil;
+import com.android.common.view.ViewUtils;
 import com.android.demo.R;
 
 
@@ -37,7 +38,7 @@ public class AccountRegisterFragment extends BaseFragment {
         ToolbarUtil.configTitlebar(baseRootView, "注册", View.VISIBLE);
         ToolbarUtil.setTitlebarBack(baseRootView.findViewById(R.id.iv_arrow));
         et_username = baseRootView.findViewById(R.id.et_username);
-        setOnClickListener(baseRootView, R.id.btn_register, R.id.tv_login);
+        ViewUtils.setViewOnClickListener(this,baseRootView, R.id.btn_register, R.id.tv_login);
     }
 
     @Override

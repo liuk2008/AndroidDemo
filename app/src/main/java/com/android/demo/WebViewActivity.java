@@ -25,8 +25,8 @@ public class WebViewActivity extends AppCompatActivity {
         webViewHelper = WebViewHelper.create(this);
         setContentView(webViewHelper.getRootView());
         webViewHelper.initClient();
-//        testCookie();
-        testFile();
+        testCookie();
+//        testFile();
 //        testImage();
     }
 
@@ -38,13 +38,11 @@ public class WebViewActivity extends AppCompatActivity {
 
     private void testCookie() {
         // 设置cookie
-        WebViewUtils.setCookie("token", "84643485AD2A48CD97F718421F9BAD32.08EA217B8E0792B04FB7090685B64BE6");
-        WebViewUtils.setCookie("currentUserId", "ED08E7A6C6F7459FA264C736482CD5F6");
+        WebViewUtils.setCookie("token", "C31EB1635D2F4016A9335C04DC854566.6FDAF5FA8008D15B6694F8A1B329D1BA");
         WebViewUtils.setCookie("origin", "android");
         WebViewUtils.setCookie("platform", "finance");
         WebViewUtils.setCookie("version", "1.3.0.0");
         WebViewUtils.setCookie("channel", "official");
-        WebViewUtils.setCookie("phone", "18909131172");
         webViewHelper.load("https://h5.lawcert.com/trade/withdraw");
     }
 

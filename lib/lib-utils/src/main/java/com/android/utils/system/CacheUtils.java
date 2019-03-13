@@ -1,6 +1,5 @@
 package com.android.utils.system;
 
-import android.annotation.TargetApi;
 import android.app.usage.StorageStats;
 import android.app.usage.StorageStatsManager;
 import android.content.Context;
@@ -10,6 +9,7 @@ import android.content.pm.PackageStats;
 import android.os.Build;
 import android.os.Process;
 import android.os.storage.StorageManager;
+import android.support.annotation.RequiresApi;
 
 import java.lang.reflect.Method;
 
@@ -53,7 +53,7 @@ public class CacheUtils {
     }
 
     // 8.0 以上获取缓存功能，需要系统权限 android.permission.PACKAGE_USAGE_STATS
-    @TargetApi(Build.VERSION_CODES.O)
+    @RequiresApi(Build.VERSION_CODES.O)
     private static void getCache(Context context, String packName) {
         StorageStatsManager statsManager = (StorageStatsManager) context.getSystemService(Context.STORAGE_STATS_SERVICE);
         try {

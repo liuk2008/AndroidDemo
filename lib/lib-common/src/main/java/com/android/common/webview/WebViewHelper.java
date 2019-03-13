@@ -9,7 +9,6 @@ import android.arch.lifecycle.OnLifecycleEvent;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -23,7 +22,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.ValueCallback;
 import android.webkit.WebView;
@@ -33,6 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.android.common.R;
+import com.android.common.view.StatusBarUtils;
 import com.android.common.webview.client.MyImage;
 import com.android.common.webview.client.MyWebChromeClient;
 import com.android.common.webview.client.MyWebViewClient;
@@ -79,34 +78,19 @@ public class WebViewHelper {
 
     private void initView() {
         rootView = LayoutInflater.from(activity).inflate(R.layout.activity_webview, null);
-        // 配置系统状态栏
-        configStatusBar();
+        // 设置系统状态栏透明
+        StatusBarUtils.configStatusBar(activity);
+        // 获取系统状态栏高度
+        int height = StatusBarUtils.getStatusBarHeight(activity);
         View statusBar = rootView.findViewById(R.id.status_bar_fix);
-        statusBar.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                getStatusBarHeight()));
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height);
+        statusBar.setLayoutParams(layoutParams);
         statusBar.setBackgroundResource(R.drawable.shape_titlebar);
         mWebView = rootView.findViewById(R.id.webview);
         iv_arrow = rootView.findViewById(R.id.iv_arrow);
         iv_close = rootView.findViewById(R.id.iv_close);
     }
 
-    private void configStatusBar() {
-        Window window = activity.getWindow();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            window.setStatusBarColor(Color.TRANSPARENT);
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.setStatusBarColor(Color.parseColor("#33000000"));
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        }
-    }
-
-    private int getStatusBarHeight() {
-        int resourceId = activity.getResources().getIdentifier("status_bar_height", "dimen", "android");
-        int statusBarHeight = activity.getResources().getDimensionPixelSize(resourceId);
-        return statusBarHeight;
-    }
 
     private void initListener() {
         iv_close.setOnClickListener(new View.OnClickListener() {
