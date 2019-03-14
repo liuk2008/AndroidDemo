@@ -1,4 +1,4 @@
-package com.android.common.view;
+package com.android.common.utils;
 
 import android.app.Activity;
 import android.graphics.Color;
