@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.common.base.fragment.BaseFragment;
-import com.android.common.view.ToolbarUtil;
-import com.android.common.view.ViewUtils;
+import com.android.common.utils.ToolbarUtil;
+import com.android.common.utils.ViewUtils;
 import com.android.demo.R;
 
 

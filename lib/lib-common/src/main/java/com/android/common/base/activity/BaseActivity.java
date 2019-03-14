@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.android.common.R;
-import com.android.common.view.StatusBarUtils;
+import com.android.common.utils.StatusBarUtils;
 
 
 public class BaseActivity extends CoreActivity implements View.OnClickListener {

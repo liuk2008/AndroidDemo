@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.android.common.base.FragmentHostActivity;
 import com.android.common.base.fragment.BaseFragment;
 import com.android.common.base.fragment.FragmentAction;
-import com.android.common.view.ToolbarUtil;
+import com.android.common.utils.ToolbarUtil;
 import com.android.demo.R;
 import com.viewinject.annotation.MyBindView;
 import com.viewinject.annotation.MyOnClick;

@@ -104,7 +104,6 @@ public class BaseFragment extends CoreFragment implements View.OnClickListener {
         showLog("onDetach");
     }
 
-
     public void showLog(String methodName) {
         Log.d(TAG, "showLog: " + methodName);
     }
@@ -130,7 +129,6 @@ public class BaseFragment extends CoreFragment implements View.OnClickListener {
         return mRootView;
     }
 
-
     public void initRootViews(View baseRootView) {
 
     }
@@ -139,12 +137,10 @@ public class BaseFragment extends CoreFragment implements View.OnClickListener {
 
     }
 
-
     @Override
     public void onClick(View view) {
         if (null == view)
             return;
     }
-
 
 }

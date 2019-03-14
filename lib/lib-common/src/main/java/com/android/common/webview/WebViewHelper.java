@@ -31,7 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.android.common.R;
-import com.android.common.view.StatusBarUtils;
+import com.android.common.utils.StatusBarUtils;
 import com.android.common.webview.client.MyImage;
 import com.android.common.webview.client.MyWebChromeClient;
 import com.android.common.webview.client.MyWebViewClient;
