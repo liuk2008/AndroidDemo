@@ -45,7 +45,7 @@ public class MyRefreshView extends LinearLayout {
 
     private void initView(Context context) {
         mContext = context;
-        View rooView = View.inflate(context, R.layout.swiperefresh_layout, null);
+        View rooView = View.inflate(context, R.layout.refreshview_layout, null);
         recyclerView = rooView.findViewById(R.id.recyclerView);
         swipeRefreshLayout = rooView.findViewById(R.id.swipeRefreshLayout);
         this.addView(rooView);

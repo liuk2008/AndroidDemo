@@ -20,6 +20,7 @@ Android演示项目
          <!-- 需在Application配置android:networkSecurityConfig="@xml/network_security_config"-->
          <network-security-config>
              <!-- 处理7.0系统无法抓取https请求-->
+             <!--使用 debug-overrides 指定仅在 android:debuggable 为 true 时才信任的仅调试 CA-->
              <debug-overrides>
                  <trust-anchors>
                      <certificates src="user" />
@@ -94,8 +95,20 @@ Android演示项目
               2、injectJs、excJsMethod、evaluateJs、addJavascriptInterface：与js相关的方法
               3、showPicWindow、setWebViewPic：调用本地拍照、图库等功能，向WebView传递文件
               4、增加js文件，注入到h5页面，关联本地方法与js方法，实现点击图片放大、缩小、长按等功能
-
          * 注意：使用WebView时存在内存泄漏问题
+
+         * refreshview包
+         * 1、增加自定义RefreshView，实现下拉刷新、上拉加载功能
+              1、布局文件使用SwipeRefreshLayout与RecyclerView嵌套，初始化view
+              2、通过监听SwipeRefreshLayout刷新事件，实现下拉刷新功能，默认开启
+              3、通过监听RecyclerView滑动事件，实现上拉加载功能，默认开启
+              4、可单独设置刷新、加载功能是否开启，进度条是否显示，提供回调接口监听各状态事件
+              5、设置Adapter，底层通过MyCommonAdapter填充数据
+         * 2、增加自定义MyCommonAdapter，继承于RecyclerView.Adapter
+              1、设置Adapter，提供item点击、添加数据功能
+              2、包装原始Adapter，统一添加底部布局，根据数据量动态展示
+              3、封装RecyclerView.Adapter公共方法，抽取MyViewHolder封装itemView
+              4、提供convert方法填充item数据
 
     * 2、lib-scan：扫码功能
          * 1、继承CaptureActivity，复写dealData方法可以获取到数据和码的格式
@@ -144,6 +157,7 @@ Android演示项目
          * 1、代码混淆
          * 2、签名校验
          * 3、http&https请求加密
+         * 4、禁止使用代理
     * 4、其他问题
          * 1、动态申请权限需注意多种机型问题
          * 2、注意Application与BaseActivity的冗余程度
