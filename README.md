@@ -107,7 +107,7 @@ Android演示项目
          * 2、增加自定义MyCommonAdapter，继承于RecyclerView.Adapter
               1、设置Adapter，提供item点击、添加数据功能
               2、包装原始Adapter，统一添加底部布局，根据数据量动态展示
-              3、封装RecyclerView.Adapter公共方法，抽取MyViewHolder封装itemView
+              3、封装RecyclerView.Adapter公共方法，通过MyViewHolder封装itemView
               4、提供convert方法填充item数据
 
     * 2、lib-scan：扫码功能

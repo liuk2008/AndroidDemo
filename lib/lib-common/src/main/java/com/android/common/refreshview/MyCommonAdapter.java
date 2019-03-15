@@ -53,6 +53,7 @@ public abstract class MyCommonAdapter<T> extends RecyclerView.Adapter<RecyclerVi
             bindData(null, holder, position, dataList.size());
     }
 
+
     private void bindData(RecyclerView.Adapter adapter, final RecyclerView.ViewHolder holder, final int position, int dataSize) {
         if (position == dataSize) {
             MyViewHolder myViewHolder = (MyViewHolder) holder;
@@ -118,7 +119,6 @@ public abstract class MyCommonAdapter<T> extends RecyclerView.Adapter<RecyclerVi
         }
         return dataList;
     }
-
 
     public void setLoadMore(boolean isLoadMore) {
         this.isLoadMore = isLoadMore;
