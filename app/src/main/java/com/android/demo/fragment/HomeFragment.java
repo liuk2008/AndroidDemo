@@ -14,6 +14,7 @@ import com.android.common.refreshview.MyViewHolder;
 import com.android.common.utils.StatusBarUtils;
 import com.android.common.utils.ToolbarUtil;
 import com.android.demo.R;
+import com.android.utils.common.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,9 +73,8 @@ public class HomeFragment extends BaseFragment {
                 holder.setText(R.id.item_title, data);
             }
         };
-
-        refreshView.refreshStart();
         refreshView.setAdapter(adapter);
+        refreshView.refreshStart();
         setData("测试");
 
         refreshView.setOnRefreshListener(new MyRefreshView.OnRefreshListener() {
@@ -98,6 +98,7 @@ public class HomeFragment extends BaseFragment {
         adapter.setOnItemClickListener(new MyCommonAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                ToastUtils.showToast(getContext(), "position:" + position);
             }
         });
 

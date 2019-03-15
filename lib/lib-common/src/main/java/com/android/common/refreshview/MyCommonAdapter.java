@@ -47,9 +47,16 @@ public abstract class MyCommonAdapter<T> extends RecyclerView.Adapter<RecyclerVi
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        if (position == dataList.size()) {
+        if (adapter != null)
+            bindData(adapter, holder, position, adapter.getItemCount());
+        else
+            bindData(null, holder, position, dataList.size());
+    }
+
+    private void bindData(RecyclerView.Adapter adapter, final RecyclerView.ViewHolder holder, final int position, int dataSize) {
+        if (position == dataSize) {
             MyViewHolder myViewHolder = (MyViewHolder) holder;
-            if (dataList.size() != 0) {
+            if (dataSize != 0) {
                 myViewHolder.setVisible(R.id.view_loadmore, true);
                 if (!isLoadMore) {
                     myViewHolder.setText(R.id.tv_loadmore, "暂无更多数据");
@@ -90,7 +97,7 @@ public abstract class MyCommonAdapter<T> extends RecyclerView.Adapter<RecyclerVi
 
     @Override
     public int getItemViewType(int position) {
-        if (position == dataList.size())
+        if (position == (adapter != null ? adapter.getItemCount() : dataList.size()))
             return FOOTER;
         else
             return position;
@@ -98,7 +105,6 @@ public abstract class MyCommonAdapter<T> extends RecyclerView.Adapter<RecyclerVi
 
     public List<T> cleanData() {
         dataList.clear();
-        this.notifyDataSetChanged();
         return dataList;
     }
 
@@ -110,7 +116,6 @@ public abstract class MyCommonAdapter<T> extends RecyclerView.Adapter<RecyclerVi
             this.dataList.clear();
             this.dataList.addAll(newArray);
         }
-        this.notifyDataSetChanged();
         return dataList;
     }
 

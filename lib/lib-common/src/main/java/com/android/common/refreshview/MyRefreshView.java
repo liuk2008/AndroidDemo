@@ -138,6 +138,7 @@ public class MyRefreshView extends LinearLayout {
      */
     public void refreshComplete() {
         swipeRefreshLayout.setRefreshing(false);
+        wrapAdapter.notifyDataSetChanged();
     }
 
     /**
