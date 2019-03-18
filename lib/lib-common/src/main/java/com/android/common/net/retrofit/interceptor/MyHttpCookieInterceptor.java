@@ -5,7 +5,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.android.common.net.NetStatus;
-import com.android.common.net.NetUtils;
+import com.android.common.utils.NetUtils;
 
 import java.util.ArrayList;
 import java.util.List;

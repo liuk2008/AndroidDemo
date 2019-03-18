@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.android.common.net.NetStatus;
-import com.android.common.net.NetUtils;
+import com.android.common.utils.NetUtils;
 
 import java.util.HashMap;
 import java.util.List;

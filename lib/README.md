@@ -6,7 +6,7 @@ Android演示项目
 
     注意：尽量避免各个lib包之间相互引用
 
-	* 1、lib-common：网络框架，WebView框架，封装Activity与Fragment，自定义View等
+	* 1、lib-common：网络框架，WebView框架，封装Activity与Fragment，自定义刷新View等
 	
          * base包
          * 1、增加BaseFragment基础类

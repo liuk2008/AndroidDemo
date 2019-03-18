@@ -6,7 +6,7 @@ import android.util.Log;
 
 import com.android.common.BuildConfig;
 import com.android.common.net.NetStatus;
-import com.android.common.net.NetUtils;
+import com.android.common.utils.NetUtils;
 import com.android.common.net.http.request.HttpParams;
 import com.android.common.net.http.request.NetData;
 import com.google.gson.Gson;

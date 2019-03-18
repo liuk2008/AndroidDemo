@@ -67,7 +67,7 @@ public class HomeFragment extends BaseFragment {
             }
         });
 
-        adapter = new MyCommonAdapter<String>(getContext(), R.layout.item_view) {
+        adapter = new MyCommonAdapter<String>(R.layout.item_view) {
             @Override
             public void convert(MyViewHolder holder, String data, int position) {
                 holder.setText(R.id.item_title, data);

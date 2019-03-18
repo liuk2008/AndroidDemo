@@ -1,6 +1,5 @@
 package com.android.common.refreshview;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +15,7 @@ public abstract class MyCommonAdapter<T> extends RecyclerView.Adapter<RecyclerVi
     private static final String TAG = MyCommonAdapter.class.getSimpleName();
     private static final int FOOTER = -1;
     private List<T> dataList = new ArrayList<>();
-    private Context context;
+
     private int resourceId;
     private OnItemClickListener mOnItemClickListener;
     private RecyclerView.Adapter adapter;
@@ -26,8 +25,7 @@ public abstract class MyCommonAdapter<T> extends RecyclerView.Adapter<RecyclerVi
         this.adapter = adapter;
     }
 
-    public MyCommonAdapter(Context context, int resourceId) {
-        this.context = context;
+    public MyCommonAdapter(int resourceId) {
         this.resourceId = resourceId;
     }
 
@@ -35,13 +33,13 @@ public abstract class MyCommonAdapter<T> extends RecyclerView.Adapter<RecyclerVi
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (FOOTER == viewType) { // 添加底部布局
             View footerView = LayoutInflater.from(parent.getContext()).inflate(R.layout.load_more, parent, false);
-            return MyViewHolder.getHolder(context, footerView);
+            return MyViewHolder.getHolder(footerView);
         }
         if (adapter != null) {
             return adapter.onCreateViewHolder(parent, viewType);
         } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(resourceId, parent, false);
-            return MyViewHolder.getHolder(context, view);
+            return MyViewHolder.getHolder(view);
         }
     }
 

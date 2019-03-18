@@ -5,7 +5,7 @@ import android.content.Context;
 
 import com.android.common.BuildConfig;
 import com.android.common.net.NetStatus;
-import com.android.common.net.NetUtils;
+import com.android.common.utils.NetUtils;
 import com.android.common.net.error.ErrorException;
 import com.android.common.net.http.request.NetData;
 

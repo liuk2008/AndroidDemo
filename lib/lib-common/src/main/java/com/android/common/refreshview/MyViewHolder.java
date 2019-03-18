@@ -1,6 +1,5 @@
 package com.android.common.refreshview;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
@@ -16,21 +15,19 @@ import android.widget.TextView;
 public class MyViewHolder extends RecyclerView.ViewHolder {
 
     private static final String TAG = MyViewHolder.class.getSimpleName();
-    private Context mContext;
     private View mConvertView;
     private SparseArray<View> mViews;
 
-    private MyViewHolder(Context context, View itemView) {
+    private MyViewHolder(View itemView) {
         super(itemView);
-        mContext = context;
         mConvertView = itemView;
         this.mViews = new SparseArray<>();
     }
 
-    public static MyViewHolder getHolder(Context context, View itemView) {
+    public static MyViewHolder getHolder(View itemView) {
         MyViewHolder myHolder = (MyViewHolder) itemView.getTag();
         if (myHolder == null) {
-            myHolder = new MyViewHolder(context, itemView);
+            myHolder = new MyViewHolder(itemView);
             itemView.setTag(myHolder);
         }
         return myHolder;
