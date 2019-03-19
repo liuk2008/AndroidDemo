@@ -27,7 +27,7 @@ public class RxNetRequest {
                 "https://passport.lawcert.com/proxy/account/",
                 NetStatus.Type.RETROFIT_RXJAVA);
         financeApi = retrofitEngine.getRetrofitService(FinanceApi.class,
-                "https://www.lawcert.com/proxy/hzcms/",
+                "https://www.lawcert.com/proxy/",
                 NetStatus.Type.RETROFIT_RXJAVA_DATAWRAPPER);
     }
 

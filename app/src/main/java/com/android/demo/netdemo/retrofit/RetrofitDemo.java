@@ -7,6 +7,7 @@ import com.android.common.net.Null;
 import com.android.common.net.callback.Callback;
 import com.android.common.net.retrofit.RetrofitUtils;
 import com.android.demo.netdemo.AccountSummaryInfo;
+import com.android.demo.netdemo.FinanceListInfo;
 import com.android.demo.netdemo.GeeValidateInfo;
 import com.android.demo.netdemo.MonthBillInfo;
 import com.android.demo.netdemo.UserInfo;
@@ -119,6 +120,12 @@ public class RetrofitDemo {
 
     public void accountSummary(Callback<AccountSummaryInfo> callback) {
         Call<AccountSummaryInfo> call = apiRequest.accountSummary();
+        taskList.add(call);
+        RetrofitUtils.request(call, callback);
+    }
+
+    public void financeList(int pageIndex,Callback<FinanceListInfo> callback) {
+        Call<FinanceListInfo> call = apiRequest.financeList(pageIndex);
         taskList.add(call);
         RetrofitUtils.request(call, callback);
     }

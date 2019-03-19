@@ -3,6 +3,7 @@ package com.android.demo.netdemo.retrofit;
 
 import com.android.common.net.Null;
 import com.android.demo.netdemo.AccountSummaryInfo;
+import com.android.demo.netdemo.FinanceListInfo;
 import com.android.demo.netdemo.MonthBillInfo;
 import com.android.demo.netdemo.UserInfo;
 
@@ -18,6 +19,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 public interface FinanceApi {
@@ -51,6 +53,11 @@ public interface FinanceApi {
 
     @GET("trc_bjcg/u/m/myAccount/accountSummary")
     Call<AccountSummaryInfo> accountSummary();
+
+    @GET("trc_bjcg/loans/list")
+    Call<FinanceListInfo> financeList(@Query("pageIndex") int pageIndex,
+                                      @Query("pageSize") int pageSize,
+                                      @Query("displayTerminal") String displayTerminal);
 
     /*
      * 设置请求接口

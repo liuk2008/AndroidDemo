@@ -5,6 +5,7 @@ import com.android.common.net.NetStatus;
 import com.android.common.net.Null;
 import com.android.common.net.retrofit.RetrofitEngine;
 import com.android.demo.netdemo.AccountSummaryInfo;
+import com.android.demo.netdemo.FinanceListInfo;
 import com.android.demo.netdemo.GeeValidateInfo;
 import com.android.demo.netdemo.MonthBillInfo;
 import com.android.demo.netdemo.UserInfo;
@@ -19,7 +20,7 @@ public class RetrofitRequest {
     private static final String TAG = RetrofitRequest.class.getSimpleName();
     private static RetrofitRequest retrofitApiRequest;
     private FinanceApi accountApi, financeApi;
-    public RetrofitEngine retrofitEngine;
+    private RetrofitEngine retrofitEngine;
 
     private RetrofitRequest() {
         retrofitEngine = RetrofitEngine.getInstance();
@@ -74,6 +75,10 @@ public class RetrofitRequest {
 
     public Call<AccountSummaryInfo> accountSummary() {
         return financeApi.accountSummary();
+    }
+
+    public Call<FinanceListInfo> financeList(int pageIndex) {
+        return financeApi.financeList(pageIndex, 40, "app");
     }
 
 }

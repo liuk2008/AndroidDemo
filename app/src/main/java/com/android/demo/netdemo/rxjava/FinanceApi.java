@@ -43,10 +43,11 @@ public interface FinanceApi {
                                 @Field("gtServerStatus") int gtServerStatus,
                                 @Path("phone") String phone);
 
-    @GET("channelPage/monthBill")
+    @GET("hzcms/channelPage/monthBill")
     Observable<MonthBillInfo> monthBill();
 
     @GET("trc_bjcg/u/m/myAccount/accountSummary")
     Observable<AccountSummaryInfo> accountSummary();
+
 }
 
