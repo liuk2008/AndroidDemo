@@ -9,8 +9,8 @@
 
     <!--动画-->
     <style name="animation">
-        <item name="android:windowEnterAnimation">@anim/enter_anim</item>
-        <item name="android:windowExitAnimation">@anim/out_anim</item>
+        <item name="android:windowEnterAnimation">@anim/anim_enter</item>
+        <item name="android:windowExitAnimation">@anim/anim_out</item>
     </style>
 
 </resources>
