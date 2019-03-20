@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -263,7 +264,14 @@ public class WebViewHelper {
             return;
         }
 
-        file = new File(Environment.getExternalStorageDirectory() + "/webview");
+        // android 7.0系统解决拍照的问题
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+            StrictMode.setVmPolicy(builder.build());
+            builder.detectFileUriExposure();
+        }
+
+        file = new File(Environment.getExternalStorageDirectory() + "/common");
         //如果文件夹不存在则创建
         if (!file.exists() && !file.isDirectory()) {
             file.mkdir();

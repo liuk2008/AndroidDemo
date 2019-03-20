@@ -14,6 +14,9 @@ import com.android.common.webview.client.MyWebViewClient;
 import com.android.common.webview.client.WebViewUtils;
 import com.android.utils.common.LogUtils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 public class WebViewActivity extends AppCompatActivity {
 
     private static final String TAG = WebViewActivity.class.getSimpleName();
@@ -25,8 +28,8 @@ public class WebViewActivity extends AppCompatActivity {
         webViewHelper = WebViewHelper.create(this);
         setContentView(webViewHelper.getRootView());
         webViewHelper.initClient();
-        testCookie();
-//        testFile();
+//        testCookie();
+        testFile();
 //        testImage();
     }
 
@@ -54,7 +57,16 @@ public class WebViewActivity extends AppCompatActivity {
                 webViewHelper.showPicWindow();
             }
         });
-        webViewHelper.load("http://jfx.qdfaw.com:6180/truck-qingdao-web/");
+        String url = "http://jfx.qdfaw.com:6180/truck-qingdao-web/";
+        String token = "b2f65c72c3904d5c95c0ffc55c9f5a9e";
+        try {
+            token = URLEncoder.encode(token, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        url = String.format("%s?token=%s&appType=%s&userType=%s&platform=%s&cityNmae=%s", url,
+                token, "2", "1", "2", "西安");
+        webViewHelper.load(url);
     }
 
     private void testImage() {

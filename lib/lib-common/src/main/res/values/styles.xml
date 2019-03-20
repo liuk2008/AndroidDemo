@@ -7,6 +7,15 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
+    <style name="TransparentBottom" parent="Theme.AppCompat.Light.NoActionBar" >
+        <item name="android:windowFrame">@null</item><!--边框-->
+        <item name="android:windowIsTranslucent">true</item><!--半透明-->
+        <item name="android:windowNoTitle">true</item><!--无标题-->
+        <item name="android:windowBackground">@android:color/transparent</item><!--背景透明-->
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:backgroundDimEnabled">true</item><!--模糊-->
+    </style>
+
     <!--动画-->
     <style name="animation">
         <item name="android:windowEnterAnimation">@anim/anim_enter</item>
