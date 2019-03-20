@@ -8,7 +8,13 @@
         <activity
             android:name=".base.PermissionActivity"
             android:theme="@style/DialogTheme" />
+
+        <activity
+            android:theme="@style/TransparentBottom"
+            android:name=".base.PhotoDialogActivity"/>
+
         <activity android:name=".base.FragmentHostActivity" />
+
         <activity android:name=".webview.ImageActivity" />
     </application>
 

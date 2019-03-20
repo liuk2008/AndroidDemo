@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.android.common.base.PermissionActivity;
+import com.android.common.base.PhotoDialogActivity;
 import com.android.common.base.fragment.BaseFragment;
 import com.android.common.net.callback.Callback;
 import com.android.common.utils.StatusBarUtils;
@@ -68,7 +69,7 @@ public class WorkFragment extends BaseFragment {
         ToolbarUtil.configTitlebar(baseRootView, "业务", View.GONE);
 
         ViewUtils.setViewOnClickListener(this, baseRootView, R.id.btn_permission, R.id.btn_permissions,
-                R.id.btn_scan, R.id.btn_webview, R.id.btn_net, R.id.btn_cache);
+                R.id.btn_scan, R.id.btn_webview, R.id.btn_net, R.id.btn_cache, R.id.btn_photo);
         httpDemo = new HttpDemo();
         retrofitDemo = new RetrofitDemo();
         rxNetDemo = new RxNetDemo();
@@ -113,6 +114,13 @@ public class WorkFragment extends BaseFragment {
                                 .append("\n")
                                 .append(String.format("应用大小：%s", Formatter.formatFileSize(getContext(), size[2])));
                         ToastUtils.showToast(getContext(), cache.toString());
+                    }
+                });
+            case R.id.btn_photo:
+                PhotoDialogActivity.requestPhoto(getActivity(), new PhotoDialogActivity.PhotoResultCallback() {
+                    @Override
+                    public void photoResult(String photoPath) {
+                        LogUtils.logd(TAG, "photo:" + photoPath);
                     }
                 });
                 break;

@@ -22,6 +22,9 @@ import com.android.common.R;
  * 3、自定义Loading页面、加载失败页面、无数据页面
  * 4、setXXX()：是否开启对应功能
  * 5、setXXXView()、showXXXView()：设置/显示对应状态的View
+ * 注意：
+ * 1、ProgressBar在运行时，禁止点击
+ * 2、下拉刷新与上拉加载不能同时进行，否则会出现数据混乱情况
  */
 public class MyRefreshView extends LinearLayout {
 
