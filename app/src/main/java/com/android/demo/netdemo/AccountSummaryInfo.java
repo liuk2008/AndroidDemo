@@ -3,7 +3,6 @@ package com.android.demo.netdemo;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 public class AccountSummaryInfo implements Serializable {
     private static final long serialVersionUID = -1;
