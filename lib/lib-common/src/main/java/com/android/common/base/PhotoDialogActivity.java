@@ -165,10 +165,10 @@ public class PhotoDialogActivity extends AppCompatActivity implements View.OnCli
         if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             return;
         }
-        file = new File(Environment.getExternalStorageDirectory() + "/common");
+        file = new File(Environment.getExternalStorageDirectory() + "/common/image");
         //如果文件夹不存在则创建
         if (!file.exists() && !file.isDirectory()) {
-            file.mkdir();
+            file.mkdirs();
         }
     }
 

@@ -271,10 +271,10 @@ public class WebViewHelper {
             builder.detectFileUriExposure();
         }
 
-        file = new File(Environment.getExternalStorageDirectory() + "/common");
+        file = new File(Environment.getExternalStorageDirectory() + "/common/webview");
         //如果文件夹不存在则创建
         if (!file.exists() && !file.isDirectory()) {
-            file.mkdir();
+            file.mkdirs();
         }
         if (picPopupWindow == null) {
             View contentView = View.inflate(activity, R.layout.popupwindow_photo, null);

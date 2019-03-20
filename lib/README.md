@@ -24,7 +24,8 @@ Android演示项目
               1、可单独使用工具类请求权限，获取未授权的权限信息
               2、申请单个、多个权限时，弹出对话框，进入到应用系统信息页面
          * 5、增加FragmentHostActivity，用于创建Fragment。注意：一般一个FragmentHostActivity嵌套一个Fragment
-  
+         * 6、增加PhotoDialogActivity，此Activity为透明模式，用于通过拍照或系统图库获取图片
+
          * net包
          * 1、封装网络框架：
 	          1、Retrofit2 + CallBack：封装Retrofit网络框架
