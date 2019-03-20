@@ -1,27 +1,29 @@
 package com.android.demo.fragment;
 
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.common.base.fragment.BaseFragment;
+import com.android.common.net.callback.Callback;
 import com.android.common.refreshview.MyCommonAdapter;
 import com.android.common.refreshview.MyRefreshView;
 import com.android.common.refreshview.MyViewHolder;
 import com.android.common.utils.StatusBarUtils;
 import com.android.common.utils.ToolbarUtil;
 import com.android.demo.R;
+import com.android.demo.netdemo.FinanceListInfo;
+import com.android.demo.netdemo.retrofit.RetrofitDemo;
+import com.android.utils.common.LogUtils;
 import com.android.utils.common.ToastUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 1、设置标题栏根据页面滑动渐变
- * 2、测试下拉刷新、上拉加载效果
+ * 2、测试下拉刷新、上拉加载、点击屏幕刷新等功能
+ * 3、测试Loading页面，加载失败页面，无数据页面
+ * 4、可自定义对应状态的view
  */
 public class HomeFragment extends BaseFragment {
 
@@ -29,8 +31,9 @@ public class HomeFragment extends BaseFragment {
     private View viewTitle;
     private int scrollMaxHeight;
     private MyRefreshView refreshView;
-    private MyCommonAdapter<String> adapter;
-    private int index = 1;
+    private MyCommonAdapter<FinanceListInfo.ListBean> adapter;
+    private int index = 1, total;
+    private RetrofitDemo retrofitDemo;
 
     {
         super.TAG = TAG;
@@ -45,9 +48,10 @@ public class HomeFragment extends BaseFragment {
     public void initRootViews(View baseRootView) {
         super.initRootViews(baseRootView);
         ToolbarUtil.configTitlebar(baseRootView, "首页", View.GONE);
-        refreshView = baseRootView.findViewById(R.id.refreshView);
         viewTitle = baseRootView.findViewById(R.id.view_title);
+        refreshView = baseRootView.findViewById(R.id.refreshView);
 
+        // 设置标题栏
         viewTitle.setAlpha(0);
         // 设置系统状态栏透明，通过设置标题栏Padding高度=状态栏高度，保持颜色一致
         viewTitle.setPadding(0, StatusBarUtils.getStatusBarHeight(getActivity()), 0, 0);
@@ -67,65 +71,87 @@ public class HomeFragment extends BaseFragment {
             }
         });
 
-        adapter = new MyCommonAdapter<String>(R.layout.item_view) {
+        // 设置refreshView
+        adapter = new MyCommonAdapter<FinanceListInfo.ListBean>(R.layout.item_view) {
             @Override
-            public void convert(MyViewHolder holder, String data, int position) {
-                holder.setText(R.id.item_title, data);
+            public void convert(MyViewHolder holder, FinanceListInfo.ListBean data, int position) {
+                holder.setText(R.id.item_title, data.loanTitle);
             }
         };
         refreshView.setAdapter(adapter);
-        refreshView.refreshStart();
-        setData("测试");
+        setRefreshView();
+        request(index);
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        retrofitDemo.cancelAll();
+    }
+
+    private void setRefreshView() {
+        // 下拉刷新
         refreshView.setOnRefreshListener(new MyRefreshView.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 index = 1;
-                setData("下拉刷新");
+                request(index);
             }
         });
-
+        // 上拉加载
         refreshView.setOnLoadMoreListener(new MyRefreshView.OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
                 index++;
-                if (index <= 2)
-                    setData("上拉加载");
-
+                if (index <= (total / 40 + 1))
+                    request(index);
             }
         });
-
+        // 重新加载数据
+        refreshView.setOnReLoadListener(new MyRefreshView.OnReLoadListener() {
+            @Override
+            public void onReload() {
+                request(index);
+            }
+        });
+        // item点击事件
         adapter.setOnItemClickListener(new MyCommonAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 ToastUtils.showToast(getContext(), "position:" + position);
             }
         });
-
     }
 
-    private void setData(final String name) {
-        new Thread(new Runnable() {
+    private void request(int pageIndex) {
+        retrofitDemo = new RetrofitDemo();
+        retrofitDemo.financeList(pageIndex, new Callback<FinanceListInfo>() {
             @Override
-            public void run() {
-                SystemClock.sleep(3000);
-                final List<String> list = new ArrayList<>();
-                for (int i = 0; i < 60; i++) {
-                    list.add(name + i);
+            public void onSuccess(FinanceListInfo financeListInfo) {
+                refreshView.refreshComplete();
+                if (financeListInfo == null || financeListInfo.list == null || financeListInfo.list.size() == 0) {
+                    refreshView.showEmptyView();
+                    return;
                 }
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if ("下拉刷新".equals(name)) {
-                            adapter.cleanData();
-                        }
-                        adapter.appendData(list);
-                        refreshView.setLoadMore(index < 2);
-                        refreshView.refreshComplete();
-                    }
-                });
+                total = financeListInfo.pageInfo.total;
+                if (index == 1)
+                    adapter.cleanData();
+                adapter.appendData(financeListInfo.list);
+                refreshView.setLoadMore(index < (total / 40 + 1));
             }
-        }).start();
+
+            @Override
+            public void onFail(int resultCode, String msg, String data) {
+                LogUtils.logd(TAG, "resultCode:" + resultCode + ", msg:" + msg + ", data:" + data);
+                refreshView.refreshComplete();
+                if (index > 1)
+                    index--;
+                else
+                    adapter.cleanData();
+                refreshView.showErrorView();
+            }
+        });
     }
+
 
 }

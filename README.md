@@ -42,11 +42,11 @@ Android演示项目
 **重点注意**
 
     * 1、项目框架：
-         * 1、主页框架的搭建，Fragment与Activity嵌套使用等
+         * 1、主页框架的搭建
          * 2、路由框架，网络框架
          * 3、组件化，模块化
          * 4、异常处理机制
-         * 5、MVC、MVP、MVVM 模型
+         * 5、MVC、MVP、MVVM模型
     * 2、性能问题：
          * 1、项目架构中的内存泄露问题
          * 2、UI线程做下面的操作影响性能
@@ -69,6 +69,7 @@ Android演示项目
          * 2、注意Application与BaseActivity的冗余程度
          * 3、考虑统一检测网络连接
          * 4、抽取工具类
+         * 5、Fragment与Activity嵌套使用
 
 
 

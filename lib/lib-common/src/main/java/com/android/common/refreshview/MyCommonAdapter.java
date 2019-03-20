@@ -19,7 +19,7 @@ public abstract class MyCommonAdapter<T> extends RecyclerView.Adapter<RecyclerVi
     private int resourceId;
     private OnItemClickListener mOnItemClickListener;
     private RecyclerView.Adapter adapter;
-    private boolean isLoadMore = false;
+    private boolean isLoadMore = false, loadMoreError = false;
 
     public MyCommonAdapter(RecyclerView.Adapter adapter) {
         this.adapter = adapter;
@@ -56,13 +56,20 @@ public abstract class MyCommonAdapter<T> extends RecyclerView.Adapter<RecyclerVi
         if (position == dataSize) {
             MyViewHolder myViewHolder = (MyViewHolder) holder;
             if (dataSize != 0) {
+                myViewHolder.setText(R.id.tv_loadmore, "加载中...");
+                myViewHolder.setVisible(R.id.progressbar_loadmore, true);
                 myViewHolder.setVisible(R.id.view_loadmore, true);
-                if (!isLoadMore) {
-                    myViewHolder.setText(R.id.tv_loadmore, "暂无更多数据");
+                if (!loadMoreError) {
+                    if (!isLoadMore) {
+                        myViewHolder.setText(R.id.tv_loadmore, "暂无更多数据");
+                        myViewHolder.setVisible(R.id.progressbar_loadmore, false);
+                    } else {
+//                        myViewHolder.setText(R.id.tv_loadmore, "加载中...");
+//                        myViewHolder.setVisible(R.id.progressbar_loadmore, true);
+                    }
+                } else {  // 网络异常，数据加载失败情况下
+                    myViewHolder.setText(R.id.tv_loadmore, "数据加载失败，请稍后重试");
                     myViewHolder.setVisible(R.id.progressbar_loadmore, false);
-                } else {
-                    myViewHolder.setText(R.id.tv_loadmore, "加载中...");
-                    myViewHolder.setVisible(R.id.progressbar_loadmore, true);
                 }
             } else {
                 myViewHolder.setVisible(R.id.view_loadmore, false);
@@ -120,6 +127,10 @@ public abstract class MyCommonAdapter<T> extends RecyclerView.Adapter<RecyclerVi
 
     public void setLoadMore(boolean isLoadMore) {
         this.isLoadMore = isLoadMore;
+    }
+
+    public void loadMoreError(boolean loadMoreError) {
+        this.loadMoreError = loadMoreError;
     }
 
     public void setOnItemClickListener(OnItemClickListener mOnItemClickListener) {

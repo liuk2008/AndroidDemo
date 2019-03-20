@@ -70,12 +70,13 @@ Android演示项目
          * 注意：使用WebView时存在内存泄漏问题
 
          * refreshview包
-         * 1、增加自定义RefreshView，实现下拉刷新、上拉加载功能
+         * 1、增加自定义RefreshView：
               1、布局文件使用SwipeRefreshLayout与RecyclerView嵌套，初始化view
-              2、通过监听SwipeRefreshLayout刷新事件，实现下拉刷新功能，默认开启
-              3、通过监听RecyclerView滑动事件，实现上拉加载功能，默认开启
-              4、可单独设置刷新、加载功能是否开启，进度条是否显示，提供回调接口监听各状态事件
-              5、设置Adapter，底层通过MyCommonAdapter填充数据
+              2、通过监听SwipeRefreshLayout刷新事件，提供回调接口实现下拉刷新功能
+              3、通过监听RecyclerView滑动事件，提供回调接口实现上拉加载功能
+              4、对外提供方法可设置下拉刷新、上拉加载、重新刷新功能是否开启，默认开启
+              5、自定义Loading页面、加载失败页面、无数据页面，对外提供方法可设置/显示对应状态的View
+              6、设置Adapter，底层通过MyCommonAdapter填充数据，提供item点击、添加数据功能
          * 2、增加自定义MyCommonAdapter，继承于RecyclerView.Adapter
               1、设置Adapter，提供item点击、添加数据功能
               2、包装原始Adapter，统一添加底部布局，根据数据量动态展示
