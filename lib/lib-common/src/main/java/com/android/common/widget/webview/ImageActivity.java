@@ -1,4 +1,4 @@
-package com.android.common.webview;
+package com.android.common.widget.webview;
 
 import android.graphics.Color;
 import android.os.Build;
@@ -29,7 +29,7 @@ public class ImageActivity extends AppCompatActivity {
         imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 
         RequestOptions requestOptions = new RequestOptions();
-        requestOptions.error(R.drawable.icon_image_failed);
+        requestOptions.error(R.drawable.common_image_failed);
         Glide.with(this).load(url).apply(requestOptions).thumbnail(0.1f).into(imageView);
         configStatusBar();
         setContentView(imageView);

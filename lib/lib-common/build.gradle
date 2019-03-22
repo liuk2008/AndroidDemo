@@ -18,6 +18,8 @@ android {
         disable 'GoogleAppIndexingWarning'
     }
 
+    resourcePrefix 'common' // 创建资源前缀，只是提示xml需要加对应的前缀，并不会自动添加
+
     buildTypes {
         release {
             minifyEnabled true

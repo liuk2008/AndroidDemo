@@ -1,11 +1,12 @@
-package com.android.common.webview.client;
+package com.android.common.widget.webview.client;
 
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
 
-import com.android.common.webview.ImageActivity;
+import com.android.common.widget.webview.ImageActivity;
+
 
 public class MyImage {
     private FragmentActivity activity;

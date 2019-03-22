@@ -11,7 +11,13 @@ import com.android.common.R;
 
 
 public class ToolbarUtil {
+
     private static final String TAG = ToolbarUtil.class.getSimpleName();
+
+    public static void configTitlebar(Activity activity, String title, int type) {
+        View rootView = activity.findViewById(android.R.id.content);
+        configTitlebar(rootView, title, type);
+    }
 
     public static void configTitlebar(View rootView, String title, int type) {
         TextView tvTitle = rootView.findViewById(R.id.tv_title);

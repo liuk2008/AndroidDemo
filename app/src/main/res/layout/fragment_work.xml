@@ -7,9 +7,9 @@
         android:id="@+id/status_bar_fix"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@drawable/shape_titlebar" />
+        android:background="@drawable/common_titlebar_shape" />
 
-    <include layout="@layout/titlebar_layout" />
+    <include layout="@layout/common_titlebar" />
 
     <Button
         android:id="@+id/btn_permission"

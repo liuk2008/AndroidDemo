@@ -1,13 +1,13 @@
 <resources>
 
     <!--设置Activity为Dialog格式-->
-    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+    <style name="Common.Dialog.Theme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
-    <style name="TransparentBottom" parent="Theme.AppCompat.Light.NoActionBar" >
+    <style name="Common.Transparent.Theme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowFrame">@null</item><!--边框-->
         <item name="android:windowIsTranslucent">true</item><!--半透明-->
         <item name="android:windowNoTitle">true</item><!--无标题-->
@@ -16,10 +16,15 @@
         <item name="android:backgroundDimEnabled">true</item><!--模糊-->
     </style>
 
+    <style name="Common.FullDialog.Theme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
     <!--动画-->
-    <style name="animation">
-        <item name="android:windowEnterAnimation">@anim/anim_enter</item>
-        <item name="android:windowExitAnimation">@anim/anim_out</item>
+    <style name="CommonAnimation">
+        <item name="android:windowEnterAnimation">@anim/common_anim_enter</item>
+        <item name="android:windowExitAnimation">@anim/common_anim_out</item>
     </style>
 
 </resources>

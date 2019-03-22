@@ -8,11 +8,11 @@ import android.view.ViewGroup;
 
 import com.android.common.base.fragment.BaseFragment;
 import com.android.common.net.callback.Callback;
-import com.android.common.refreshview.MyCommonAdapter;
-import com.android.common.refreshview.MyRefreshView;
-import com.android.common.refreshview.MyViewHolder;
 import com.android.common.utils.StatusBarUtils;
 import com.android.common.utils.ToolbarUtil;
+import com.android.common.widget.refreshview.MyCommonAdapter;
+import com.android.common.widget.refreshview.MyRefreshView;
+import com.android.common.widget.refreshview.MyViewHolder;
 import com.android.demo.R;
 import com.android.demo.netdemo.FinanceListInfo;
 import com.android.demo.netdemo.retrofit.RetrofitDemo;
@@ -41,6 +41,7 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         return setRootView(inflater, R.layout.fragment_home);
     }
 

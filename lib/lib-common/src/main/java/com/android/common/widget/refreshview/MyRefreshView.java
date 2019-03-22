@@ -1,4 +1,4 @@
-package com.android.common.refreshview;
+package com.android.common.widget.refreshview;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -57,7 +57,7 @@ public class MyRefreshView extends LinearLayout {
 
     private void initView(Context context) {
         mContext = context;
-        View rooView = View.inflate(context, R.layout.refreshview_layout, null);
+        View rooView = View.inflate(context, R.layout.common_refreshview, null);
         recyclerView = rooView.findViewById(R.id.recyclerView);
         swipeRefreshLayout = rooView.findViewById(R.id.swipeRefreshLayout);
         loadingView = rooView.findViewById(R.id.view_loading);

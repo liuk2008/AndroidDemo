@@ -9,7 +9,7 @@
         android:id="@+id/view_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_titlebar"
+        android:background="@drawable/common_titlebar_shape"
         android:orientation="horizontal">
 
         <ImageView
@@ -18,7 +18,7 @@
             android:layout_height="45dp"
             android:gravity="center"
             android:scaleType="centerInside"
-            android:src="@drawable/icon_arrow" />
+            android:src="@drawable/common_arrow" />
 
 
         <ImageView
@@ -27,7 +27,7 @@
             android:layout_height="45dp"
             android:gravity="center"
             android:scaleType="centerInside"
-            android:src="@drawable/icon_close" />
+            android:src="@drawable/common_close" />
 
 
         <TextView
@@ -56,13 +56,13 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="5dp"
-        android:progressDrawable="@drawable/progress_webview" />
+        android:progressDrawable="@drawable/common_webview_progress" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.android.common.webview.MyWebView
+        <com.android.common.widget.webview.MyWebView
             android:id="@+id/webview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

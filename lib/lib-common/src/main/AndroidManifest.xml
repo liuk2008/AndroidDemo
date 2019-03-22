@@ -6,16 +6,27 @@
 
     <application>
         <activity
-            android:name=".base.PermissionActivity"
-            android:theme="@style/DialogTheme" />
+            android:name=".base.FragmentHostActivity"
+            android:screenOrientation="portrait" />
 
         <activity
-            android:theme="@style/TransparentBottom"
-            android:name=".base.PhotoDialogActivity"/>
+            android:name=".base.PermissionActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Common.Dialog.Theme" />
 
-        <activity android:name=".base.FragmentHostActivity" />
+        <activity
+            android:name=".widget.photo.PhotoPickerActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".webview.ImageActivity" />
+        <activity
+            android:name=".widget.photo.PhotoDialogActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Common.Transparent.Theme" />
+
+        <activity
+            android:name=".widget.webview.ImageActivity"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

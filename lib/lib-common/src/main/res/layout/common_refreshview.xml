@@ -25,7 +25,7 @@
         android:layout_centerInParent="true"
         android:visibility="visible">
 
-        <include layout="@layout/view_loading" />
+        <include layout="@layout/common_view_loading" />
     </FrameLayout>
 
     <FrameLayout
@@ -36,7 +36,7 @@
         android:visibility="gone"
         tools:visibility="visible">
 
-        <include layout="@layout/view_empty" />
+        <include layout="@layout/common_view_empty" />
     </FrameLayout>
 
     <FrameLayout
@@ -47,7 +47,7 @@
         android:visibility="gone"
         tools:visibility="visible">
 
-        <include layout="@layout/view_error" />
+        <include layout="@layout/common_view_error" />
     </FrameLayout>
 
 </RelativeLayout>

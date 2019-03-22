@@ -1,4 +1,4 @@
-package com.android.common.refreshview;
+package com.android.common.widget.refreshview;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -32,7 +32,7 @@ public abstract class MyCommonAdapter<T> extends RecyclerView.Adapter<RecyclerVi
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (FOOTER == viewType) { // 添加底部布局
-            View footerView = LayoutInflater.from(parent.getContext()).inflate(R.layout.load_more, parent, false);
+            View footerView = LayoutInflater.from(parent.getContext()).inflate(R.layout.common_viwe_loadmore, parent, false);
             return MyViewHolder.getHolder(footerView);
         }
         if (adapter != null) {

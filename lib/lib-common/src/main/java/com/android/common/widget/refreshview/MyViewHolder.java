@@ -1,4 +1,4 @@
-package com.android.common.refreshview;
+package com.android.common.widget.refreshview;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;

@@ -18,14 +18,14 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="10dp"
         android:indeterminate="true"
-        android:indeterminateDrawable="@anim/anim_loadmore" />
+        android:indeterminateDrawable="@anim/common_anim_loadmore" />
 
     <TextView
         android:id="@+id/tv_loadmore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="加载中..."
-        android:textColor="@color/textColor"
+        android:textColor="@color/common_text_color"
         android:textSize="14dp" />
 
 </LinearLayout>

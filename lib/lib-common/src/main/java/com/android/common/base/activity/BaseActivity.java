@@ -16,7 +16,7 @@ public class BaseActivity extends CoreActivity implements View.OnClickListener {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBarUtils.configStatusBarBgRes(this, R.drawable.shape_titlebar); // 设置状态栏
+        StatusBarUtils.configStatusBarBgRes(this, R.drawable.common_titlebar_shape); // 设置状态栏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); // 设置屏幕方向
     }
 

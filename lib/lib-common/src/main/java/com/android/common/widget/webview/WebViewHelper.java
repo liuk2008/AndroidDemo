@@ -1,4 +1,4 @@
-package com.android.common.webview;
+package com.android.common.widget.webview;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -33,10 +33,11 @@ import android.widget.PopupWindow;
 
 import com.android.common.R;
 import com.android.common.utils.StatusBarUtils;
-import com.android.common.webview.client.MyImage;
-import com.android.common.webview.client.MyWebChromeClient;
-import com.android.common.webview.client.MyWebViewClient;
-import com.android.common.webview.client.WebViewUtils;
+import com.android.common.widget.webview.client.MyImage;
+import com.android.common.widget.webview.client.MyWebChromeClient;
+import com.android.common.widget.webview.client.MyWebViewClient;
+import com.android.common.widget.webview.client.WebViewUtils;
+
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -78,7 +79,7 @@ public class WebViewHelper {
     }
 
     private void initView() {
-        rootView = LayoutInflater.from(activity).inflate(R.layout.activity_webview, null);
+        rootView = LayoutInflater.from(activity).inflate(R.layout.common_activity_webview, null);
         // 设置系统状态栏透明
         StatusBarUtils.configStatusBar(activity);
         // 获取系统状态栏高度
@@ -277,7 +278,7 @@ public class WebViewHelper {
             file.mkdirs();
         }
         if (picPopupWindow == null) {
-            View contentView = View.inflate(activity, R.layout.popupwindow_photo, null);
+            View contentView = View.inflate(activity, R.layout.common_popupwindow_photo, null);
             Button btnCancel = contentView.findViewById(R.id.btn_cancel);
             Button btnCapture = contentView.findViewById(R.id.btn_capture);
             Button btnPicture = contentView.findViewById(R.id.btn_picture);
@@ -315,9 +316,9 @@ public class WebViewHelper {
             // 设置不消失，但是下层控件还会响应
 //            picPopupWindow.setFocusable(false);
 //            picPopupWindow.setOutsideTouchable(false);
-            picPopupWindow.setAnimationStyle(R.style.animation);
+            picPopupWindow.setAnimationStyle(R.style.CommonAnimation);
         }
-        View parent = View.inflate(activity, R.layout.activity_webview, null);
+        View parent = View.inflate(activity, R.layout.common_activity_webview, null);
         // 防止手机底部的菜单栏挡住
         picPopupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         // 从底层弹出

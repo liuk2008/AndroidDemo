@@ -8,10 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 
-import com.android.common.webview.WebViewHelper;
-import com.android.common.webview.client.MyWebChromeClient;
-import com.android.common.webview.client.MyWebViewClient;
-import com.android.common.webview.client.WebViewUtils;
+
+import com.android.common.widget.webview.WebViewHelper;
+import com.android.common.widget.webview.client.MyWebChromeClient;
+import com.android.common.widget.webview.client.MyWebViewClient;
+import com.android.common.widget.webview.client.WebViewUtils;
 import com.android.utils.common.LogUtils;
 
 import java.io.UnsupportedEncodingException;

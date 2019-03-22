@@ -1,4 +1,4 @@
-package com.android.common.webview.client;
+package com.android.common.widget.webview.client;
 
 import android.graphics.Bitmap;
 import android.net.http.SslError;
@@ -17,7 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.common.R;
-import com.android.common.webview.MyWebView;
+import com.android.common.widget.webview.MyWebView;
 
 /**
  * 处理网络错误，加载自定义页面
@@ -61,10 +61,10 @@ public class MyWebViewClient extends WebViewClient {
         progressBar.setVisibility(View.GONE);
         // 显示错误界面
         if (isNet) {
-            showError("页面打开失败，请检查网络后再重试", R.drawable.icon_net_failed);
+            showError("页面打开失败，请检查网络后再重试", R.drawable.common_net_failed);
         } else if (isFail) {
             tvTitle.setText("网页无法打开");
-            showError("页面打开失败，请检查地址后再重试", R.drawable.icon_loading_failed);
+            showError("页面打开失败，请检查地址后再重试", R.drawable.common_loading_failed);
         } else {
             myWebView.setVisibility(View.VISIBLE);
         }
@@ -140,7 +140,7 @@ public class MyWebViewClient extends WebViewClient {
 //        Log.d(TAG, "onReceivedHttpError: " + request.isForMainFrame());
 
 //        if (request.isForMainFrame() && !request.getUrl().getPath().endsWith("/favicon.ico")) {
-//            showError("页面打开失败，请检查地址后再重试", R.drawable.icon_loading_failed);
+//            showError("页面打开失败，请检查地址后再重试", R.drawable.common_loading_failed);
 //        }
     }
 

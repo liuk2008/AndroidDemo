@@ -21,7 +21,7 @@
             android:id="@+id/btn_capture"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="@drawable/selector_button"
+            android:background="@drawable/common_btn_selector"
             android:text="拍照"
             android:textColor="#fff" />
 
@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginTop="5dp"
-            android:background="@drawable/selector_button"
+            android:background="@drawable/common_btn_selector"
             android:text="我的相册"
             android:textColor="#fff" />
 
@@ -39,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginTop="5dp"
-            android:background="@drawable/selector_button"
+            android:background="@drawable/common_btn_selector"
             android:text="取消"
             android:textColor="#fff" />
     </LinearLayout>
