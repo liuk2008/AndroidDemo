@@ -16,11 +16,6 @@
         <item name="android:backgroundDimEnabled">true</item><!--模糊-->
     </style>
 
-    <style name="Common.FullDialog.Theme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowNoTitle">true</item>
-    </style>
-
     <!--动画-->
     <style name="CommonAnimation">
         <item name="android:windowEnterAnimation">@anim/common_anim_enter</item>

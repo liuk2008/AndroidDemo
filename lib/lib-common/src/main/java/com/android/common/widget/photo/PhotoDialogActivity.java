@@ -1,4 +1,4 @@
-package com.android.common.base;
+package com.android.common.widget.photo;
 
 import android.Manifest;
 import android.app.Activity;
@@ -25,6 +25,8 @@ import java.io.File;
 
 
 /**
+ * Android 7.0开始，一个应用提供自身文件给其它应用使用时，如果给出一个file://格式的URI的话，应用会抛出FileUriExposedException
+ * 想要在自己应用和其他应用之间共享File数据，只能使用content://的方式
  */
 public class PhotoDialogActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -32,13 +34,13 @@ public class PhotoDialogActivity extends AppCompatActivity implements View.OnCli
     private static final int PHOTO_PICTURE = 7;// 图库
     private static final String IMAGE_UNSPECIFIED = "image/*";
     private View photoView;
-    private File file, imagePath;
-    private String path ="";
+    private File capturePath;
+    private String path = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.popupwindow_photo);
+        setContentView(R.layout.common_popupwindow_photo);
         photoView = findViewById(R.id.view_photo);
         Button btnCapture = findViewById(R.id.btn_capture);
         Button btnPicture = findViewById(R.id.btn_picture);
@@ -61,13 +63,13 @@ public class PhotoDialogActivity extends AppCompatActivity implements View.OnCli
             if (requestCode == PHOTO_GRAPH) { // 拍照 返回的data为null
                 ContentValues values = new ContentValues(2);
                 values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg/jpg");
-                values.put(MediaStore.Images.Media.DATA, imagePath.toString());
+                values.put(MediaStore.Images.Media.DATA, capturePath.toString());
                 Uri uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
                 if (uri != null) { // 更新系统图库
-                    sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(imagePath)));
+                    sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(capturePath)));
                     sendBroadcast(new Intent("Intent.ACTION_GET_IMAGE"));
                     // 传递图片
-                    mCallback.photoResult(imagePath.toString());
+                    mCallback.photoResult(capturePath.toString());
                     mCallback = null;
                     finish();
                 }
@@ -111,33 +113,20 @@ public class PhotoDialogActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-    private String getRealFilePath(Uri uri) {
-        String scheme = uri.getScheme();
-        String data = null;
-        if (scheme == null) {
-            data = uri.getPath();
-        } else if (ContentResolver.SCHEME_FILE.equals(scheme)) {
-            data = uri.getPath();
-        } else if (ContentResolver.SCHEME_CONTENT.equals(scheme)) {
-            Cursor cursor = getContentResolver().query(uri, new String[]{MediaStore.Images.Media.DATA}, null, null, null);
-            if (cursor.moveToFirst()) {
-                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                data = cursor.getString(column_index);
-            }
-            cursor.close();
-        }
-        return data;
-    }
-
     @Override
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.btn_capture) {
             checkPermissions();
             photoView.setVisibility(View.GONE);
+            File file = new File(Environment.getExternalStorageDirectory() + "/common/image");
+            //如果文件夹不存在则创建
+            if (!file.exists() && !file.isDirectory()) {
+                file.mkdirs();
+            }
             Intent capture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            imagePath = new File(file, System.currentTimeMillis() + "_picture.jpg");
-            capture.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imagePath));
+            capturePath = new File(file, System.currentTimeMillis() + "_picture.jpg");
+            capture.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(capturePath));
             startActivityForResult(capture, PHOTO_GRAPH);
         } else if (id == R.id.btn_picture) {
             checkPermissions();
@@ -156,19 +145,10 @@ public class PhotoDialogActivity extends AppCompatActivity implements View.OnCli
     private void checkPermissions() {
         // 请求权限
         ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.CAMERA}, 0);
+                new String[]{Manifest.permission.CAMERA}, 0);
         // 是否授予权限
         if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA)) {
             return;
-        }
-        if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            return;
-        }
-        file = new File(Environment.getExternalStorageDirectory() + "/common/image");
-        //如果文件夹不存在则创建
-        if (!file.exists() && !file.isDirectory()) {
-            file.mkdirs();
         }
     }
 
@@ -180,7 +160,7 @@ public class PhotoDialogActivity extends AppCompatActivity implements View.OnCli
     private static void startPhoto(Activity activity) {
         Intent intent = new Intent(activity, PhotoDialogActivity.class);
         activity.startActivity(intent);
-        activity.overridePendingTransition(R.anim.anim_enter, R.anim.anim_out);
+        activity.overridePendingTransition(R.anim.common_anim_enter, R.anim.common_anim_out);
     }
 
     private static PhotoResultCallback mCallback;

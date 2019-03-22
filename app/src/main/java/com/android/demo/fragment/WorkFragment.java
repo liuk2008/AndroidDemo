@@ -12,12 +12,13 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.android.common.base.PermissionActivity;
-import com.android.common.base.PhotoDialogActivity;
+import com.android.common.widget.photo.PhotoDialogActivity;
 import com.android.common.base.fragment.BaseFragment;
 import com.android.common.net.callback.Callback;
 import com.android.common.utils.StatusBarUtils;
 import com.android.common.utils.ToolbarUtil;
 import com.android.common.utils.ViewUtils;
+import com.android.common.widget.photo.PhotoPickerActivity;
 import com.android.demo.R;
 import com.android.demo.WebViewActivity;
 import com.android.demo.netdemo.AccountSummaryInfo;
@@ -66,7 +67,7 @@ public class WorkFragment extends BaseFragment {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, StatusBarUtils.getStatusBarHeight(getActivity()));
         statusBar.setLayoutParams(layoutParams);
-        ToolbarUtil.configTitlebar(baseRootView, "业务", View.GONE);
+        ToolbarUtil.configFragmentTitle(baseRootView, "业务");
 
         ViewUtils.setViewOnClickListener(this, baseRootView, R.id.btn_permission, R.id.btn_permissions,
                 R.id.btn_scan, R.id.btn_webview, R.id.btn_net, R.id.btn_cache, R.id.btn_photo);
@@ -101,7 +102,7 @@ public class WorkFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), WebViewActivity.class));
                 break;
             case R.id.btn_net:
-                testSummary();
+                testBill();
                 break;
             case R.id.btn_cache:
                 CacheUtils.getCache(getActivity(), "com.android.demo", new CacheUtils.onCacheListener() {
@@ -116,8 +117,9 @@ public class WorkFragment extends BaseFragment {
                         ToastUtils.showToast(getContext(), cache.toString());
                     }
                 });
+                break;
             case R.id.btn_photo:
-                PhotoDialogActivity.requestPhoto(getActivity(), new PhotoDialogActivity.PhotoResultCallback() {
+                PhotoPickerActivity.requestPhoto(getActivity(), new PhotoDialogActivity.PhotoResultCallback() {
                     @Override
                     public void photoResult(String photoPath) {
                         LogUtils.logd(TAG, "photo:" + photoPath);
