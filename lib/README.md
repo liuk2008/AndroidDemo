@@ -24,7 +24,6 @@ Android演示项目
               1、可单独使用工具类请求权限，获取未授权的权限信息
               2、申请单个、多个权限时，弹出对话框，进入到应用系统信息页面
          * 5、增加FragmentHostActivity，用于创建Fragment。注意：一般一个FragmentHostActivity嵌套一个Fragment
-         * 6、增加PhotoDialogActivity，此Activity为透明模式，用于通过拍照或系统图库获取图片
 
          * net包
          * 1、封装网络框架：
@@ -83,6 +82,10 @@ Android演示项目
               2、包装原始Adapter，统一添加底部布局，根据数据量动态展示
               3、封装RecyclerView.Adapter公共方法，通过MyViewHolder封装itemView
               4、提供convert方法填充item数据
+
+         * photo包
+         * 1、增加PhotoDialogActivity，此Activity为透明模式，通过拍照或系统图库获取图片
+         * 2、增加PhotoPickerActivity，遍历系统图库展示图片列表，可选择对应图片
 
     * 2、lib-scan：扫码功能
          * 1、继承CaptureActivity，复写dealData方法可以获取到数据和码的格式
