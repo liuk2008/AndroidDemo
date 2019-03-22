@@ -48,7 +48,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void initRootViews(View baseRootView) {
         super.initRootViews(baseRootView);
-        ToolbarUtil.configTitlebar(baseRootView, "首页", View.GONE);
+        ToolbarUtil.configFragmentTitle(baseRootView, "首页");
         viewTitle = baseRootView.findViewById(R.id.view_title);
         refreshView = baseRootView.findViewById(R.id.refreshView);
 

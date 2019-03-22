@@ -30,8 +30,7 @@ public class AccountModPwdFragment extends BaseFragment {
     @Override
     public void initRootViews(View baseRootView) {
         super.initRootViews(baseRootView);
-        ToolbarUtil.configTitlebar(baseRootView, "修改密码", View.VISIBLE);
-        ToolbarUtil.setTitlebarClose(baseRootView.findViewById(R.id.iv_arrow));
+        ToolbarUtil.configFragmentTitleClose(baseRootView, "修改密码");
         ViewUtils.setViewOnClickListener(this,baseRootView, R.id.tv_setpwd);
     }
 

@@ -43,8 +43,7 @@ public class AccountLoginFragment extends BaseFragment {
     @Override
     public void initRootViews(View baseRootView) {
         super.initRootViews(baseRootView);
-        ToolbarUtil.configTitlebar(baseRootView, "登录", View.VISIBLE);
-        ToolbarUtil.setTitlebarClose(baseRootView.findViewById(R.id.iv_arrow));
+        ToolbarUtil.configFragmentTitleClose(baseRootView, "登录");
         MyViewInjector.bindView(this, baseRootView);
     }
 

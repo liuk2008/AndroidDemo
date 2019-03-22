@@ -33,8 +33,7 @@ public class AccountSetPwdFragment extends BaseFragment {
     @Override
     public void initRootViews(View baseRootView) {
         super.initRootViews(baseRootView);
-        ToolbarUtil.configTitlebar(baseRootView, "重置密码", View.VISIBLE);
-        ToolbarUtil.setTitlebarBack(baseRootView.findViewById(R.id.iv_arrow));
+        ToolbarUtil.configFragmentTitleBack(baseRootView, "重置密码");
         ViewUtils.setViewOnClickListener(this, baseRootView, R.id.btn_confirm);
     }
 
