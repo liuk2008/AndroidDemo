@@ -95,7 +95,6 @@ public class MyWebView extends WebView {
             Uri uri = Uri.parse(url);
             String domain = uri.getHost();
             Map<String, String> hashMap = new HashMap<>(WebViewUtils.getCookieMap());
-            WebViewUtils.clearCookie();
             CookieManager cookieManager = CookieManager.getInstance();
             cookieManager.setAcceptCookie(true);
             for (String key : hashMap.keySet()) {

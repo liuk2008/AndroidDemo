@@ -38,10 +38,11 @@ import com.android.common.widget.webview.client.MyWebChromeClient;
 import com.android.common.widget.webview.client.MyWebViewClient;
 import com.android.common.widget.webview.client.WebViewUtils;
 
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 public class WebViewHelper {
 
@@ -244,7 +245,12 @@ public class WebViewHelper {
     }
 
     public void load(String url) {
-        mWebView.loadUrl(url);
+        if (WebViewUtils.getHeaderMap().size() <= 0) {
+            mWebView.loadUrl(url);
+        } else {
+            Map<String, String> hashMap = new HashMap<>(WebViewUtils.getHeaderMap());
+            mWebView.loadUrl(url, hashMap);
+        }
     }
 
     // 弹出图片方式选择框
