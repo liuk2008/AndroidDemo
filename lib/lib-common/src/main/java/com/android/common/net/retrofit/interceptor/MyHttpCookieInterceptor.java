@@ -56,8 +56,8 @@ public class MyHttpCookieInterceptor implements CookieJar {
             Cookie tokenCookie = builder.build();
             cookieList.add(tokenCookie);
         }
-        Cookie VERSION_COOKIE = new Cookie.Builder().domain("lawcert.com").name("version").value("1.0").build();
-        cookieList.add(VERSION_COOKIE);
+//        Cookie VERSION_COOKIE = new Cookie.Builder().domain("lawcert.com").name("version").value("1.0").build();
+//        cookieList.add(VERSION_COOKIE);
         return cookieList;
     }
 

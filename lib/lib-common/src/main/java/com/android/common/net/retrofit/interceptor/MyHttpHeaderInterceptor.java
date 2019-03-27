@@ -62,7 +62,6 @@ public class MyHttpHeaderInterceptor implements Interceptor {
 
     private void configHeader(Request.Builder builder) {
         try {
-            addHeader(builder, "token", "");//重要
             addHeader(builder, "user-agent", userAgent);
             addHeader(builder, "versionName", versionName);//重要
             addHeader(builder, "versionCode", versionCode);//重要

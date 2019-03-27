@@ -26,7 +26,7 @@ public class RetrofitRequest {
         retrofitEngine = RetrofitEngine.getInstance();
         accountApi = retrofitEngine.getRetrofitService(FinanceApi.class,
                 "https://passport.lawcert.com/proxy/account/",
-                -1);
+                NetStatus.Type.RETROFIT_DEFAULT);
         financeApi = retrofitEngine.getRetrofitService(FinanceApi.class,
                 "https://www.lawcert.com/proxy/",
                 NetStatus.Type.RETROFIT_DEFAULT_DATAWRAPPER);

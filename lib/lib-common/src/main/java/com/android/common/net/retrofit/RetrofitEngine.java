@@ -40,7 +40,7 @@ public class RetrofitEngine {
     private static final String TAG = RetrofitEngine.class.getSimpleName();
     private static final String contentType = "application/json;charset=UTF-8";
     private static RetrofitEngine retrofitEngine;
-    private OkHttpClient okHttpClient;
+    private OkHttpClient mOkHttpClient;
     private Context mContext;
 
     public static synchronized RetrofitEngine getInstance() {
@@ -53,7 +53,15 @@ public class RetrofitEngine {
     // 初始化网络配置
     public void init(Context context) {
         mContext = context;
-        okHttpClient = MyOkHttpClient.getInstance(mContext);
+        mOkHttpClient = MyOkHttpClient.getInstance(mContext);
+    }
+
+    // 提供外部方法，设置自定义OkHttpClient
+    public void configHttpClient(OkHttpClient okHttpClient) {
+        if (null == mContext)
+            throw new RuntimeException("未初始化 RetrofitEngine");
+        if (null != okHttpClient)
+            mOkHttpClient = okHttpClient;
     }
 
     public <T> T getRetrofitService(Class<T> clazz, String url, int type) {
@@ -61,7 +69,7 @@ public class RetrofitEngine {
             throw new RuntimeException("未初始化 RetrofitEngine");
         Retrofit.Builder client = new Retrofit.Builder()
                 .baseUrl(url)
-                .client(okHttpClient);
+                .client(mOkHttpClient);
         switch (type) {
             case NetStatus.Type.RETROFIT_DEFAULT_DATAWRAPPER:
                 client.addConverterFactory(new DataConverterFactory<>());

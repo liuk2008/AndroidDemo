@@ -5,9 +5,9 @@ import android.content.Context;
 
 import com.android.common.BuildConfig;
 import com.android.common.net.NetStatus;
-import com.android.common.utils.NetUtils;
 import com.android.common.net.error.ErrorException;
 import com.android.common.net.http.request.NetData;
+import com.android.common.utils.NetUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,13 +42,6 @@ public class MyOkHttpClient {
         return instance;
     }
 
-    // 提供外部方法，设置自定义OkHttpClient
-    public static void setOkHttpClient(OkHttpClient okHttpClient) {
-        if (null != instance)
-            return;
-        instance = okHttpClient;
-    }
-
     private static void init(final Context context) {
         // 设置日志
         MyHttpLoggingInterceptor loggingInterceptor = new MyHttpLoggingInterceptor();
@@ -57,7 +50,6 @@ public class MyOkHttpClient {
         MyHttpHeaderInterceptor headerInterceptor = MyHttpHeaderInterceptor.getInstance(context);
         // 设置cookie
         MyHttpCookieInterceptor cookieInterceptor = MyHttpCookieInterceptor.getInstance(context);
-
         // 设置缓存
         File cacheDir = new File(context.getCacheDir().getAbsolutePath(), "HttpCache");
         Cache cache = new Cache(cacheDir, 10 * 1024 * 1024);//缓存10m

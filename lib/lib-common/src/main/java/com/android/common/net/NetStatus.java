@@ -26,7 +26,8 @@ public enum NetStatus {
         return errorCode;
     }
 
-    public class Type{
+    public class Type {
+        public static final int RETROFIT_DEFAULT = -1;
         public static final int RETROFIT_DEFAULT_DATAWRAPPER = 0;
         public static final int RETROFIT_RXJAVA = 1;
         public static final int RETROFIT_RXJAVA_DATAWRAPPER = 2;

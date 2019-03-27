@@ -27,6 +27,6 @@ public class MyApplication extends Application {
         // 初始化网络框架
         HttpEngine.getInstance().init(this);
         RetrofitEngine.getInstance().init(this);
-
+        RetrofitEngine.getInstance().configHttpClient(null); // 可自定义OkHttpClient
     }
 }
