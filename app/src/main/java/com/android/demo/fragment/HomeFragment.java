@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 import com.android.base.fragment.BaseFragment;
 import com.android.common.refreshview.MyCommonAdapter;
 import com.android.common.refreshview.MyRefreshView;
@@ -18,9 +17,7 @@ import com.android.common.utils.view.ToolbarUtil;
 import com.android.demo.R;
 import com.android.demo.netdemo.FinanceListInfo;
 import com.android.demo.netdemo.retrofit.RetrofitDemo;
-
 import com.android.network.callback.Callback;
-import com.bumptech.glide.BuildConfig;
 
 
 /**

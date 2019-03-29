@@ -41,3 +41,6 @@ hs_err_pid*
 /module/*.iml
 /buildsrc/.gradle
 /buildsrc/buildsrc.iml
+/lib/lib-geetest/lib-geetest.iml
+/lib/lib-base/*.iml
+/module/account/module-account.iml

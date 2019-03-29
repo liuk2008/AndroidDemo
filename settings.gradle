@@ -1,6 +1,7 @@
-include ':app', ':geetest', ':buildsrc'
+include ':app', ':buildsrc'
 include ':lib:lib-scan'
 include ':lib:lib-base'
+include ':lib:lib-geetest'
 include ':viewinject:view-annotation'
 include ':viewinject:view-compiler'
 include ':viewinject:view-bindview'

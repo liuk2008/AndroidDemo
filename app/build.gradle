@@ -88,7 +88,6 @@ dependencies {
     implementation project(":lib:lib-scan")
     implementation project(":lib:lib-base")
     implementation project(":module:account")
-    implementation project(":geetest")
     // 使用自定义View注解
     implementation project(":viewinject:view-bindview")
     annotationProcessor project(':viewinject:view-compiler')

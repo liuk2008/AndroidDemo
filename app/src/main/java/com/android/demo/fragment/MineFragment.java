@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 import com.android.account.AccountLoginActivity;
 import com.android.base.fragment.BaseFragment;
 import com.android.demo.R;
