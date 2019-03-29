@@ -38,3 +38,6 @@ hs_err_pid*
 
 /lib/lib-common/*.iml
 /lib/lib-utils/*.iml
+/module/*.iml
+/buildsrc/.gradle
+/buildsrc/buildsrc.iml

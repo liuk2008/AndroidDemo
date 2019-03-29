@@ -1,14 +1,15 @@
 package com.android.demo.netdemo.retrofit;
 
 
-import com.android.common.net.NetStatus;
-import com.android.common.net.Null;
-import com.android.common.net.retrofit.RetrofitEngine;
+
 import com.android.demo.netdemo.AccountSummaryInfo;
 import com.android.demo.netdemo.FinanceListInfo;
 import com.android.demo.netdemo.GeeValidateInfo;
 import com.android.demo.netdemo.MonthBillInfo;
 import com.android.demo.netdemo.UserInfo;
+import com.android.network.NetStatus;
+import com.android.network.Null;
+import com.android.network.retrofit.RetrofitEngine;
 
 import java.util.LinkedHashMap;
 

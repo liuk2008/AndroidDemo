@@ -20,8 +20,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.android.demo.account.AccountLoginActivity" />
-
         <activity android:name=".WebViewActivity"/>
 
     </application>

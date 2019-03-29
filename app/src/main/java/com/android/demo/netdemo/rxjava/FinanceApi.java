@@ -1,10 +1,11 @@
 package com.android.demo.netdemo.rxjava;
 
 
-import com.android.common.net.Null;
+
 import com.android.demo.netdemo.AccountSummaryInfo;
 import com.android.demo.netdemo.MonthBillInfo;
 import com.android.demo.netdemo.UserInfo;
+import com.android.network.Null;
 
 import java.util.LinkedHashMap;
 

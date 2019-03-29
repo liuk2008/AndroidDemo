@@ -8,11 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 
-import com.android.common.widget.webview.WebViewHelper;
-import com.android.common.widget.webview.client.MyWebChromeClient;
-import com.android.common.widget.webview.client.MyWebViewClient;
-import com.android.common.widget.webview.client.WebViewUtils;
-import com.android.utils.common.LogUtils;
+import com.android.common.utils.common.LogUtils;
+import com.android.common.webview.WebViewHelper;
+import com.android.common.webview.client.MyWebChromeClient;
+import com.android.common.webview.client.MyWebViewClient;
+import com.android.common.webview.client.WebViewUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -46,7 +46,7 @@ public class WebViewActivity extends AppCompatActivity {
         WebViewUtils.setCookie("origin", "android");
         WebViewUtils.setCookie("platform", "finance");
         WebViewUtils.setHeader("channel", "official");
-        WebViewUtils.setHeader("version","1.3.0.0");
+        WebViewUtils.setHeader("version", "1.3.0.0");
         webViewHelper.load("https://h5.lawcert.com/trade/withdraw");
     }
 
@@ -81,7 +81,6 @@ public class WebViewActivity extends AppCompatActivity {
             @Override
             public void executorJs(WebView webView, String url) {
                 LogUtils.logd(TAG, "executorJs: ");
-                webViewHelper.showImage(webView);
             }
 
             @Override

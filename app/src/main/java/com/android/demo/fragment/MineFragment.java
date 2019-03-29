@@ -8,9 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.common.base.fragment.BaseFragment;
+
+import com.android.account.AccountLoginActivity;
+import com.android.base.fragment.BaseFragment;
 import com.android.demo.R;
-import com.android.demo.account.AccountLoginActivity;
 import com.viewinject.annotation.MyOnClick;
 import com.viewinject.bindview.MyViewInjector;
 

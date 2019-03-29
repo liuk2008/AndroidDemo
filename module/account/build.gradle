@@ -1,0 +1,34 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 28
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    // 移除lint检查的error
+    lintOptions {
+        abortOnError false
+        disable 'GoogleAppIndexingWarning'
+    }
+
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+
+    implementation project(":viewinject:view-bindview")
+    annotationProcessor project(':viewinject:view-compiler')
+
+    implementation project(":lib:lib-base")
+
+}

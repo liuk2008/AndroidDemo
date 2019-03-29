@@ -11,13 +11,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.android.common.base.PermissionActivity;
+
+import com.android.base.fragment.BaseFragment;
+import com.android.common.utils.common.LogUtils;
+import com.android.common.utils.common.ToastUtils;
+import com.android.common.utils.system.CacheUtils;
+import com.android.common.utils.system.SystemUtils;
+import com.android.common.utils.view.StatusBarUtils;
+import com.android.common.utils.view.ToolbarUtil;
+import com.android.common.utils.view.ViewUtils;
+import com.android.common.widget.PermissionActivity;
 import com.android.common.widget.photo.PhotoDialogActivity;
-import com.android.common.base.fragment.BaseFragment;
-import com.android.common.net.callback.Callback;
-import com.android.common.utils.StatusBarUtils;
-import com.android.common.utils.ToolbarUtil;
-import com.android.common.utils.ViewUtils;
 import com.android.common.widget.photo.PhotoPickerActivity;
 import com.android.demo.R;
 import com.android.demo.WebViewActivity;
@@ -27,10 +31,8 @@ import com.android.demo.netdemo.UserInfo;
 import com.android.demo.netdemo.http.HttpDemo;
 import com.android.demo.netdemo.retrofit.RetrofitDemo;
 import com.android.demo.netdemo.rxjava.RxNetDemo;
-import com.android.utils.common.LogUtils;
-import com.android.utils.common.ToastUtils;
-import com.android.utils.system.CacheUtils;
-import com.android.utils.system.SystemUtils;
+
+import com.android.network.callback.Callback;
 import com.zxing.activity.CaptureActivity;
 
 import java.util.LinkedHashMap;
@@ -67,7 +69,7 @@ public class WorkFragment extends BaseFragment {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, StatusBarUtils.getStatusBarHeight(getActivity()));
         statusBar.setLayoutParams(layoutParams);
-        ToolbarUtil.configFragmentTitle(baseRootView, "业务");
+        ToolbarUtil.configTitle(baseRootView, "业务", View.GONE);
 
         ViewUtils.setViewOnClickListener(this, baseRootView, R.id.btn_permission, R.id.btn_permissions,
                 R.id.btn_scan, R.id.btn_webview, R.id.btn_net, R.id.btn_cache, R.id.btn_photo);

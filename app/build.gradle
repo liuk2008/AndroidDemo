@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.android.viewinject'
 
 android {
     compileSdkVersion rootProject.COMPILE_SDK_VERSION
@@ -85,8 +86,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     implementation project(":lib:lib-scan")
-    implementation project(":lib:lib-common")
-    implementation project(":lib:lib-utils")
+    implementation project(":lib:lib-base")
+    implementation project(":module:account")
     implementation project(":geetest")
     // 使用自定义View注解
     implementation project(":viewinject:view-bindview")

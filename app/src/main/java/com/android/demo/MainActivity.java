@@ -8,8 +8,9 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-import com.android.common.base.activity.CoreActivity;
-import com.android.common.utils.StatusBarUtils;
+
+import com.android.base.activity.CoreActivity;
+import com.android.common.utils.view.StatusBarUtils;
 import com.android.demo.fragment.HomeFragment;
 import com.android.demo.fragment.MineFragment;
 import com.android.demo.fragment.WorkFragment;

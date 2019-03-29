@@ -3,14 +3,16 @@ package com.android.demo.netdemo.rxjava;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.android.common.net.Null;
-import com.android.common.net.callback.Callback;
-import com.android.common.net.rxjava.RxNetUtils;
+
+import com.android.common.utils.common.LogUtils;
 import com.android.demo.netdemo.AccountSummaryInfo;
 import com.android.demo.netdemo.GeeValidateInfo;
 import com.android.demo.netdemo.MonthBillInfo;
 import com.android.demo.netdemo.UserInfo;
-import com.android.utils.common.LogUtils;
+
+import com.android.network.Null;
+import com.android.network.callback.Callback;
+import com.android.network.rxjava.RxNetUtils;
 import com.geetest.sdk.Bind.GT3GeetestBindListener;
 import com.geetest.sdk.Bind.GT3GeetestUtilsBind;
 import com.google.gson.Gson;

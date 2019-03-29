@@ -1,0 +1,50 @@
+apply plugin: 'groovy'
+
+buildscript {
+    repositories {
+        jcenter()
+        google()
+    }
+    dependencies {
+        // 配置bintray插件
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
+    }
+}
+
+dependencies {
+    //gradle sdk
+    compile gradleApi()
+    //groovy sdk
+    compile localGroovy()
+}
+
+ext {
+    bintrayRepo = 'common'   // 修改成bintrayRepo上创建的 maven name
+    bintrayName = 'plugins' // 修改成bintrayRepo上创建的 package name
+
+    publishedGroupId = 'com.android.plugin' // 发布的组织名称
+    artifact = 'viewinject'            // 依赖的lib名称
+    libraryVersion = '1.0.1'   // 版本号
+    libraryName = 'plugin'    // lib name
+
+    // 开发者信息
+    developerId = 'liuk'
+    developerName = 'liuk'
+    developerEmail = '471636288@qq.com'
+
+    // 项目描述
+    libraryDescription = '工具类及常用代码'
+    siteUrl = 'https://github.com/liuk2008'  // 项目主页
+    gitUrl = 'https://github.com/liuk2008/Jenkins.git'   // 项目的git地址
+    licenseName = 'Plugin 1.0'
+    licenseUrl = 'https://github.com/liuk2008'
+    allLicenses = ["Apache-2.0"]
+}
+version = libraryVersion
+group = publishedGroupId
+
+//    1、编译library文件  gradlew install
+//    2、上传            gradlew bintrayUpload
+apply from: 'maven.gradle'
+apply from: 'bintray.gradle'

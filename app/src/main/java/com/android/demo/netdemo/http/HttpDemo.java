@@ -3,16 +3,17 @@ package com.android.demo.netdemo.http;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.android.common.net.Null;
-import com.android.common.net.callback.Callback;
-import com.android.common.net.http.request.HttpParams;
-import com.android.common.net.http.request.HttpTask;
-import com.android.common.net.http.request.HttpUtils;
+import com.android.common.utils.common.LogUtils;
 import com.android.demo.netdemo.AccountSummaryInfo;
 import com.android.demo.netdemo.GeeValidateInfo;
 import com.android.demo.netdemo.MonthBillInfo;
 import com.android.demo.netdemo.UserInfo;
-import com.android.utils.common.LogUtils;
+
+import com.android.network.Null;
+import com.android.network.callback.Callback;
+import com.android.network.http.request.HttpParams;
+import com.android.network.http.request.HttpTask;
+import com.android.network.http.request.HttpUtils;
 import com.geetest.sdk.Bind.GT3GeetestBindListener;
 import com.geetest.sdk.Bind.GT3GeetestUtilsBind;
 import com.google.gson.Gson;

@@ -1,0 +1,39 @@
+apply plugin: 'com.android.library'
+
+android {
+
+    compileSdkVersion rootProject.COMPILE_SDK_VERSION
+    buildToolsVersion rootProject.BUILD_TOOL_SVERSION
+
+    defaultConfig {
+        minSdkVersion rootProject.MIN_SDK_VERSION
+        targetSdkVersion rootProject.TARGET_SDK_VERSION
+        versionCode 1
+        versionName "1.0"
+    }
+
+    // 移除lint检查的error
+    lintOptions {
+        abortOnError false
+        disable 'GoogleAppIndexingWarning'
+    }
+
+//    resourcePrefix 'base' // 创建资源前缀，只是提示xml需要加对应的前缀，并不会自动添加
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable false
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation rootProject.SUPPORT_APPCOMPAT_V7
+    api 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    api 'com.android.library:common:1.0.0'
+    api 'com.android.library:network:1.0.0'
+}

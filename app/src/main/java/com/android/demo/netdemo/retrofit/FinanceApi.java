@@ -1,11 +1,12 @@
 package com.android.demo.netdemo.retrofit;
 
 
-import com.android.common.net.Null;
+
 import com.android.demo.netdemo.AccountSummaryInfo;
 import com.android.demo.netdemo.FinanceListInfo;
 import com.android.demo.netdemo.MonthBillInfo;
 import com.android.demo.netdemo.UserInfo;
+import com.android.network.Null;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

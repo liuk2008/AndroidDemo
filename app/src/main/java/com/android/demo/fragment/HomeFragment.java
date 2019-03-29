@@ -6,18 +6,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.common.base.fragment.BaseFragment;
-import com.android.common.net.callback.Callback;
-import com.android.common.utils.StatusBarUtils;
-import com.android.common.utils.ToolbarUtil;
-import com.android.common.widget.refreshview.MyCommonAdapter;
-import com.android.common.widget.refreshview.MyRefreshView;
-import com.android.common.widget.refreshview.MyViewHolder;
+
+import com.android.base.fragment.BaseFragment;
+import com.android.common.refreshview.MyCommonAdapter;
+import com.android.common.refreshview.MyRefreshView;
+import com.android.common.refreshview.MyViewHolder;
+import com.android.common.utils.common.LogUtils;
+import com.android.common.utils.common.ToastUtils;
+import com.android.common.utils.view.StatusBarUtils;
+import com.android.common.utils.view.ToolbarUtil;
 import com.android.demo.R;
 import com.android.demo.netdemo.FinanceListInfo;
 import com.android.demo.netdemo.retrofit.RetrofitDemo;
-import com.android.utils.common.LogUtils;
-import com.android.utils.common.ToastUtils;
+
+import com.android.network.callback.Callback;
+import com.bumptech.glide.BuildConfig;
+
 
 /**
  * 1、设置标题栏根据页面滑动渐变
@@ -48,10 +52,9 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void initRootViews(View baseRootView) {
         super.initRootViews(baseRootView);
-        ToolbarUtil.configFragmentTitle(baseRootView, "首页");
+        ToolbarUtil.configTitle(baseRootView, "首页", View.GONE);
         viewTitle = baseRootView.findViewById(R.id.view_title);
         refreshView = baseRootView.findViewById(R.id.refreshView);
-
         // 设置标题栏
         viewTitle.setAlpha(0);
         // 设置系统状态栏透明，通过设置标题栏Padding高度=状态栏高度，保持颜色一致

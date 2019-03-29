@@ -2,11 +2,12 @@ package com.android.demo;
 
 import android.app.Application;
 
-import com.android.common.net.http.engine.HttpEngine;
-import com.android.common.net.retrofit.RetrofitEngine;
-import com.android.utils.common.LogUtils;
-import com.android.utils.exception.ThrowableConfigure;
-import com.android.utils.safety.ShakeInfoUtil;
+
+import com.android.common.utils.common.LogUtils;
+import com.android.common.utils.exception.ThrowableConfigure;
+import com.android.common.utils.safety.ShakeInfoUtil;
+import com.android.network.http.engine.HttpEngine;
+import com.android.network.retrofit.RetrofitEngine;
 import com.squareup.leakcanary.LeakCanary;
 
 public class MyApplication extends Application {
@@ -26,7 +27,11 @@ public class MyApplication extends Application {
 
         // 初始化网络框架
         HttpEngine.getInstance().init(this);
-        RetrofitEngine.getInstance().init(this);
-        RetrofitEngine.getInstance().configHttpClient(null); // 可自定义OkHttpClient
+        RetrofitEngine retrofitEngine = RetrofitEngine.getInstance();
+//        retrofitEngine.configHttpClient(null); // 可自定义OkHttpClient
+        retrofitEngine.isProxy(false);
+        retrofitEngine.init(this);
+
+
     }
 }
