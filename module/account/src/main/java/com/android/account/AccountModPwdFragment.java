@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 import com.android.base.fragment.BaseFragment;
 import com.android.common.utils.view.ToolbarUtil;
 import com.android.common.utils.view.ViewUtils;

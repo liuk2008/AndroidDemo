@@ -13,6 +13,7 @@ import com.android.demo.netdemo.UserInfo;
 import com.android.network.Null;
 import com.android.network.callback.Callback;
 import com.android.network.rxjava.RxNetUtils;
+
 import com.geetest.sdk.Bind.GT3GeetestBindListener;
 import com.geetest.sdk.Bind.GT3GeetestUtilsBind;
 import com.google.gson.Gson;
