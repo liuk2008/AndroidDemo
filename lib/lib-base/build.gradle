@@ -34,6 +34,6 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation rootProject.SUPPORT_APPCOMPAT_V7
     api 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-    api 'com.android.library:common:1.0.0'
-    api 'com.android.library:network:1.0.0'
+    api 'com.android.library:common:1.0'
+    api 'com.android.library:network:1.0'
 }

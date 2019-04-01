@@ -76,6 +76,7 @@ android {
     }
 }
 
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation rootProject.SUPPORT_APPCOMPAT_V7
@@ -88,10 +89,13 @@ dependencies {
     implementation project(":lib:lib-base")
     implementation project(":lib:lib-geetest")
     implementation project(":module:account")
-    // 使用自定义View注解
-    implementation project(":viewinject:view-bindview")
-    annotationProcessor project(':viewinject:view-compiler')
 
+    // 使用自定义View注解
+    implementation 'com.android.library:bindview:1.0'
+    annotationProcessor 'com.android.library:bindview-compiler:1.0'
+
+//    implementation project(":viewinject:view-bindview")
+//    annotationProcessor project(':viewinject:view-compiler')
 }
 
 
