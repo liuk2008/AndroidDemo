@@ -2,7 +2,6 @@ package com.android.demo;
 
 import android.app.Application;
 
-
 import com.android.common.utils.common.LogUtils;
 import com.android.common.utils.exception.ThrowableConfigure;
 import com.android.common.utils.safety.ShakeInfoUtil;

@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.android.viewinject'
 
 android {
     compileSdkVersion rootProject.COMPILE_SDK_VERSION
@@ -94,3 +93,5 @@ dependencies {
     annotationProcessor project(':viewinject:view-compiler')
 
 }
+
+

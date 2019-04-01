@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-
 import com.android.base.fragment.BaseFragment;
 import com.android.common.utils.common.LogUtils;
 import com.android.common.utils.common.ToastUtils;
@@ -31,7 +30,6 @@ import com.android.demo.netdemo.UserInfo;
 import com.android.demo.netdemo.http.HttpDemo;
 import com.android.demo.netdemo.retrofit.RetrofitDemo;
 import com.android.demo.netdemo.rxjava.RxNetDemo;
-
 import com.android.network.callback.Callback;
 import com.zxing.activity.CaptureActivity;
 
@@ -76,6 +74,7 @@ public class WorkFragment extends BaseFragment {
         httpDemo = new HttpDemo();
         retrofitDemo = new RetrofitDemo();
         rxNetDemo = new RxNetDemo();
+
     }
 
 
