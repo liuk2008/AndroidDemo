@@ -9,7 +9,7 @@ import java.util.Map;
 public interface ViewInjector<T> {
 
     @UiThread
-    void inject(T t, Object source, Map<String, Integer> resIdMap, Finder finder);
+    void inject(T t, Object source, Class<?> cls, Finder finder);
 
     @UiThread
     void unbind();

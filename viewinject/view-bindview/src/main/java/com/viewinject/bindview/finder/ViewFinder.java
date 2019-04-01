@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.support.annotation.UiThread;
 import android.view.View;
 
-import java.util.Map;
-
 public class ViewFinder implements Finder {
 
     @UiThread
@@ -20,9 +18,14 @@ public class ViewFinder implements Finder {
 
     @UiThread
     @Override
-    public View findView(Object source, Map<String, Integer> resIdMap, String idName) {
-        int resId = resIdMap.get(idName);
-        return findView(source, resId);
+    public View findView(Object source, Class<?> cls, String idName) {
+        try {
+            int resId = (int) cls.getField(idName).get(cls);
+            return findView(source, resId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

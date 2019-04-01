@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +24,10 @@ public class AccountLoginFragment extends BaseFragment {
 
     private static final String TAG = AccountLoginFragment.class.getSimpleName();
     private String username;
-//    @MyBindView(R.id.et_username)
-//    public EditText et_username;
-//    @MyBindView(R.id.tv_register)
-//    public TextView textView;
+    @MyBindView(resId = "et_username")
+    public EditText et_username;
+    @MyBindView(resId = "tv_register")
+    public TextView textView;
 
 
     public static AccountLoginFragment newInstance() {
@@ -44,6 +45,7 @@ public class AccountLoginFragment extends BaseFragment {
         super.initRootViews(baseRootView);
         ToolbarUtil.configTitle(baseRootView, "登录", View.VISIBLE);
         MyViewInjector.bindView(this, baseRootView);
+        Log.d(TAG, "initRootViews: "+getContext().getPackageName());
     }
 
     @Override
@@ -66,14 +68,14 @@ public class AccountLoginFragment extends BaseFragment {
         MyViewInjector.unbindView(this);
     }
 
-//    @MyOnClick(R.id.tv_register)   // 在同一个Activity里面
-//    public void register() {
-//        replaceFragmentToStack(AccountRegisterFragment.newInstance(), AccountLoginFragment.this);
-//    }
-//
-//    @MyOnClick(R.id.tv_setpwd)     // 重新打开Activity
-//    public void setPwd() {
-//        FragmentHostActivity.openFragment(getActivity(), AccountModPwdFragment.newInstance());
-//    }
+    @MyOnClick(resId = "tv_register")   // 在同一个Activity里面
+    public void register() {
+        replaceFragmentToStack(AccountRegisterFragment.newInstance(), AccountLoginFragment.this);
+    }
+
+    @MyOnClick(resId = "tv_setpwd")     // 重新打开Activity
+    public void setPwd() {
+        FragmentHostActivity.openFragment(getActivity(), AccountModPwdFragment.newInstance());
+    }
 
 }
