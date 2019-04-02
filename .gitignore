@@ -44,3 +44,4 @@ hs_err_pid*
 /lib/lib-geetest/lib-geetest.iml
 /lib/lib-base/*.iml
 /module/account/module-account.iml
+/module/account/*.iml

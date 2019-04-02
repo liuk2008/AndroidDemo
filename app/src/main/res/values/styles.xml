@@ -7,6 +7,14 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
     </style>
+
+    <!-- 防止欢迎页白屏或者黑屏，设置图片 -->
+    <!--<style name="SplashTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
+        <!--<item name="android:windowBackground">@drawable/my_splash</item>-->
+        <!--<item name="android:windowFullscreen">true</item>-->
+        <!--<item name="windowNoTitle">true</item>-->
+    <!--</style>-->
 
 </resources>
