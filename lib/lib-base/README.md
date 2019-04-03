@@ -1,10 +1,11 @@
-# AndroidDemo
+# AndroidDemo #
+
+## Android演示项目 ##
 
 **lib-base**
 
      注意：尽量避免各个lib包之间相互引用
 
-     * base包
      * 1、增加BaseFragment基础类
           1、可以捕捉返回键，增加自定义功能
           2、使用单例模式创建Fragment实例
