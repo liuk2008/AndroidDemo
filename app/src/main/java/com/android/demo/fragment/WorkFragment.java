@@ -20,7 +20,6 @@ import com.android.common.utils.view.StatusBarUtils;
 import com.android.common.utils.view.ToolbarUtil;
 import com.android.common.utils.view.ViewUtils;
 import com.android.common.widget.PermissionActivity;
-import com.android.common.widget.photo.PhotoDialogActivity;
 import com.android.common.widget.photo.PhotoPickerActivity;
 import com.android.demo.R;
 import com.android.demo.WebViewActivity;
@@ -120,7 +119,7 @@ public class WorkFragment extends BaseFragment {
                 });
                 break;
             case R.id.btn_photo:
-                PhotoPickerActivity.requestPhoto(getActivity(), new PhotoDialogActivity.PhotoResultCallback() {
+                PhotoPickerActivity.requestPhoto(getActivity(), new PhotoPickerActivity.PhotoResultCallback() {
                     @Override
                     public void photoResult(String photoPath) {
                         LogUtils.logd(TAG, "photo:" + photoPath);
