@@ -1,6 +1,6 @@
-# AndroidDemo
+# AndroidDemo #
 
-Android演示项目
+## Android演示项目 ##
 
 **app**
 
@@ -30,14 +30,6 @@ Android演示项目
              <base-config cleartextTrafficPermitted="true" />
          </network-security-config>
 
-**lib**
-
-    * 1、lib-base：基础模块
-    * 2、lib-scan：扫码功能
-         * 1、继承CaptureActivity，复写dealData方法可以获取到数据和码的格式
-         * 2、可以自定义布局页面，也可以使用默认扫码页面
-    * 3、lib-geetest：极验验证码
-    * 4、viewinject：View注解工具
 
 **重点注意**
 

@@ -45,3 +45,4 @@ hs_err_pid*
 /lib/lib-base/*.iml
 /module/account/module-account.iml
 /module/account/*.iml
+/module/example/*.iml
