@@ -149,7 +149,10 @@ public class ReflectTest {
     }
 
     private static final Integer INTEGER_VALUE = 100;
-    public static final int INT_VALUE = 100;
+    private static final int INT_VALUE = 100;
+    private static final String STR = "test";
+    private static final String STRING = new String("test");
+
 
     // ============== 2、通过反射修改常量值============
     public static void testFinal() throws Exception {
@@ -157,31 +160,29 @@ public class ReflectTest {
         Class clazz = test.getClass();
         Field field1 = clazz.getDeclaredField("INTEGER_VALUE");
         Field field2 = clazz.getDeclaredField("INT_VALUE");
+        Field field3 = clazz.getDeclaredField("STR");
+        Field field4 = clazz.getDeclaredField("STRING");
         field1.setAccessible(true);
         field2.setAccessible(true);
+        field3.setAccessible(true);
+        field4.setAccessible(true);
 
         /*
          * 注意：
          * 1、每个对象的成员变量在反射时会生成一个Field对象
-         * 2、Field 对象有个一个属性叫做 modifiers,它表示的是属性是否是 public, private, static, final 等修饰的组合
-         * 因此，可以获取每个成员变量的修饰符，两种方式
-         * 1、通过获取Field对象modifiers成员变量的值：Modifier.toString((int)modifiersField.get(field1))
-         * 2、通过调用Field对象的getModifiers()方法获取：Modifier.toString(field1.getModifiers())
+         * 2、Field 对象有个一个属性叫做 modifiers,它表示的是属性是否是 public, private, static, final 等修饰的组合因此，
+         * 可以获取每个成员变量的修饰符，两种方式
+         *    1、通过获取Field对象modifiers成员变量的值：Modifier.toString((int)modifiersField.get(field1))
+         *    2、通过调用Field对象的getModifiers()方法获取：Modifier.toString(field1.getModifiers())
          */
         Field modifiersField = Field.class.getDeclaredField("modifiers");
         modifiersField.setAccessible(true);
 
-//        System.out.println("modifiersField1:" + Modifier.toString((int) modifiersField.get(field1)));
-//        System.out.println("modifiersField2:" + Modifier.toString((int) modifiersField.get(field2)));
-//        System.out.println("field1:" + Modifier.toString(field1.getModifiers()));
-//        System.out.println("field2:" + Modifier.toString(field2.getModifiers()));
-
         /*
          * 注意：
-         * 1、用static final 修饰的成员变量，通过反射调用Field对象get()方法获取值后，
-         * 再调用Field对象set()方法修改值，会抛出异常 IllegalAccessException
-         * 2、只用 static 或者 final 修饰的成员变量，调用get()方法后
-         * 再调用set()方法修改值，运行正常
+         * 1、用static final 修饰的成员变量，通过反射调用Field对象get()方法获取值后，再调用Field对象
+         * set()方法修改值，会抛出异常 IllegalAccessException
+         * 2、只用 static 或者 final 修饰的成员变量，调用get()方法后再调用set()方法修改值，运行正常
          */
 //        System.out.println("modifiersField:" + field1.get(test));
 //        System.out.println("modifiersField:" + field2.getInt(test));
@@ -189,17 +190,27 @@ public class ReflectTest {
         //  用按位取反 ~ 再按位与，~ 操作把 final 从修饰集中剔除掉，其他特性如 private, static 保持不变。
         modifiersField.setInt(field1, field1.getModifiers() & ~Modifier.FINAL);
         modifiersField.setInt(field2, field2.getModifiers() & ~Modifier.FINAL);
+        modifiersField.setInt(field3, field3.getModifiers() & ~Modifier.FINAL);
+        modifiersField.setInt(field4, field4.getModifiers() & ~Modifier.FINAL);
         System.out.println("=====修改后=====");
         field1.set(test, 200);
         field2.set(test, 300);
+        field3.set(test, "demo");
+        field4.set(test, "demo");
         /*
          * 注意：
-         * 1、修改final 基本类型与String类型常量时，在编译时其值已经被替换，所有通过反射修改不起作用
-         * 2、对于基本类型的静态常量，JAVA在编译的时候就会把代码中对此常量中引用的地方替换成相应常量值。
-         * 编译时会被优化成下面这样：System.out.println(100);
+         * 1、final修饰非引用类型常量时，JAVA在编译的时候就会把代码中对此常量中引用的地方替换成相应常量值，
+         * 比如 System.out.println(100)。但是通过get()方法获取对应常量值时，则会输出修改后的值。
+         * 2、final修饰引用类型常量时，通过反射修改常量值，则会输出修改后的值
          */
-        System.out.println("INTEGER_VALUE:" + test.INTEGER_VALUE); // 200
-        System.out.println("INT_VALUE:" + test.INT_VALUE); // 100
+        System.out.println("INTEGER_VALUE:" + INTEGER_VALUE); // 200
+        System.out.println("INT_VALUE:" + INT_VALUE); // 100
+        System.out.println("STR:" + STR); // test
+        System.out.println("STR:" + STRING); // demo
+        System.out.println("modifiersField:" + field1.get(test)); // 200
+        System.out.println("modifiersField:" + field2.getInt(test)); // 300
+        System.out.println("modifiersField:" + field3.get(test)); // demo
+        System.out.println("modifiersField:" + field4.get(test)); // demo
     }
 
     // ============== 3、通过反射获取内部类============
