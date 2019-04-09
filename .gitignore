@@ -46,3 +46,4 @@ hs_err_pid*
 /module/account/module-account.iml
 /module/account/*.iml
 /module/example/*.iml
+/output
