@@ -1,6 +1,7 @@
 import os
+import shutil
+import time
 
-import ChannelApk
 import CopyApk
 
 is_need_channel = False
@@ -38,6 +39,19 @@ def getChannel():
         jenkins_channels = jenkins_channels.strip()
         global channels
         channels = jenkins_channels.split(",")
+
+def copyApk():
+    # print(os.getcwd())  # 当前文件的路径
+    # grader_father = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(".."))))
+    path = os.path.abspath("..")  # 当前文件的父路径
+    for i in range(0, 3):
+        path = os.path.abspath(path + os.path.sep + "..")
+
+    src_dir = os.path.join(os.path.abspath('..'), 'output\\',
+                           time.strftime('%Y-%m-%d', time.localtime(time.time())) + '\\')
+    tag_dir = os.path.join(path, 'output\\', time.strftime('%Y-%m-%d', time.localtime(time.time())) + '\\')
+
+    shutil.copytree(src_dir, tag_dir)
 
 # if __name__ == "__main__":
 #     getJenkins()

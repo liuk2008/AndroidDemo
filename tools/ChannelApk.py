@@ -76,6 +76,7 @@ if __name__ == "__main__":
         else:
             CopyApk.getApkName()
             CopyApk.copyApk()
+        Jenkins.copyApk()
     else:
         createChannelApk(None, CopyApk.tag_dir)
 
