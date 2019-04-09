@@ -27,7 +27,7 @@ getApkName()
 def getApkName():
     # 目录不存在则创建
     if not os.path.exists(tag_dir):
-        os.mkdir(tag_dir)
+        os.makedirs(tag_dir)
     if os.path.exists(src_dir):
         for file in os.listdir(src_dir):
             if os.path.splitext(file)[1] == '.apk':  # 其中os.path.splitext()函数将路径拆分为文件名+扩展名
