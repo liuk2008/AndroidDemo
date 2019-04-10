@@ -17,17 +17,17 @@ android {
 
     signingConfigs {
         debug {
-            storeFile file("../debug.jks")
+            storeFile file("../signature/debug.jks")
             storePassword "123456"
-            keyAlias "test"
+            keyAlias "debug"
             keyPassword "123456"
-//            v2SigningEnabled false // 兼容7.0，禁止7.0 以上版本进行V2签名校验，与walle打包机制冲突
+//            v2SigningEnabled false     // 禁止7.0 以上版本进行V2签名校验，兼容python多渠道打包
         }
 
         release {
-            storeFile file("../release.jks")
+            storeFile file("../signature/release.jks")
             storePassword "123456"
-            keyAlias "product"
+            keyAlias "release"
             keyPassword "123456"
         }
     }
@@ -90,6 +90,7 @@ dependencies {
     implementation project(":lib:lib-geetest")
 
     implementation project(":module:account")
+    implementation project(":module:example")
 
     // 使用自定义View注解
     implementation 'com.android.library:bindview:1.0'

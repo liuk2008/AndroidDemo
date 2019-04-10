@@ -19,9 +19,13 @@
     * 2、Windows批处理命令;
          1、generator.bat：生成release版本的安装包
          2、channel.bat：生成不同渠道的安装包
-
-
-
+    * 注意：Python多渠道打包生成的APK文件在Android 7.0以上无法安装
+            产生原因：
+            1、Android Studio在默认情况下会使用 APK Signature Scheme v2 和传统签名方案来签署应用
+            2、此多渠道打包机制实际上是修改APK内部文件，因此会导致v2签名失效，而7.0以上版本需要校验v2签名，所以生成的多渠道APK在7.0以上无法安装
+            解决办法：
+            1、关闭v2签名校验，在Gradle脚本中设置 v2SigningEnabled false
+            2、对通过Python打包处理的APK重新进行签名
 
 
 

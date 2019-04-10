@@ -66,8 +66,8 @@
     public <init>(android.content.Context, android.util.AttributeSet, int);
 }
 
-# 对R文件下的所有类及其方法，都不能被混淆
--keepclassmembers class **.R$* {*;}
+# 不混淆R文件
+-keep class **.R$* {*;}
 
 # 对于带有回调函数的onXXEvent、**On*Listener的，不能被混淆
 -keepclassmembers class * {
@@ -126,6 +126,7 @@
 -dontwarn com.google.zxing.**
 
 # viewinject 混淆规则
+-keep class **.R$id {*;}
 -keep class com.viewinject.bindview.** { *; }
 -keep class **ViewInjector{ *; }
 -keepclasseswithmembernames class * {
