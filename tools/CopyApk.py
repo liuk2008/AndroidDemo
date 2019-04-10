@@ -2,12 +2,11 @@ import os
 import shutil
 import time
 
-# Andoid 打包APK存放路径
-build_type = "release"
-apk_dir = 'app\\build\\outputs\\apk\\'
-
-src_dir = os.path.join(os.path.abspath('..'), apk_dir, build_type)
-tag_dir = os.path.join(os.path.abspath('..'), 'output\\',time.strftime('%Y-%m-%d',time.localtime(time.time()))+'\\')
+# Android 打包APK存放路径
+src_dir = os.path.join(os.path.abspath('..'), 'app\\build\\outputs\\apk\\release')
+# 多渠道打包APK存放路径
+tag_dir = os.path.join(os.path.abspath('..'),
+                       'output\\' + time.strftime('%Y-%m-%d', time.localtime(time.time())) + '\\')
 src_apk = tag_apk = ''
 
 '''

@@ -30,7 +30,6 @@
              <base-config cleartextTrafficPermitted="true" />
          </network-security-config>
 
-
 **重点注意**
 
     * 1、项目框架：

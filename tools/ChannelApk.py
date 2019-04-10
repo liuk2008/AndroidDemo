@@ -9,8 +9,6 @@ import Jenkins
 
 
 def createChannelApk(channels, tag_dir):
-    CopyApk.getApkName()
-    CopyApk.copyApk()
 
     target_channels = []
 
@@ -61,23 +59,22 @@ def createChannelApk(channels, tag_dir):
             zipped = zipfile.ZipFile(tag_dir + target_apk, 'a', zipfile.ZIP_DEFLATED)
             # 初始化渠道信息
             empty_channel_file = "META-INF/Channel_{channel}".format(channel=target_channel)
-            # 写入渠道信息
+            # 写入渠道信息，将指定文件添加到zip文档中。filename为文件路径，arcname为添加到zip文档之后保存的名称,
             zipped.write(src_empty_file, empty_channel_file)
             # 关闭zip流
             zipped.close()
 
 
 if __name__ == "__main__":
-    if Jenkins.isJenkins():
+    if False:
         Jenkins.getJenkins()
+        Jenkins.copyApk()
         if Jenkins.is_need_channel:
             Jenkins.getChannel()
-            createChannelApk(Jenkins.channels, CopyApk.tag_dir)
-        else:
-            CopyApk.getApkName()
-            CopyApk.copyApk()
-        Jenkins.copyApk()
+            createChannelApk(Jenkins.channels, Jenkins.tag_dir)
     else:
+        CopyApk.getApkName()
+        CopyApk.copyApk()
         createChannelApk(None, CopyApk.tag_dir)
 
 
