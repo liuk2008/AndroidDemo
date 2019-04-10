@@ -66,7 +66,7 @@ def createChannelApk(channels, tag_dir):
 
 
 if __name__ == "__main__":
-    if False:
+    if Jenkins.isJenkins():
         Jenkins.getJenkins()
         Jenkins.copyApk()
         if Jenkins.is_need_channel:
