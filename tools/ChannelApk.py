@@ -6,6 +6,7 @@ import zipfile
 
 import CopyApk
 import Jenkins
+import v2Signature
 
 
 def createChannelApk(channels, tag_dir):
@@ -37,6 +38,7 @@ def createChannelApk(channels, tag_dir):
 
     print("channels ", target_channels)
 
+    target_names = []
     for src_apk in src_apks:
         # file name (with extension)
         src_apk_file_name = os.path.basename(src_apk)
@@ -53,6 +55,7 @@ def createChannelApk(channels, tag_dir):
             target_channel = channel.strip()
             # 拼接对应渠道号的apk
             target_apk = src_apk_name + "-" + target_channel + src_apk_extension
+            target_names.append(target_apk)
             # 拷贝建立新apk
             shutil.copy(tag_dir + src_apk, tag_dir + target_apk)
             # zip获取新建立的apk文件
@@ -64,6 +67,7 @@ def createChannelApk(channels, tag_dir):
             # 关闭zip流
             zipped.close()
 
+        v2Signature.v2Sign(target_names)
 
 if __name__ == "__main__":
     if False:
