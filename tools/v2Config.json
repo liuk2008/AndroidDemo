@@ -1,6 +1,6 @@
 {
 	"keyStorePath": "signature\\release.jks",
-	"keyStoreAlias": "product",
-	"KeyStorePwd": "123456",
+	"alias": "product",
+	"keyStorePwd": "123456",
 	"aliasPwd": "123456"
 }

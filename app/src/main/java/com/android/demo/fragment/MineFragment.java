@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 
 import com.android.account.AccountLoginActivity;
 import com.android.base.fragment.BaseFragment;
-import com.android.common.utils.common.ChannelUtil;
-import com.android.common.utils.common.LogUtils;
 import com.android.demo.R;
 import com.viewinject.annotation.MyOnClick;
 import com.viewinject.bindview.MyViewInjector;
@@ -31,7 +29,6 @@ public class MineFragment extends BaseFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        LogUtils.logd(TAG,ChannelUtil.getChannel(getContext()));
         return setRootView(inflater, R.layout.fragment_mine);
     }
 

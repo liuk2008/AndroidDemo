@@ -8,10 +8,10 @@ apksigner_path = ''
 with open('v2Config.json', 'r') as f:
     config = json.load(f)
 
-keyStorePath = config['keyStorePath']  # keystore 路径
-keystoreAlias = config['keyStoreAlias']  # 签名文件的alias
-KeyStorePwd = config['KeyStorePwd']  # 签名文件的密码
-aliasPwd = config['aliasPwd']  # 签名文件alias密码
+keyStorePath = config['keyStorePath']  # 密钥库的路径
+alias = config['alias']  # 密钥标识名
+keyStorePwd = config['keyStorePwd']  # 密钥库密码
+aliasPwd = config['aliasPwd']  # 密钥密码
 
 
 # 获取 AndroidSDK 提供的 apksigner.jar 工具
@@ -34,15 +34,15 @@ def v2Sign(android_home, target_dir, target_names):
 
     cmd = 'java -jar ' + apksigner_path
     cmd = cmd + ' sign --ks ' + keyStorePath
-    cmd = cmd + ' --ks-key-alias ' + keystoreAlias
-    cmd = cmd + ' --ks-pass pass:' + KeyStorePwd
+    cmd = cmd + ' --ks-key-alias ' + alias
+    cmd = cmd + ' --ks-pass pass:' + keyStorePwd
     cmd = cmd + ' --key-pass pass:' + aliasPwd
 
     print('apksigner.jar 路径：' + apksigner_path)
-    print('keystore 路径：' + keyStorePath)
-    print('签名文件的alias：' + keystoreAlias)
-    print('签名文件的密码：' + KeyStorePwd)
-    print('签名文件alias密码：' + aliasPwd)
+    print('密钥库的路径：' + keyStorePath)
+    print('密钥库密码：' + keyStorePwd)
+    print('密钥标识名：' + alias)
+    print('密钥密码：' + aliasPwd)
 
     if target_names is None:
         return
