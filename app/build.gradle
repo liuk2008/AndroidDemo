@@ -27,7 +27,7 @@ android {
         release {
             storeFile file("../signature/release.jks")
             storePassword "123456"
-            keyAlias "release"
+            keyAlias "product"
             keyPassword "123456"
         }
     }
