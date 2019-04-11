@@ -9,9 +9,10 @@ import Jenkins
 import v2Signature
 
 target_names = []
+android_home = ''
+
 
 def createChannelApk(channels, tag_dir):
-
     target_channels = []
 
     # 空文件 便于写入此空文件到apk包中作为channel文件
@@ -28,7 +29,7 @@ def createChannelApk(channels, tag_dir):
             src_apks.append(file)
 
     # 获取渠道列表
-    if (channels != None and len(channels) != 0):
+    if channels is not None and len(channels) != 0:
         target_channels = channels
     else:
         channel_file = 'channel/info.txt'
@@ -68,19 +69,19 @@ def createChannelApk(channels, tag_dir):
             # 关闭zip流
             zipped.close()
 
+    v2Signature.v2Sign(android_home, target_names)
+
+
 if __name__ == "__main__":
+    android_home = os.getenv("Android_Home")
     if Jenkins.isJenkins():
         Jenkins.getJenkins()
         Jenkins.copyApk()
         if Jenkins.is_need_channel:
             Jenkins.getChannel()
+            android_home = Jenkins.android_home
             createChannelApk(Jenkins.channels, Jenkins.tag_dir)
     else:
         CopyApk.getApkName()
         CopyApk.copyApk()
         createChannelApk(None, CopyApk.tag_dir)
-        v2Signature.v2Sign(target_names)
-
-
-
-

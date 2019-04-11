@@ -69,16 +69,23 @@ def getBuildType() {
     return var
 }
 
+/**
+ * 获取JDK环境变量，默认获取本地路径，在Jenkins环境下获取“全局工具配置”中的环境变量
+ * @return
+ */
 def getJavaHome() {
     def var = System.getenv("JAVA_HOME")
     return var
 }
 
-def getAndroidHome(){
-    def var = System.getenv("Android")
+/**
+ * 获取Android SDK环境变量，默认获取本地路径，在Jenkins环境下获取“系统设置”-“全局属性”中的环境变量
+ * @return
+ */
+def getAndroidHome() {
+    def var = System.getenv("Android_Home")
     return var
 }
-
 
 /**
  * 定义几个变量，在build.gradle里面引用
@@ -99,7 +106,7 @@ ext {
 println '***************打印配置项**************'
 println "#判断是否有jenkins环境 is ${isJenkinsPath}"
 println "#Java_Home is ${javaHome}"
-println "#Android is ${androidHome}"
+println "#Android_Home is ${androidHome}"
 println "#获取jenkins任务名 is ${jenkinsName}"
 println "#获取Jenkins Build 号 is ${jenkinsRevision}"
 println "#获取Jenkins Git分支 is ${gitBranch}"

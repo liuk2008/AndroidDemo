@@ -1,5 +1,4 @@
 {
-	"apksignerPath": "D:\\Develop\\AndroidStudio\\android-sdk-windows\\build-tools\\28.0.3\\lib\\apksigner.jar",
 	"keyStorePath": "signature\\release.jks",
 	"keyStoreAlias": "product",
 	"KeyStorePwd": "123456",
