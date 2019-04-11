@@ -33,7 +33,7 @@ def v2Sign(target_names):
         target_cmd = cmd + ' --out ' + src_dir + ' ' + src_dir
         # cmd = 'java -jar {} sign --ks {} --ks-key-alias {} --ks-pass pass:{} --key-pass pass:{} --out {} {}' \
         #     .format(apksignerPath, keyStorePath, keystoreAlias, KeyStorePwd, aliasPwd, src_dir, src_dir)
-        # print(target_cmd)
+        print(target_cmd)
         os.system(target_cmd)
 
 # if __name__ == "__main__":

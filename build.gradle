@@ -41,3 +41,5 @@ ext {
 def static getDate() {
     return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
 }
+
+apply from: 'jenkins.gradle'

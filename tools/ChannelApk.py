@@ -8,6 +8,7 @@ import CopyApk
 import Jenkins
 import v2Signature
 
+target_names = []
 
 def createChannelApk(channels, tag_dir):
 
@@ -38,7 +39,7 @@ def createChannelApk(channels, tag_dir):
 
     print("channels ", target_channels)
 
-    target_names = []
+    global target_names
     for src_apk in src_apks:
         # file name (with extension)
         src_apk_file_name = os.path.basename(src_apk)
@@ -67,10 +68,8 @@ def createChannelApk(channels, tag_dir):
             # 关闭zip流
             zipped.close()
 
-        v2Signature.v2Sign(target_names)
-
 if __name__ == "__main__":
-    if False:
+    if Jenkins.isJenkins():
         Jenkins.getJenkins()
         Jenkins.copyApk()
         if Jenkins.is_need_channel:
@@ -80,6 +79,7 @@ if __name__ == "__main__":
         CopyApk.getApkName()
         CopyApk.copyApk()
         createChannelApk(None, CopyApk.tag_dir)
+        v2Signature.v2Sign(target_names)
 
 
 

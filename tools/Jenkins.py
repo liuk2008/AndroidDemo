@@ -24,6 +24,8 @@ def isJenkins():
 def getJenkins():
     job_name = os.getenv("JOB_NAME")
     git_branch = os.getenv("GIT_BRANCH")
+    # android_home = os.getenv("Android_Home")
+    # java_home = os.getenv("JAVA_HOME")
     # git_branch= subprocess.check_output(['git', 'branch']).strip()
     build_number = os.getenv("BUILD_NUMBER")
     global src_dir, is_need_channel, build_type
