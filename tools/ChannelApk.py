@@ -69,7 +69,7 @@ def createChannelApk(channels, tag_dir):
             # 关闭zip流
             zipped.close()
 
-    v2Signature.v2Sign(android_home, target_names)
+    v2Signature.v2Sign(android_home, tag_dir, target_names)
 
 
 if __name__ == "__main__":

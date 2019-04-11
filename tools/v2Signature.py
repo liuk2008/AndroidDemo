@@ -1,7 +1,6 @@
 # coding=gbk
-import os
 import json
-import time
+import os
 
 apksigner_path = ''
 
@@ -27,8 +26,7 @@ def getApksignerPath(android_home):
 
 
 # 对 APK 重新签名
-def v2Sign(android_home,target_names):
-
+def v2Sign(android_home, target_dir, target_names):
     getApksignerPath(android_home)
 
     global keyStorePath
@@ -50,8 +48,7 @@ def v2Sign(android_home,target_names):
         return
 
     for target_name in target_names:
-        src_dir = os.path.join(os.path.abspath('..'),
-                               'output\\' + time.strftime('%Y-%m-%d', time.localtime(time.time())) + '\\' + target_name)
+        src_dir = os.path.join(target_dir + target_name)
         target_cmd = cmd + ' --out ' + src_dir + ' ' + src_dir
         # cmd = 'java -jar {} sign --ks {} --ks-key-alias {} --ks-pass pass:{} --key-pass pass:{} --out {} {}' \
         #     .format(apksignerPath, keyStorePath, keystoreAlias, KeyStorePwd, aliasPwd, src_dir, src_dir)
