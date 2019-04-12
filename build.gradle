@@ -1,4 +1,8 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+/**
+ * 配置Gradle中第三方插件
+ * 在buildscript中来定义插件所在的原始仓库和插件的依赖 ，再通过apply方法配置就可以了
+ */
 buildscript {
     repositories {
         google()
@@ -11,6 +15,7 @@ buildscript {
     }
 }
 
+// 该配置会被应用到所有的子工程
 allprojects {
     repositories {
         google()
@@ -22,21 +27,29 @@ allprojects {
     }
 }
 
+/**
+ *  运行gradle clean时，执行此处定义的task
+ *  该任务继承自Delete，删除根目录中的build目录，相当于执行Delete.delete(rootProject.buildDir)。
+ */
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
 ext {
-    COMPILE_SDK_VERSION = 28
-    BUILD_TOOL_SVERSION = "28.0.3"
-    MIN_SDK_VERSION = 19
-    TARGET_SDK_VERSION = 28
-    VERSIONCODE = 1
-    VERSIONNAME = "1.0.1"
+    android =[
+            compileSdkVersion : 28,
+            buildToolsVersion : "28.0.3",
+            minSdkVersion : 19,
+            targetSdkVersion : 28,
+            versionCode : 1,
+            versionName : "1.0.0"
+    ]
+    dependencies = [
+        "appcompat-v7":"com.android.support:appcompat-v7:28.0.0"
+    ]
     date = getDate()
-    SUPPORT_APPCOMPAT_V7 = 'com.android.support:appcompat-v7:28.0.0'
-
 }
+
 //定义打包时间
 def static getDate() {
     return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
