@@ -7,6 +7,7 @@ import CopyApk
 is_need_channel = False
 channels = []
 
+
 # 判断是否存在Jenkins环境
 def isJenkins():
     path = os.getenv("path")
@@ -40,6 +41,7 @@ def getChannel():
         global channels
         channels = jenkins_channels.split(",")
 
+
 def copyApk():
     # print(os.getcwd())  # 当前文件的路径
     # grader_father = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(".."))))
@@ -49,7 +51,8 @@ def copyApk():
 
     src_dir = os.path.join(os.path.abspath('..'), 'output\\',
                            time.strftime('%Y-%m-%d', time.localtime(time.time())) + '\\')
-    tag_dir = os.path.join(path, 'output\\', time.strftime('%Y-%m-%d', time.localtime(time.time())) + '\\')
+    tag_dir = os.path.join(path, 'output\\', time.strftime('%Y-%m-%d', time.localtime(
+        time.time())) + '\\' + CopyApk.build_type + '\\')
 
     if os.path.exists(tag_dir):
         shutil.rmtree(tag_dir)
