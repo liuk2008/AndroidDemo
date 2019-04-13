@@ -51,6 +51,8 @@ def copyApk():
                            time.strftime('%Y-%m-%d', time.localtime(time.time())) + '\\')
     tag_dir = os.path.join(path, 'output\\', time.strftime('%Y-%m-%d', time.localtime(time.time())) + '\\')
 
+    if os.path.exists(tag_dir):
+        shutil.rmtree(tag_dir)
     shutil.copytree(src_dir, tag_dir)
 
 # if __name__ == "__main__":
