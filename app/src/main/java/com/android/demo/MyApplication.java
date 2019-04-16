@@ -14,7 +14,6 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         // 初始化 LeakCanary
         if (LeakCanary.isInAnalyzerProcess(this)) return;
         if (!"release".equals(BuildConfig.BUILD_TYPE)) LeakCanary.install(this);
@@ -30,7 +29,6 @@ public class MyApplication extends Application {
 //        retrofitEngine.configHttpClient(null); // 可自定义OkHttpClient
         retrofitEngine.isProxy(false);
         retrofitEngine.init(this);
-
 
     }
 }
