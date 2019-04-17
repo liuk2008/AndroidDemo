@@ -11,11 +11,11 @@ buildscript {
 }
 
 dependencies {
-    //gradle sdk
-//    implementation  gradleApi()
-    //groovy sdk
+    // gradle sdk 使用项目中指定的gradle wrapper版本，插件中使用的Project对象等就来自这里
+    implementation  gradleApi()
+    // groovy sdk
     implementation  localGroovy()
-    // 使用内部的 Transform API
+    // Android编译的大部分gradle源码，比如TaskManager、ransform API
     implementation 'com.android.tools.build:gradle:3.2.0'
     //引入javassist类库
     implementation 'org.javassist:javassist:3.24.0-GA'

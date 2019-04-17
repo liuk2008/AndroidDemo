@@ -3,7 +3,7 @@ apply plugin: com.android.plugin.InjectClassPlugin
 
 injectClass {
     injectName "测试"
-    injectCode "android.widget.Toast.makeText(this,\"测试Toast代码!!\",android.widget.Toast.LENGTH_SHORT).show();"
+    injectCode "android.widget.Toast.makeText(this,\"测试Toast代码!\",android.widget.Toast.LENGTH_SHORT).show();"
 }
 
 android {

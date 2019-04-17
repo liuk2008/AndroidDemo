@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-
 import com.android.base.activity.CoreActivity;
 import com.android.common.utils.view.StatusBarUtils;
 import com.android.demo.fragment.HomeFragment;
@@ -42,7 +41,7 @@ public class MainActivity extends CoreActivity {
         mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
         mTabHost.getTabWidget().setDividerDrawable(null);
         for (int i = 0; i < fragmentArray.length; i++) {
-            //为每一个Tab按钮设置图标、文字和内容
+            // 为每一个Tab按钮设置图标、文字和内容
             TabHost.TabSpec tabSpec = mTabHost.newTabSpec(tabs[i]).setIndicator(getTabItemView(i));
             // 将按钮添加到选项卡中
             mTabHost.addTab(tabSpec, fragmentArray[i], null);
