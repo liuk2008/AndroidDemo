@@ -42,6 +42,8 @@ def copyApk():
     for file in files:
         file = os.path.join(tag_dir, file)
         os.remove(file)
+    if not os.path.exists(src_apk):
+        return
     shutil.copyfile(src_apk, tag_apk)
 
 # if __name__ == "__main__":

@@ -19,7 +19,7 @@
          4、v2Signature.py：重新对APK进行签名
             1、在v2Config.json文件中配置签名信息
             2、获取 AndroidSDK 提供的 apksigner.jar 工具，对 APK 重新签名，此方法可以将APK按照v1和v2共同签署应用
-            注意：需配置AndroidSDK环境变量
+            注意：需配置AndroidSDK环境变量：Android_Home=xxxxx
     * 2、Windows批处理命令;
          1、generator.bat：生成release版本的安装包
          2、channel.bat：生成不同渠道的安装包
