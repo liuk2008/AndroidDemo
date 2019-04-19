@@ -20,7 +20,6 @@ class InjectClassTransform extends Transform {
 
     InjectClassTransform(Project project) {
         this.project = project
-        println("create transform")
     }
 
     /**
@@ -69,14 +68,13 @@ class InjectClassTransform extends Transform {
      */
     @Override
     void transform(TransformInvocation transformInvocation) throws TransformException, InterruptedException, IOException {
-        println("======begin transform======")
+        LogUtil.error("======begin transform======")
         boolean isIncremental = transformInvocation.isIncremental()
         TransformOutputProvider outputProvider = transformInvocation.outputProvider
-        println("是否增量编译: " + isIncremental)
+        LogUtil.error("是否增量编译: " + isIncremental)
         // 如果非增量，则清空旧的输出内容
         if (!isIncremental)
             outputProvider.deleteAll()
-
         transformInvocation.inputs.each { TransformInput input ->
             // 遍历文件夹
             input.directoryInputs.each { DirectoryInput directoryInput ->
@@ -105,19 +103,20 @@ class InjectClassTransform extends Transform {
         }
         // 等待所有任务结束
         waitableExecutor.waitForTasksWithQuickFail(true)
-        println("======end transform======")
+        LogUtil.error("======end transform======")
     }
 
     void processJarInput(TransformOutputProvider outputProvider, JarInput jarInput, boolean isIncremental) {
         String jarName = jarInput.name
-        println("jarName : " + jarName)
+        if(jarName.startsWith("com.android.library:bindview:"))
+            LogUtil.error("jarName : " + jarName)
         if (jarName.endsWith(".jar"))
             jarName = jarName.substring(0, jarName.length() - 4)
         String md5Hex = DigestUtils.md5Hex(jarInput.file.getAbsolutePath())
         // 此下一个Transform输入数据的路径
         File outputFile = outputProvider.getContentLocation(jarName + "-" + md5Hex, jarInput.contentTypes, jarInput.scopes, Format.JAR)
         if (isIncremental) {         // 增量编译
-            println("jar status : " + jarInput.status)
+            LogUtil.error("jar status : " + jarInput.status)
             switch (jarInput.status) {
                 case Status.NOTCHANGED:
                     break
@@ -142,7 +141,7 @@ class InjectClassTransform extends Transform {
 
     void processDirectoryInput(TransformOutputProvider outputProvider, DirectoryInput directoryInput, boolean isIncremental) {
         String dirName = directoryInput.name
-        println("dirName : " + dirName)
+        LogUtil.error("dirName : " + dirName)
         File outputFile = outputProvider.getContentLocation(dirName, directoryInput.contentTypes, directoryInput.scopes, Format.DIRECTORY)
         InjectClass.inject(directoryInput.file.absolutePath, project, injectCode)
         if (isIncremental) {
@@ -153,9 +152,9 @@ class InjectClassTransform extends Transform {
                 File srcFile = changedFile.getKey()
                 Status status = changedFile.getValue();
                 String newOutputPath = srcFile.getAbsolutePath().replace(srcDir, outputDir);
-                println("srcFile path : " + srcFile.getAbsolutePath())
-                println("srcFile status : " + status)
-                println("outputFile Path : " + newOutputPath)
+                LogUtil.error("srcFile path : " + srcFile.getAbsolutePath())
+                LogUtil.error("srcFile status : " + status)
+                LogUtil.error("outputFile Path : " + newOutputPath)
                 outputFile = new File(newOutputPath)
                 switch (status) {
                     case Status.NOTCHANGED:
