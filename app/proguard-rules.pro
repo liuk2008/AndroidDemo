@@ -126,7 +126,6 @@
 -dontwarn com.google.zxing.**
 
 # viewinject 混淆规则
--keep class **.R$id {*;}
 -keep class com.viewinject.bindview.** { *; }
 -keep class **ViewInjector{ *; }
 -keepclasseswithmembernames class * {

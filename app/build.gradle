@@ -1,10 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: com.android.plugin.InjectClassPlugin
-
-injectClass {
-    injectName "测试"
-    injectCode "android.widget.Toast.makeText(this,\"测试Toast代码!\",android.widget.Toast.LENGTH_SHORT).show();"
-}
+apply plugin: 'com.android.plugin.viewinject'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -101,8 +96,8 @@ dependencies {
     implementation project(":module:example")
 
     // 使用自定义View注解
-    implementation 'com.android.library:bindview:1.0'
-    annotationProcessor 'com.android.library:bindview-compiler:1.0'
+    implementation 'com.android.library:viewinject:1.0'
+    annotationProcessor 'com.android.library:viewinject-compiler:1.0'
 
 }
 

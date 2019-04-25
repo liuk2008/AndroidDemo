@@ -7,11 +7,15 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven {
+            url 'https://dl.bintray.com/chanba2010/plugin/'
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.0'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+        classpath 'com.android.plugin:viewinject:1.0'
     }
 }
 
@@ -36,16 +40,16 @@ task clean(type: Delete) {
 }
 
 ext {
-    android =[
-            compileSdkVersion : 28,
-            buildToolsVersion : "28.0.3",
-            minSdkVersion : 19,
+    android = [
+            compileSdkVersion: 28,
+            buildToolsVersion: "28.0.3",
+            minSdkVersion    : 19,
             targetSdkVersion : 28,
-            versionCode : 1,
-            versionName : "1.0.0"
+            versionCode      : 1,
+            versionName      : "1.0.0"
     ]
     dependencies = [
-        "appcompat-v7":"com.android.support:appcompat-v7:28.0.0"
+            "appcompat-v7": "com.android.support:appcompat-v7:28.0.0"
     ]
     date = getDate()
 }
