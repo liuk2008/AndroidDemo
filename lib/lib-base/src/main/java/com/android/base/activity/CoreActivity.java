@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 
-
 import com.android.base.fragment.CoreFragment;
 import com.android.base.fragment.FragmentAction;
 
@@ -166,11 +165,9 @@ public class CoreActivity extends AppCompatActivity {
         if (fragments != null && fragments.size() > 0) {
             for (Fragment fragment : fragments) {
                 if (fragment.isResumed() && fragment.getUserVisibleHint() && fragment instanceof CoreFragment) {
-                    if (fragment instanceof CoreFragment) {
-                        CoreFragment f = (CoreFragment) fragment;
-                        if (f.onBackPressed()) {
-                            return;
-                        }
+                    CoreFragment f = (CoreFragment) fragment;
+                    if (f.onBackPressed()) {
+                        return;
                     }
                 }
             }
