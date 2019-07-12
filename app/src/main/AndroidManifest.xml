@@ -21,6 +21,7 @@
         </activity>
 
         <activity android:name=".WebViewActivity"/>
+        <activity android:name=".mvp.NetWorkActivity"/>
 
     </application>
 

@@ -21,20 +21,10 @@ import com.android.common.utils.view.ToolbarUtil;
 import com.android.common.utils.view.ViewUtils;
 import com.android.common.widget.PermissionActivity;
 import com.android.common.widget.photo.PhotoPickerActivity;
+import com.android.demo.mvp.NetWorkActivity;
 import com.android.demo.R;
-import com.android.demo.WebViewActivity;
-import com.android.demo.netdemo.AccountSummaryInfo;
-import com.android.demo.netdemo.MonthBillInfo;
-import com.android.demo.netdemo.UserInfo;
-import com.android.demo.netdemo.http.HttpDemo;
-import com.android.demo.netdemo.retrofit.RetrofitDemo;
-import com.android.demo.netdemo.rxjava.RxNetDemo;
-import com.android.network.callback.Callback;
-import com.zxing.activity.CaptureActivity;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 设置系统状态栏透明，通过设置自定义布局，保持颜色一致
@@ -44,9 +34,6 @@ import java.util.Set;
 public class WorkFragment extends BaseFragment {
 
     private static final String TAG = WorkFragment.class.getSimpleName();
-    private HttpDemo httpDemo;
-    private RetrofitDemo retrofitDemo;
-    private RxNetDemo rxNetDemo;
 
     {
         super.TAG = TAG;
@@ -68,12 +55,8 @@ public class WorkFragment extends BaseFragment {
         statusBar.setLayoutParams(layoutParams);
         ToolbarUtil.configTitle(baseRootView, "业务", View.GONE);
 
-        ViewUtils.setViewOnClickListener(this, baseRootView, R.id.btn_permission, R.id.btn_permissions,
-                R.id.btn_scan, R.id.btn_webview, R.id.btn_net, R.id.btn_cache, R.id.btn_photo);
-        httpDemo = new HttpDemo();
-        retrofitDemo = new RetrofitDemo();
-        rxNetDemo = new RxNetDemo();
-
+        ViewUtils.setViewOnClickListener(this, baseRootView, R.id.btn_permission,
+                R.id.btn_permissions, R.id.btn_net, R.id.btn_cache, R.id.btn_photo);
     }
 
 
@@ -95,14 +78,9 @@ public class WorkFragment extends BaseFragment {
                             "请打开SD卡读写权限、拍照等系统权限");
                 }
                 break;
-            case R.id.btn_scan:
-                startActivity(new Intent(getActivity(), CaptureActivity.class));
-                break;
-            case R.id.btn_webview:
-                startActivity(new Intent(getActivity(), WebViewActivity.class));
-                break;
             case R.id.btn_net:
-                testBill();
+                Intent intent = new Intent(getActivity(), NetWorkActivity.class);
+                startActivity(intent);
                 break;
             case R.id.btn_cache:
                 CacheUtils.getCache(getActivity(), "com.android.demo", new CacheUtils.onCacheListener() {
@@ -128,76 +106,5 @@ public class WorkFragment extends BaseFragment {
                 break;
         }
     }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        rxNetDemo.cancelAll();
-        httpDemo.cancelAll();
-        retrofitDemo.cancelAll();
-    }
-
-
-    private void testLogin() {
-        httpDemo.login(new Callback<UserInfo>() {
-            @Override
-            public void onSuccess(UserInfo userInfo) {
-                LogUtils.logd(TAG, "userinfo :" + userInfo);
-                testSummary();
-            }
-
-            @Override
-            public void onFail(int resultCode, String msg, String data) {
-                LogUtils.logd(TAG, LogUtils.getThreadName() + "resultCode:" + resultCode + ", msg:" + msg + ", data:" + data);
-            }
-        });
-    }
-
-    private void testPhone() {
-        httpDemo.checkPhone(new Callback<LinkedHashMap<String, Object>>() {
-            @Override
-            public void onSuccess(LinkedHashMap<String, Object> linkedHashMap) {
-                Set<String> keys = linkedHashMap.keySet();
-                for (String key : keys) {
-                    LogUtils.logd(TAG, "key :" + key);
-                    LogUtils.logd(TAG, "value :" + linkedHashMap.get(key));
-                }
-            }
-
-            @Override
-            public void onFail(int resultCode, String msg, String data) {
-                LogUtils.logd(TAG, "resultCode:" + resultCode + ", msg:" + msg + ", data:" + data);
-            }
-        });
-    }
-
-    private void testBill() {
-        httpDemo.monthBill(new Callback<MonthBillInfo>() {
-            @Override
-            public void onSuccess(MonthBillInfo info) {
-                LogUtils.logd(TAG, "info :" + info);
-            }
-
-            @Override
-            public void onFail(int resultCode, String msg, String data) {
-                LogUtils.logd(TAG, LogUtils.getThreadName() + "resultCode:" + resultCode + ", msg:" + msg + ", data:" + data);
-            }
-        });
-    }
-
-    private void testSummary() {
-        httpDemo.accountSummary(new Callback<AccountSummaryInfo>() {
-            @Override
-            public void onSuccess(AccountSummaryInfo info) {
-                LogUtils.logd(TAG, "info :" + info);
-            }
-
-            @Override
-            public void onFail(int resultCode, String msg, String data) {
-                LogUtils.logd(TAG, LogUtils.getThreadName() + "resultCode:" + resultCode + ", msg:" + msg + ", data:" + data);
-            }
-        });
-    }
-
 
 }

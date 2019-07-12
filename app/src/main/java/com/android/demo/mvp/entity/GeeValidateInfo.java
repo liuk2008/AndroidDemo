@@ -1,4 +1,4 @@
-package com.android.demo.netdemo;
+package com.android.demo.mvp.entity;
 
 import java.io.Serializable;
 

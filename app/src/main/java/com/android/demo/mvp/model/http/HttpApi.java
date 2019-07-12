@@ -1,14 +1,13 @@
-package com.android.demo.netdemo.http;
+package com.android.demo.mvp.model.http;
 
 import android.content.Context;
 import android.text.TextUtils;
 
 import com.android.common.utils.common.LogUtils;
-import com.android.demo.netdemo.AccountSummaryInfo;
-import com.android.demo.netdemo.GeeValidateInfo;
-import com.android.demo.netdemo.MonthBillInfo;
-import com.android.demo.netdemo.UserInfo;
-
+import com.android.demo.mvp.entity.AccountSummaryInfo;
+import com.android.demo.mvp.entity.GeeValidateInfo;
+import com.android.demo.mvp.entity.MonthBillInfo;
+import com.android.demo.mvp.entity.UserInfo;
 import com.android.network.Null;
 import com.android.network.callback.Callback;
 import com.android.network.http.request.HttpParams;
@@ -18,16 +17,12 @@ import com.geetest.sdk.Bind.GT3GeetestBindListener;
 import com.geetest.sdk.Bind.GT3GeetestUtilsBind;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 
-public class HttpDemo {
+public class HttpApi {
+    private static final String TAG = "HttpApi";
 
-    private static final String TAG = HttpDemo.class.getSimpleName();
-    private List<HttpTask> taskList = new ArrayList<>();
-
-    public void login(Callback<UserInfo> callback) {
+    public static HttpTask login(Callback<UserInfo> callback) {
         HttpParams httpParams = new HttpParams.Builder()
                 .setUrl("https://passport.lawcert.com/proxy/account/user/login")
                 .appendParams("phone", "18909131172")
@@ -35,17 +30,15 @@ public class HttpDemo {
                 .builder();
 
         HttpTask task = HttpUtils.doPost(httpParams, callback);
-        taskList.add(task);
+        return task;
     }
 
-    public void checkPhone(Callback<LinkedHashMap<String, Object>> callback) {
+    public static HttpTask checkPhone(Callback<LinkedHashMap<String, Object>> callback) {
         HttpParams httpParams = new HttpParams.Builder()
                 .setUrl("https://passport.lawcert.com/proxy/account/user/phone/exist/18909131172")
-                .appendHeader("version", "1.0")
-                .appendCookie("version","1.0")
                 .builder();
         HttpTask task = HttpUtils.doGet(httpParams, callback);
-        taskList.add(task);
+        return task;
     }
 
     // 获取极验码
@@ -81,7 +74,7 @@ public class HttpDemo {
                 });
     }
 
-    private void sendPwdSms(GeeValidateInfo info) {
+    private static HttpTask sendPwdSms(GeeValidateInfo info) {
         HttpParams httpParams = new HttpParams.Builder()
                 .setUrl("https://passport.lawcert.com/proxy/account/sms/resetPassword/18909131173")
                 .appendParams("gtServerStatus", info.getGtServerStatus())
@@ -103,33 +96,22 @@ public class HttpDemo {
                 LogUtils.logd(TAG, "resultCode:" + resultCode + ", msg:" + msg + ", data:" + data);
             }
         });
-        taskList.add(task);
+        return task;
     }
 
     public void monthBill(Callback<MonthBillInfo> callback) {
         HttpParams httpParams = new HttpParams.Builder()
                 .setUrl("https://www.lawcert.com/proxy/hzcms/channelPage/monthBill")
                 .builder();
-        HttpTask task = HttpUtils.doGet(httpParams, callback);
-        taskList.add(task);
+        HttpUtils.doGet(httpParams, callback);
     }
 
-    public void accountSummary(Callback<AccountSummaryInfo> callback) {
+    public static HttpTask accountSummary(Callback<AccountSummaryInfo> callback) {
         HttpParams httpParams = new HttpParams.Builder()
                 .setUrl("https://www.lawcert.com/proxy/trc_bjcg/u/m/myAccount/accountSummary")
                 .builder();
         HttpTask task = HttpUtils.doGet(httpParams, callback);
-        taskList.add(task);
-    }
-
-
-    public void cancelTask(HttpTask task) {
-        taskList.remove(task);
-        HttpUtils.cancelTask(task);
-    }
-
-    public void cancelAll() {
-        HttpUtils.cancelAll(taskList);
+        return task;
     }
 
 }

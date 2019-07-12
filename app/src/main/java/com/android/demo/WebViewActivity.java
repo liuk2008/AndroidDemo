@@ -10,6 +10,7 @@ import android.webkit.WebView;
 
 import com.android.common.utils.common.LogUtils;
 import com.android.common.webview.WebViewHelper;
+import com.android.common.webview.client.CookieUtil;
 import com.android.common.webview.client.MyWebChromeClient;
 import com.android.common.webview.client.MyWebViewClient;
 import com.android.common.webview.client.WebViewUtils;
@@ -28,28 +29,53 @@ public class WebViewActivity extends AppCompatActivity {
         webViewHelper = WebViewHelper.create(this);
         setContentView(webViewHelper.getRootView());
         webViewHelper.initClient();
-        testToken();
-//        testCookie();
-//        testFile();
+        testCookie();
 //        testImage();
+//        testFile();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        webViewHelper.setPicData(requestCode, resultCode, data);
-    }
-
+    /**
+     * 测试 cookie和header
+     */
     private void testCookie() {
-        // 设置cookie和header
-        WebViewUtils.setCookie("token", "F586EC06EAC944448260B0385DE96EFA.67D7F89876AA4446E2CF51C9136BADD8");
-        WebViewUtils.setCookie("origin", "android");
+        CookieUtil.setCookie("lawcert.com", "token", "123");
         WebViewUtils.setCookie("platform", "finance");
-        WebViewUtils.setHeader("channel", "official");
+        WebViewUtils.setCookie("channel", "official");
         WebViewUtils.setHeader("version", "1.3.0.0");
-        webViewHelper.load("https://h5.lawcert.com/trade/withdraw");
+        webViewHelper.load("https://jrhelp.lawcert.com/trc_app/disclosure/about");
+//        webViewHelper.load("https://h5.lawcert.com/trade/withdraw");
+//        webViewHelper.load("https://jrwx.lawcert.com/index");
     }
 
+    /**
+     * 测试js注入功能
+     * 增加js文件，注入到h5页面，关联本地方法与js方法，实现点击图片放大、缩小、长按等功能
+     */
+    private void testImage() {
+        webViewHelper.setWebViewClientInterface(new MyWebViewClient.WebViewClientInterface() {
+            @Override
+            public boolean handleUrl(String url) {
+                LogUtils.logd(TAG, "onLoadUrl:" + url);
+                return false;
+            }
+
+            @Override
+            public void executorJs(WebView webView, String url) {
+                LogUtils.logd(TAG, "executorJs: ");
+            }
+
+            @Override
+            public void SSLException(WebView view, SslErrorHandler handler, SslError error) {
+
+            }
+
+        });
+        webViewHelper.load("file:///android_asset/test.html");
+    }
+
+    /**
+     * 测试WebView文件上传功能
+     */
     private void testFile() {
         webViewHelper.setWebChromeClientInterface(new MyWebChromeClient.OpenFileChooserCallBack() {
             // ===============点击表单选择图片或者拍照==============
@@ -70,50 +96,11 @@ public class WebViewActivity extends AppCompatActivity {
         webViewHelper.load(url);
     }
 
-    private void testImage() {
-        webViewHelper.setWebViewClientInterface(new MyWebViewClient.WebViewClientInterface() {
-            @Override
-            public boolean onLoadUrl(WebView webView, String url) {
-                LogUtils.logd(TAG, "onLoadUrl:" + url);
-                return false;
-            }
-
-            @Override
-            public void executorJs(WebView webView, String url) {
-                LogUtils.logd(TAG, "executorJs: ");
-            }
-
-            @Override
-            public void SSLException(WebView view, SslErrorHandler handler, SslError error) {
-
-            }
-
-        });
-        webViewHelper.load("file:///android_asset/test.html");
+    // 文件上传必须实现此方法
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        webViewHelper.setPicData(requestCode, resultCode, data);
     }
-
-    private void testToken() {
-        webViewHelper.setWebViewClientInterface(new MyWebViewClient.WebViewClientInterface() {
-            @Override
-            public boolean onLoadUrl(WebView webView, String url) {
-                LogUtils.logd(TAG, "onLoadUrl:" + url);
-                WebViewUtils.setToken(url);
-                return false;
-            }
-
-            @Override
-            public void executorJs(WebView webView, String url) {
-                LogUtils.logd(TAG, "executorJs: ");
-            }
-
-            @Override
-            public void SSLException(WebView view, SslErrorHandler handler, SslError error) {
-
-            }
-
-        });
-        webViewHelper.load("https://jrwx.lawcert.com/index");
-    }
-
 
 }

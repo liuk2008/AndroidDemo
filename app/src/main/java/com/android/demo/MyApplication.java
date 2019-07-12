@@ -27,7 +27,7 @@ public class MyApplication extends Application {
         HttpEngine.getInstance().init(this);
         RetrofitEngine retrofitEngine = RetrofitEngine.getInstance();
 //        retrofitEngine.configHttpClient(null); // 可自定义OkHttpClient
-        retrofitEngine.isProxy(false);
+        retrofitEngine.isProxy(true);
         retrofitEngine.init(this);
 
     }

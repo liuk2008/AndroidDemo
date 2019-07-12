@@ -1,11 +1,10 @@
-package com.android.demo.netdemo.retrofit;
+package com.android.demo.mvp.model.retrofit;
 
 
-
-import com.android.demo.netdemo.AccountSummaryInfo;
-import com.android.demo.netdemo.FinanceListInfo;
-import com.android.demo.netdemo.MonthBillInfo;
-import com.android.demo.netdemo.UserInfo;
+import com.android.demo.mvp.entity.AccountSummaryInfo;
+import com.android.demo.mvp.entity.FinanceListInfo;
+import com.android.demo.mvp.entity.MonthBillInfo;
+import com.android.demo.mvp.entity.UserInfo;
 import com.android.network.Null;
 
 import java.util.LinkedHashMap;
@@ -23,7 +22,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
-public interface FinanceApi {
+public interface RetrofitService {
 
     // 账号登录
     @FormUrlEncoded

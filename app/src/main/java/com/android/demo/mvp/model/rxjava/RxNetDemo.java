@@ -1,15 +1,15 @@
-package com.android.demo.netdemo.rxjava;
+package com.android.demo.mvp.model.rxjava;
 
 import android.content.Context;
 import android.text.TextUtils;
 
 
 import com.android.common.utils.common.LogUtils;
-import com.android.demo.netdemo.AccountSummaryInfo;
-import com.android.demo.netdemo.GeeValidateInfo;
-import com.android.demo.netdemo.MonthBillInfo;
-import com.android.demo.netdemo.UserInfo;
 
+import com.android.demo.mvp.entity.AccountSummaryInfo;
+import com.android.demo.mvp.entity.GeeValidateInfo;
+import com.android.demo.mvp.entity.MonthBillInfo;
+import com.android.demo.mvp.entity.UserInfo;
 import com.android.network.Null;
 import com.android.network.callback.Callback;
 import com.android.network.rxjava.RxNetUtils;
@@ -28,7 +28,7 @@ import io.reactivex.disposables.Disposable;
 public class RxNetDemo {
 
     private static final String TAG = RxNetDemo.class.getSimpleName();
-    private static RxNetRequest apiRequest = RxNetRequest.getInstance();
+    private static RxNetApi apiRequest = RxNetApi.getInstance();
     private CompositeDisposable mDisposable = new CompositeDisposable();
 
     public void login(Callback<UserInfo> callback) {

@@ -1,14 +1,13 @@
-package com.android.demo.netdemo.retrofit;
+package com.android.demo.mvp.model.retrofit;
 
 
-
-import com.android.demo.netdemo.AccountSummaryInfo;
-import com.android.demo.netdemo.FinanceListInfo;
-import com.android.demo.netdemo.GeeValidateInfo;
-import com.android.demo.netdemo.MonthBillInfo;
-import com.android.demo.netdemo.UserInfo;
-import com.android.network.NetStatus;
+import com.android.demo.mvp.entity.AccountSummaryInfo;
+import com.android.demo.mvp.entity.FinanceListInfo;
+import com.android.demo.mvp.entity.GeeValidateInfo;
+import com.android.demo.mvp.entity.MonthBillInfo;
+import com.android.demo.mvp.entity.UserInfo;
 import com.android.network.Null;
+import com.android.network.network.NetworkStatus;
 import com.android.network.retrofit.RetrofitEngine;
 
 import java.util.LinkedHashMap;
@@ -16,26 +15,26 @@ import java.util.LinkedHashMap;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 
-public class RetrofitRequest {
+public class RetrofitApi {
 
-    private static final String TAG = RetrofitRequest.class.getSimpleName();
-    private static RetrofitRequest retrofitApiRequest;
-    private FinanceApi accountApi, financeApi;
+    private static final String TAG = RetrofitApi.class.getSimpleName();
+    private static RetrofitApi retrofitApiRequest;
+    private RetrofitService accountApi, financeApi;
     private RetrofitEngine retrofitEngine;
 
-    private RetrofitRequest() {
+    private RetrofitApi() {
         retrofitEngine = RetrofitEngine.getInstance();
-        accountApi = retrofitEngine.getRetrofitService(FinanceApi.class,
+        accountApi = retrofitEngine.getRetrofitService(RetrofitService.class,
                 "https://passport.lawcert.com/proxy/account/",
-                NetStatus.Type.RETROFIT_DEFAULT);
-        financeApi = retrofitEngine.getRetrofitService(FinanceApi.class,
+                NetworkStatus.Type.RETROFIT_DEFAULT);
+        financeApi = retrofitEngine.getRetrofitService(RetrofitService.class,
                 "https://www.lawcert.com/proxy/",
-                NetStatus.Type.RETROFIT_DEFAULT_DATAWRAPPER);
+                NetworkStatus.Type.RETROFIT_DEFAULT_DATAWRAPPER);
     }
 
-    public static RetrofitRequest getInstance() {
+    public static RetrofitApi getInstance() {
         if (retrofitApiRequest == null) {
-            retrofitApiRequest = new RetrofitRequest();
+            retrofitApiRequest = new RetrofitApi();
         }
         return retrofitApiRequest;
     }

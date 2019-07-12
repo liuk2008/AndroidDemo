@@ -90,9 +90,7 @@ dependencies {
 
     implementation project(":lib:lib-base")
     implementation project(":lib:lib-geetest")
-
     implementation project(":module:account")
-    implementation project(":module:example")
 
     // 使用自定义View注解
     implementation 'com.android.library:viewinject:1.0'

@@ -24,22 +24,10 @@
         android:text="申请多个权限" />
 
     <Button
-        android:id="@+id/btn_scan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="扫码页面" />
-
-    <Button
         android:id="@+id/btn_net"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="测试网络框架" />
-
-    <Button
-        android:id="@+id/btn_webview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="测试webview功能" />
 
     <Button
         android:id="@+id/btn_cache"

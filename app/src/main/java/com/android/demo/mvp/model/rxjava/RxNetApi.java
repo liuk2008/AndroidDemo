@@ -1,13 +1,12 @@
-package com.android.demo.netdemo.rxjava;
+package com.android.demo.mvp.model.rxjava;
 
 
-
-import com.android.demo.netdemo.AccountSummaryInfo;
-import com.android.demo.netdemo.GeeValidateInfo;
-import com.android.demo.netdemo.MonthBillInfo;
-import com.android.demo.netdemo.UserInfo;
-import com.android.network.NetStatus;
+import com.android.demo.mvp.entity.AccountSummaryInfo;
+import com.android.demo.mvp.entity.GeeValidateInfo;
+import com.android.demo.mvp.entity.MonthBillInfo;
+import com.android.demo.mvp.entity.UserInfo;
 import com.android.network.Null;
+import com.android.network.network.NetworkStatus;
 import com.android.network.retrofit.RetrofitEngine;
 
 import java.util.LinkedHashMap;
@@ -15,26 +14,26 @@ import java.util.LinkedHashMap;
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
 
-public class RxNetRequest {
+public class RxNetApi {
 
-    private static final String TAG = RxNetRequest.class.getSimpleName();
-    private static RxNetRequest retrofitApiRequest;
-    private FinanceApi accountApi, financeApi;
+    private static final String TAG = RxNetApi.class.getSimpleName();
+    private static RxNetApi retrofitApiRequest;
+    private RxNetService accountApi, financeApi;
     private RetrofitEngine retrofitEngine;
 
-    private RxNetRequest() {
+    private RxNetApi() {
         retrofitEngine = RetrofitEngine.getInstance();
-        accountApi = retrofitEngine.getRetrofitService(FinanceApi.class,
+        accountApi = retrofitEngine.getRetrofitService(RxNetService.class,
                 "https://passport.lawcert.com/proxy/account/",
-                NetStatus.Type.RETROFIT_RXJAVA);
-        financeApi = retrofitEngine.getRetrofitService(FinanceApi.class,
+                NetworkStatus.Type.RETROFIT_RXJAVA);
+        financeApi = retrofitEngine.getRetrofitService(RxNetService.class,
                 "https://www.lawcert.com/proxy/",
-                NetStatus.Type.RETROFIT_RXJAVA_DATAWRAPPER);
+                NetworkStatus.Type.RETROFIT_RXJAVA_DATAWRAPPER);
     }
 
-    public static RxNetRequest getInstance() {
+    public static RxNetApi getInstance() {
         if (retrofitApiRequest == null) {
-            retrofitApiRequest = new RxNetRequest();
+            retrofitApiRequest = new RxNetApi();
         }
         return retrofitApiRequest;
     }
