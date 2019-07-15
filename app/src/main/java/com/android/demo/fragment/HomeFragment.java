@@ -15,8 +15,8 @@ import com.android.common.utils.common.ToastUtils;
 import com.android.common.utils.view.StatusBarUtils;
 import com.android.common.utils.view.ToolbarUtil;
 import com.android.demo.R;
-import com.android.demo.netdemo.FinanceListInfo;
-import com.android.demo.netdemo.retrofit.RetrofitDemo;
+import com.android.demo.mvp.entity.FinanceListInfo;
+import com.android.demo.mvp.model.retrofit.RetrofitDemo;
 import com.android.network.callback.Callback;
 
 
@@ -33,7 +33,7 @@ public class HomeFragment extends BaseFragment {
     private int scrollMaxHeight;
     private MyRefreshView refreshView;
     private MyCommonAdapter<FinanceListInfo.ListBean> adapter;
-    private int index = 1, total;
+    private int index = 1, pageSize;
     private RetrofitDemo retrofitDemo;
 
     {
@@ -81,7 +81,7 @@ public class HomeFragment extends BaseFragment {
         };
         refreshView.setAdapter(adapter);
         setRefreshView();
-        request(index);
+        request();
     }
 
     @Override
@@ -96,7 +96,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onRefresh() {
                 index = 1;
-                request(index);
+                request();
             }
         });
         // 上拉加载
@@ -104,15 +104,15 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onLoadMore() {
                 index++;
-                if (index <= (total / 40 + 1))
-                    request(index);
+                if (index <= pageSize)
+                    request();
             }
         });
         // 重新加载数据
         refreshView.setOnReLoadListener(new MyRefreshView.OnReLoadListener() {
             @Override
             public void onReload() {
-                request(index);
+                request();
             }
         });
         // item点击事件
@@ -124,9 +124,9 @@ public class HomeFragment extends BaseFragment {
         });
     }
 
-    private void request(int pageIndex) {
+    private void request() {
         retrofitDemo = new RetrofitDemo();
-        retrofitDemo.financeList(pageIndex, new Callback<FinanceListInfo>() {
+        retrofitDemo.financeList(index, new Callback<FinanceListInfo>() {
             @Override
             public void onSuccess(FinanceListInfo financeListInfo) {
                 refreshView.refreshComplete();
@@ -134,11 +134,12 @@ public class HomeFragment extends BaseFragment {
                     refreshView.showEmptyView();
                     return;
                 }
-                total = financeListInfo.pageInfo.total;
+                int size = financeListInfo.pageInfo.total / 40;
+                pageSize = financeListInfo.pageInfo.total % 40 == 0 ? size : size + 1;
                 if (index == 1)
                     adapter.cleanData();
                 adapter.appendData(financeListInfo.list);
-                refreshView.setLoadMore(index < (total / 40 + 1));
+                refreshView.setLoadMore(index < size);
             }
 
             @Override

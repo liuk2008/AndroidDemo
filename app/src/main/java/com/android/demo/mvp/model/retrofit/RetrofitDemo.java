@@ -12,6 +12,7 @@ import com.android.demo.mvp.entity.MonthBillInfo;
 import com.android.demo.mvp.entity.UserInfo;
 import com.android.network.Null;
 import com.android.network.callback.Callback;
+import com.android.network.retrofit.CallAdapter;
 import com.android.network.retrofit.RetrofitUtils;
 import com.geetest.sdk.Bind.GT3GeetestBindListener;
 import com.geetest.sdk.Bind.GT3GeetestUtilsBind;
@@ -28,18 +29,18 @@ public class RetrofitDemo {
 
     private static final String TAG = RetrofitDemo.class.getSimpleName();
     private static RetrofitApi apiRequest = RetrofitApi.getInstance();
-    private List<Call> callList = new ArrayList<>();
+    private List<CallAdapter> callList = new ArrayList<>();
 
     public void login(Callback<UserInfo> callback) {
         Call<UserInfo> call = apiRequest.login("18909131172", "123qwe");
-        RetrofitUtils.request(call, callback);
-        callList.add(call);
+        CallAdapter callAdapter = RetrofitUtils.request(call, callback);
+        callList.add(callAdapter);
     }
 
     public void checkPhone(Callback<LinkedHashMap<String, Object>> callback) {
         Call<LinkedHashMap<String, Object>> call = apiRequest.checkPhone("18909131173");
-        RetrofitUtils.request(call, callback);
-        callList.add(call);
+        CallAdapter callAdapter = RetrofitUtils.request(call, callback);
+        callList.add(callAdapter);
     }
 
     // 获取极验码
@@ -117,25 +118,25 @@ public class RetrofitDemo {
 
     public void monthBill(Callback<MonthBillInfo> callback) {
         Call<MonthBillInfo> call = apiRequest.monthBill();
-        RetrofitUtils.request(call, callback);
-        callList.add(call);
+        CallAdapter callAdapter = RetrofitUtils.request(call, callback);
+        callList.add(callAdapter);
     }
 
     public void accountSummary(Callback<AccountSummaryInfo> callback) {
         Call<AccountSummaryInfo> call = apiRequest.accountSummary();
-        RetrofitUtils.request(call, callback);
-        callList.add(call);
+        CallAdapter callAdapter = RetrofitUtils.request(call, callback);
+        callList.add(callAdapter);
     }
 
     public void financeList(int pageIndex, Callback<FinanceListInfo> callback) {
         Call<FinanceListInfo> call = apiRequest.financeList(pageIndex);
-        RetrofitUtils.request(call, callback);
-        callList.add(call);
+        CallAdapter callAdapter = RetrofitUtils.request(call, callback);
+        callList.add(callAdapter);
     }
 
-    public void cancelTask(Call call) {
-        callList.remove(call);
-        RetrofitUtils.cancelTask(call);
+    public void cancelTask(CallAdapter callAdapter) {
+        callList.remove(callAdapter);
+        RetrofitUtils.cancelTask(callAdapter);
     }
 
     public void cancelAll() {

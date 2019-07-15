@@ -72,7 +72,6 @@ public class NetWorkActivity extends BaseActivity implements View.OnClickListene
         retrofitDemo.cancelAll();
     }
 
-
     private void testLogin() {
         retrofitDemo.login(new Callback<UserInfo>() {
             @Override
