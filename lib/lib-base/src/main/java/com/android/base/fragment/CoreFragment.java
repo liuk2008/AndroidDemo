@@ -1,8 +1,7 @@
 package com.android.base.fragment;
 
-import android.support.v4.app.Fragment;
-
 import com.android.base.activity.CoreActivity;
+import androidx.fragment.app.Fragment;
 
 
 /**

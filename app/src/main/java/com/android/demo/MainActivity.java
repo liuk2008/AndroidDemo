@@ -1,7 +1,6 @@
 package com.android.demo;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,12 +8,16 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.android.base.activity.CoreActivity;
+import com.android.common.BuildConfig;
 import com.android.common.utils.view.StatusBarUtils;
 import com.android.demo.fragment.HomeFragment;
 import com.android.demo.fragment.MineFragment;
 import com.android.demo.fragment.WorkFragment;
 
 import java.util.ArrayList;
+
+import androidx.fragment.app.FragmentTabHost;
+
 
 public class MainActivity extends CoreActivity {
 

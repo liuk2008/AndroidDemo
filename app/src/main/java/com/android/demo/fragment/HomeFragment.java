@@ -1,7 +1,6 @@
 package com.android.demo.fragment;
 
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,8 @@ import com.android.demo.R;
 import com.android.demo.mvp.entity.FinanceListInfo;
 import com.android.demo.mvp.model.retrofit.RetrofitDemo;
 import com.android.network.callback.Callback;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 
 /**

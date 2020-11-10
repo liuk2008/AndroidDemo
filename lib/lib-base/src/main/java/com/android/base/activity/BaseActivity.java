@@ -2,12 +2,12 @@ package com.android.base.activity;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
-
+import androidx.annotation.Nullable;
 
 import com.android.common.R;
 import com.android.common.utils.view.StatusBarUtils;
+
 
 
 public class BaseActivity extends CoreActivity implements View.OnClickListener {

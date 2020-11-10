@@ -48,10 +48,21 @@
 -keepattributes InnerClasses
 #----------------------------------------------------------------------------
 
+#----------------------------androidx的混淆----------------------------------
+# noinspection ShrinkerUnresolvedReference
+-keep class com.google.android.material.** {*;}
+-keep class androidx.** {*;}
+-keep public class * extends androidx.**
+-keep interface androidx.** {*;}
+-dontwarn com.google.android.material.**
+-dontnote com.google.android.material.**
+-dontwarn androidx.**
+ #----------------------------------------------------------------------------
+
 #---------------------------------默认保留区---------------------------------
 # 不混淆四大组件
 -keep public class * extends android.app.Activity
--keep public class * extends android.support.v4.app.Fragment
+-keep public class * extends androidx.fragment.app.Fragment
 -keep public class * extends android.app.Application
 -keep public class * extends android.app.Service
 -keep public class * extends android.content.BroadcastReceiver
@@ -83,10 +94,12 @@
 -keepclassmembers class * implements java.io.Serializable {*;}
 
 # 保留 WebView 相关
--keepclassmembers class * extends android.webkit.webViewClient {
+-keepclassmembers class * extends android.webkit.WebViewClient {
     public void *(android.webkit.WebView, java.lang.String, android.graphics.Bitmap);
-    public void *(android.webkit.webView, jav.lang.String);
     public boolean *(android.webkit.WebView, java.lang.String);
+}
+-keepclassmembers class * extends android.webkit.WebChromeClient  {
+    public void *(android.webkit.WebView, java.lang.String);
 }
 
 # WebView中使用了JS调用，保留JavaScript调试属性
@@ -108,18 +121,27 @@
 
 #---------------------------------第三方--------------------------------
 # Gson 混淆规则
--keep class sun.misc.Unsafe { *; }
--keep class com.google.code.gson.** { *; }
--keep interface com.google.code.gson.** { *; }
 
-# Eventbus 混淆规则
--keepclassmembers class ** {
-        @org.greenrobot.eventbus.Subscribe <methods>;
-}
--keep enum org.greenrobot.eventbus.ThreadMode { *; }
-# Only required if you use AsyncExecutor
--keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
-        <init>(java.lang.Throwable);
+#-dontwarn com.google.gson.**
+#-keep class com.google.gson.**{*;}
+#-keep interface com.google.gson.**{*;}
+
+# Gson specific classes
+-dontwarn sun.misc.**
+
+# Application classes that will be serialized/deserialized over Gson
+#-keep class com.google.gson.examples.android.model.** { <fields>; }
+
+# Prevent proguard from stripping interface information from TypeAdapter, TypeAdapterFactory,
+# JsonSerializer, JsonDeserializer instances (so they can be used in @JsonAdapter)
+-keep class * extends com.google.gson.TypeAdapter
+-keep class * implements com.google.gson.TypeAdapterFactory
+-keep class * implements com.google.gson.JsonSerializer
+-keep class * implements com.google.gson.JsonDeserializer
+
+# Prevent R8 from leaving Data object members always null
+-keepclassmembers,allowobfuscation class * {
+  @com.google.gson.annotations.SerializedName <fields>;
 }
 
 # Zxing 混淆规则

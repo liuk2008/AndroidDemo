@@ -70,7 +70,7 @@
                 android:id="@+id/tv_setpwd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/btn_login"
+                android:layout_below="@id/btn_confirm"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="5dp"

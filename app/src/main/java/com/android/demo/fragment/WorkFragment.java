@@ -3,8 +3,6 @@ package com.android.demo.fragment;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.format.Formatter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +23,9 @@ import com.android.demo.mvp.NetWorkActivity;
 import com.android.demo.R;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * 设置系统状态栏透明，通过设置自定义布局，保持颜色一致

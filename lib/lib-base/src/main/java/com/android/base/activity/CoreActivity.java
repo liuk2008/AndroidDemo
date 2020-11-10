@@ -3,18 +3,19 @@ package com.android.base.activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
+
 import android.util.Log;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
+import java.util.List;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.android.base.fragment.CoreFragment;
 import com.android.base.fragment.FragmentAction;
-
-import java.util.List;
 
 public class CoreActivity extends AppCompatActivity {
 
