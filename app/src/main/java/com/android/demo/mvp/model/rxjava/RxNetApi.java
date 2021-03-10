@@ -6,8 +6,8 @@ import com.android.demo.mvp.entity.GeeValidateInfo;
 import com.android.demo.mvp.entity.MonthBillInfo;
 import com.android.demo.mvp.entity.UserInfo;
 import com.android.network.Null;
-import com.android.network.network.NetworkStatus;
 import com.android.network.retrofit.RetrofitEngine;
+import com.android.network.utils.NetworkStatus;
 
 import java.util.LinkedHashMap;
 
