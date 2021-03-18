@@ -1,7 +1,8 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.android.plugin.viewinject'
+//apply plugin: 'com.android.plugin.viewinject'
 
 android {
+
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     buildToolsVersion rootProject.ext.android.buildToolsVersion
 
@@ -35,26 +36,26 @@ android {
 
     buildTypes {
         release {
+            debuggable true
             minifyEnabled true                                          // 是否进行混淆
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             shrinkResources true                                         // 移除无用的resource文件
             zipAlignEnabled true                                        // Zipalign优化
-            debuggable false                                              // 开启调试
             signingConfig signingConfigs.release
         }
         debug {
+            debuggable true
             minifyEnabled false
             shrinkResources false
             zipAlignEnabled false
-            debuggable true
             signingConfig signingConfigs.debug
 //            applicationIdSuffix ".debug"               //配置不同的applicationId
         }
         qa {
+            debuggable true
             minifyEnabled false
             shrinkResources false
             zipAlignEnabled false
-            debuggable true
             signingConfig signingConfigs.debug
             matchingFallbacks = ['debug']
         }
@@ -83,7 +84,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
